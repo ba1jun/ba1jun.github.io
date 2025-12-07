@@ -53,22 +53,18 @@ education:
   position: B.S. in Software Engineering
   date: Sep. 2013 - Jul. 2017
 
-# experience:
-# - name: Peking University
-#   logo: /assets/images/badges/PKU_red.png
-#   position: Research Intern
-#   date: Sep. 2019 - Jul. 2021
+experience:
+- name: Microsoft STCA
+  logo: /assets/images/badges/microsoft.png
+  position: Research Intern
+  date: Oct. 2023 - Jun. 2024
+- name: Ping An Technology
+  logo: /assets/images/badges/pingan.png
+  position: Research Intern
+  date: Oct. 2020 - Oct. 2022
 
-awards:
+employs:
 - name: BIGAI NLCo Lab
   logo: /assets/images/badges/nlco.png
   position: Research Engineer
   date: Dec. 2024 - present
-- name: Microsoft STCA
-  logo: /assets/images/badges/microsoft.png
-  position: Research Engineer
-  date: Oct. 2023 - Jun. 2024
-- name: Ping An Technology
-  logo: /assets/images/badges/pingan.png
-  position: Research Engineer
-  date: Oct. 2020 - Oct. 2022
