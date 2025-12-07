@@ -4,9 +4,9 @@ date:           2022-11-04
 selected:       true
 pub:            "IEEE/ACM Transactions on Computational Biology and Bioinformatics"
 pub_date:       "2022"
-abstract: >-
-  Cover image is a photo by Thomas Renaud on Unsplash. The abstract of the publication is meant to be a TLDR (very brief summary with 1~2 sentences) of your paper.
-cover:          /assets/images/covers/cover1.jpg
+# abstract: >-
+#   Cover image is a photo by Thomas Renaud on Unsplash. The abstract of the publication is meant to be a TLDR (very brief summary with 1~2 sentences) of your paper.
+cover:          /assets/images/covers/bioreqa.png
 authors:
 - Jun Bai
 - Chuantao Yin
