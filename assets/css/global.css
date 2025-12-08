@@ -10,6 +10,19 @@ h1, h2, h3, h4, h5, h6,
     font-weight: 700;
 }
 
+a {
+    color: #1e90ff !important;       /* DodgerBlue，比 navbar 略深 */
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover,
+a:focus {
+    color: #4682b4 !important;       /* SteelBlue，更深的悬停色 */
+    text-decoration: underline;
+}
+
+
 /* navbar 命令行风格 */
 .navbar-terminal {
     background-color: #1e1e1e;          /* 深色终端背景 */
