@@ -1,9 +1,9 @@
 ---
 layout: default
-title : Publications
+title : 🌌 Juniverse/Pubs
 navbar_title: Publications
 body_attr: >-
-  data-spy="scroll" data-target="#navbar-year" data-offset="100"
+  data-spy="scroll" data-target="#navbar-year" data-offset="140" tabindex="0"
 ---
 
 {% assign pubs_by_year = site.publications | sort: "date" | reverse | group_by_exp: "item", "item.date | date: '%Y'" %}
@@ -30,3 +30,36 @@ body_attr: >-
     </div>
 
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    function updateYearHighlight() {
+        const hash = window.location.hash;
+        const links = document.querySelectorAll("#navbar-year .nav-link");
+
+        links.forEach(link => {
+            if (link.getAttribute("href") === hash) {
+                link.classList.add("active");
+            } else {
+                link.classList.remove("active");
+            }
+        });
+    }
+
+    // 初次载入时执行
+    updateYearHighlight();
+
+    // hash 变化时执行
+    window.addEventListener("hashchange", updateYearHighlight);
+
+    // ⭐ 关键：点击也强制执行一次
+    const links = document.querySelectorAll("#navbar-year .nav-link");
+    links.forEach(link => {
+        link.addEventListener("click", function() {
+            // 给浏览器一点时间更新 hash
+            setTimeout(updateYearHighlight, 10);
+        });
+    });
+});
+</script>
+

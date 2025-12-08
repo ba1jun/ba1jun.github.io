@@ -10,6 +10,34 @@ h1, h2, h3, h4, h5, h6,
     font-weight: 700;
 }
 
+/* navbar 命令行风格 */
+.navbar-terminal {
+    background-color: #1e1e1e;          /* 深色终端背景 */
+    color: #00bfff;                      /* 高亮蓝字体 */
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* navbar-brand 和链接颜色 */
+.navbar-terminal .navbar-brand,
+.navbar-terminal .nav-link {
+    color: #00bfff !important;           /* 高亮蓝文字 */
+}
+
+.navbar-terminal .nav-link:hover {
+    color: #33ccff !important;           /* 更亮悬停效果 */
+}
+
+.blinking-cursor {
+  font-weight: bold;
+  font-size: 1em;
+  color: white;           /* 光标颜色 */
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
 .card {
     border-radius: 0.8rem!important;
 }

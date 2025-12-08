@@ -13,7 +13,7 @@ pub_date:       "2025"
 cover:          /assets/images/covers/logipe.png
 authors:
   - Zhiwei Sun
-  - Jun Bai &#x2709;
+  - Jun Bai
   - Zhuofan Chen
   - Chen Li
   - Wenge Rong
