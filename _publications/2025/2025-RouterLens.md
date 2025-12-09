@@ -20,4 +20,5 @@ authors:
 links:
   Paper: https://aclanthology.org/2025.emnlp-main.1114/
   Code: https://github.com/bigai-nlco/RouterLens
+  Jiqizhixin: https://mp.weixin.qq.com/s/UNPQeyibGZ9jZJkgfyCkVQ
 ---

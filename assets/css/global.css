@@ -43,7 +43,7 @@ a:focus {
 .blinking-cursor {
   font-weight: bold;
   font-size: 1em;
-  color: white;           /* 光标颜色 */
+  color: #33ccff;           /* 光标颜色 */
   animation: blink 1s step-start infinite;
 }
 
