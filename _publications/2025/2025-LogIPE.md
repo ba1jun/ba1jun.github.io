@@ -1,7 +1,7 @@
 ---
 title:          "Selecting Text Classification Model through Maximizing Posterior Evidence over Informative Sub-space"
 date:           2025-06-26
-selected:       true
+selected:       false
 pub:            "Frontiers of Computer Science"
 # pub_pre:        "Submitted to "
 # pub_post:       'Under review.'

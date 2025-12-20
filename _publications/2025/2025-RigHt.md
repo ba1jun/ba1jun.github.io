@@ -1,7 +1,7 @@
 ---
 title:          "Rectifying and Discriminating Hard Negatives for Biomedical Retrieval Question Answering"
 date:           2025-03-13
-selected:       true
+selected:       false
 pub:            "IEEE Transactions on Computational Biology and Bioinformatics"
 # pub_pre:        "Submitted to "
 # pub_post:       'Under review.'

@@ -1,7 +1,7 @@
 ---
 title:          "Disentangling Preference Representation and Text Generation for Efficient Individual Preference Alignment"
 date:           2025-01-05
-selected:       true
+selected:       false
 pub:            "COLING"
 # pub_pre:        "Submitted to "
 # pub_post:       'Under review.'

@@ -1,7 +1,7 @@
 ---
 title:          "Improving Biomedical ReQA with Consistent NLI-transfer and Post-whitening"
 date:           2022-11-04
-selected:       true
+selected:       false
 pub:            "IEEE/ACM Transactions on Computational Biology and Bioinformatics"
 pub_date:       "2022"
 # abstract: >-

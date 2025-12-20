@@ -1,7 +1,7 @@
 ---
 title:          "CogAtom: From Cognitive Atoms to Olympiad-level Mathematical Reasoning in Large Language Models"
 date:           2025-11-06
-selected:       true
+selected:       false
 pub:            "EMNLP Findings"
 # pub_pre:        "Submitted to "
 # pub_post:       'Under review.'

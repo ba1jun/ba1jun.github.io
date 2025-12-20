@@ -1,7 +1,7 @@
 ---
 title:          "Improving Variational Autoencoders with Density Gap-based Regularization"
 date:           2022-12-06
-selected:       true
+selected:       false
 pub:            "NeurIPS"
 pub_date:       "2022"
 # abstract: >-
