@@ -1,11 +1,19 @@
 import { setGlobalDispatcher, Agent, RetryAgent } from "undici";
+import dns from "node:dns";
 
 export default () => ({
   name: "undici-retry",
   hooks: {
     "astro:build:start": () => {
+      // Prefer A records over AAAA. WSL2 commonly resolves AAAA records
+      // for Cloudflare hosts but has no IPv6 route, causing ENETUNREACH
+      // on every other request. ipv4first sidesteps the wasted attempt.
+      dns.setDefaultResultOrder("ipv4first");
+
       const agent = new Agent({
-        connect: { timeout: 30_000 },
+        // Shorter connect timeout so dead routes fail fast and the
+        // RetryAgent can pick up a working connection sooner.
+        connect: { timeout: 10_000 },
         bodyTimeout: 120_000,
         headersTimeout: 30_000,
         pipelining: 1,
@@ -21,6 +29,7 @@ export default () => ({
           retryAfter: true,
           statusCodes: [408, 429, 500, 502, 503, 504],
           errorCodes: [
+            // OS-level
             "ECONNRESET",
             "ECONNREFUSED",
             "ENOTFOUND",
@@ -29,6 +38,10 @@ export default () => ({
             "EHOSTDOWN",
             "EHOSTUNREACH",
             "EPIPE",
+            "ETIMEDOUT", // missing previously — caused build crashes when
+            // the OS connect() timed out instead of undici's own timeout
+            "EAI_AGAIN", // DNS temporary failure
+            // Undici-internal
             "UND_ERR_SOCKET",
             "UND_ERR_BODY_TIMEOUT",
             "UND_ERR_HEADERS_TIMEOUT",
