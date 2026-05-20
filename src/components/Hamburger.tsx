@@ -9,6 +9,7 @@ export default function Hamburger() {
     if (navLinks) {
       navLinks.classList.remove("open");
       navLinks.classList.add("collapsed");
+      navLinks.toggleAttribute("inert", true);
     }
   }, []);
 
@@ -18,6 +19,7 @@ export default function Hamburger() {
     if (navLinks) {
       navLinks.classList.remove("collapsed");
       navLinks.classList.add("open");
+      navLinks.toggleAttribute("inert", false);
     }
   }, []);
 
