@@ -1,4 +1,5 @@
 import { defineConfig, fontProviders } from "astro/config";
+import { unified } from "@astrojs/markdown-remark";
 import sitemap from "@astrojs/sitemap";
 import mdx from "@astrojs/mdx";
 
@@ -58,9 +59,15 @@ export default defineConfig({
       langs: [],
       wrap: true,
     },
-    gfm: false,
-    remarkPlugins: [remarkGfm, remarkMath, remarkReadingTime],
-    rehypePlugins: [rehypeKatex],
+    // mdx 6 / astro 6.4: the top-level remarkPlugins/rehypePlugins/gfm options
+    // are deprecated. Pass them to unified() and set as markdown.processor —
+    // MDX inherits automatically. Keep gfm: false because we apply remark-gfm
+    // explicitly below (Astro's built-in adds it with default options first).
+    processor: unified({
+      remarkPlugins: [remarkGfm, remarkMath, remarkReadingTime],
+      rehypePlugins: [rehypeKatex],
+      gfm: false,
+    }),
   },
 
   prefetch: {
