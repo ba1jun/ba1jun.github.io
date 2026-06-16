@@ -3,7 +3,7 @@ secondary_name: "白骏"
 navbar_name: "jun@nlco:~$ echo \"Sup?\"<span class=\"blinking-cursor\">|</span>"
 
 positions:
-- name: Assistant Researcher
+- name: Research Engineer
 - name: "BIGAI NLCo Lab"
   logo: /assets/images/badges/nlco.png  # Logo is optional
 
@@ -30,10 +30,14 @@ short_bio: >-
   </p>
 
   <ul>
-      <li>Investigating and Improving the Faithfulness of LLMs.</li>
-      <li>Exploring and Enhancing the CoT Monitorability of LRMs.</li>
-      <li>Understanding the Internal Workings of LLMs through Mechanistic Interpretability.</li>
+      <li>Belief memory in agents: learning, retrieving, and revising beliefs over time.</li>
+      <li>Improving LLMs’ faithful use of context for evidence-grounded generation and reasoning.</li>
+      <li>Interpretability of LLMs and agents: explaining internal reasoning, memory use, and decision-making.</li>
   </ul>
+
+  <p>
+    <i class="fas fa-user-graduate"></i> I am always looking for <strong>self-motivated interns</strong>. Please feel free to drop me an email if interested.
+  </p>
 
 portrait_url: /assets/images/photos/jun.jpg
 # portrait_caption: >-

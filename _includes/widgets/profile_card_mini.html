@@ -37,7 +37,7 @@
                 <div class="row small">
                     <div class="col text-center">
                         <a class="email-text" href="mailto:{{ site.data.profile.email | encode_email }}">
-                            {{ site.data.profile.email | replace: "@", "(at)" }}
+                            {{ site.data.profile.email | replace: "@", "(at)" | replace: ".", "(dot)" }}
                         </a>
                     </div>
                 </div>
@@ -88,7 +88,16 @@
                 </div>
                 <div class="row pt-2">
                     <div class="col text-center">
-                        <a href="https://info.flagcounter.com/3E06"><img src="https://s01.flagcounter.com/count2/3E06/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+                        <a href="https://info.flagcounter.com/3E06"><img src="https://s01.flagcounter.com/count2/3E06/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_12/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+                    </div>
+                </div>
+
+                <hr />
+                <div class="row small">
+                    <div class="col text-center">
+                        <span class="text-muted">
+                            <i class="far fa-calendar-alt"></i> Updated {{ "now" | date: "%Y-%m-%d" }}
+                        </span>
                     </div>
                 </div>
             </div>
