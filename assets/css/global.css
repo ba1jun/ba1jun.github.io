@@ -98,6 +98,94 @@ a:focus {
     white-space: nowrap;
 }
 
+.experience-panel {
+    width: 100%;
+}
+
+.experience-heading {
+    margin-bottom: 0.65rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 0.92rem;
+    letter-spacing: 0;
+}
+
+.experience-section-divider {
+    margin-top: 1.05rem;
+    padding-top: 0.15rem;
+}
+
+.experience-entry {
+    margin-bottom: 0.75rem;
+}
+
+.experience-entry:last-child {
+    margin-bottom: 0;
+}
+
+.experience-entry-featured {
+    padding: 0.75rem 0.85rem;
+    border-left: 3px solid #1e90ff;
+    border-radius: 0.45rem;
+    background: #f8f9fa;
+}
+
+.experience-entry-tile {
+    height: 100%;
+    padding-left: 0.75rem;
+    border-left: 2px solid #dee2e6;
+}
+
+.experience-grid-col {
+    margin-bottom: 0.85rem;
+}
+
+.experience-logo {
+    width: 22px;
+    max-height: 22px;
+    object-fit: contain;
+}
+
+.experience-name {
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.experience-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    line-height: 1.35;
+}
+
+.experience-date {
+    color: #6c757d;
+    margin-left: 0.75rem;
+}
+
+.experience-entry-tile .experience-meta {
+    display: block;
+}
+
+.experience-entry-tile .experience-date {
+    display: block;
+    margin-left: 0;
+    margin-top: 0.1rem;
+}
+
+@media (max-width: 767.98px) {
+    .experience-entry-featured .experience-meta {
+        display: block;
+    }
+
+    .experience-entry-featured .experience-date {
+        display: block;
+        margin-left: 0;
+        margin-top: 0.1rem;
+    }
+}
+
 .cover-image {
     width: 180px;
     max-height: 120px;

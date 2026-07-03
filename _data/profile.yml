@@ -51,7 +51,27 @@ education:
 
 
 employs:
-- name: BIGAI NLCo Lab
+- name: BIGAI
   logo: /assets/images/badges/nlco.png
-  position: Assistant Researcher
+  position: Research Engineer
   date: Dec. 2024 - present
+
+- name: Microsoft
+  logo: /assets/images/badges/microsoft.png
+  position: Research Intern
+  date: Oct. 2023 - Jun. 2024
+
+- name: Mila
+  logo: /assets/images/badges/mila.png
+  position: Research Intern
+  date: Nov. 2022 - Apr. 2023
+
+- name: Pingan Technology
+  logo: /assets/images/badges/pingan.png
+  position: Research Intern
+  date: Oct. 2020 - Oct. 2022
+
+- name: NEC Lab
+  logo: /assets/images/badges/nec.jpg
+  position: Research Intern
+  date: Nov. 2018 - Nov. 2019
