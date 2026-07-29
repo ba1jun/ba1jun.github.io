@@ -1,6 +1,6 @@
 <p>
   <img alt="Version" src="https://img.shields.io/github/v/tag/erfianugrah/revista-3?label=version" />
-  <img alt="Astro" src="https://img.shields.io/badge/Astro-7.0.7-FF5D01.svg?logo=astro&logoColor=white" />
+  <img alt="Astro" src="https://img.shields.io/badge/Astro-7.1.5-FF5D01.svg?logo=astro&logoColor=white" />
   <img alt="Tailwind CSS" src="https://img.shields.io/badge/Tailwind_CSS-4.2.2-38B2AC.svg?logo=tailwind-css&logoColor=white" />
   <img alt="React" src="https://img.shields.io/badge/React-19.2.4-61DAFB.svg?logo=react&logoColor=white" />
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.9.3-3178C6.svg?logo=typescript&logoColor=white" />
@@ -603,7 +603,7 @@ I've optimized the site in several ways:
 
 ## Search Functionality
 
-The site includes search powered by [Pagefind](https://pagefind.app/) using the raw JS API (`/pagefind/pagefind.js`) with a custom search modal. The search trigger is an SVG icon button in `Header.astro` alongside the theme toggle and hamburger, while the modal dialog and search logic live in `Pagefind.astro` (rendered via `Navigation.astro`).
+The site includes search powered by [Pagefind](https://pagefind.app/) using the raw JS API (`/pagefind/pagefind.js`) with a custom search modal. The search trigger is an SVG icon button in `Header.astro` alongside the theme toggle and hamburger. The modal dialog markup lives in `Pagefind.astro` (rendered via `Navigation.astro`) and the search logic in `src/scripts/pagefind.ts`, referenced via `<script src>` so it ships as a build-emitted chunk.
 
 1. **Comprehensive Content Indexing**: Automatically indexes all site content during the build process (via a postbuild script defined in package.json). Content pages use `data-pagefind-body` to mark indexable regions, `data-pagefind-filter` for collection-based filtering, and `data-pagefind-sort`/`data-pagefind-meta` for date sorting and metadata.
 
@@ -623,14 +623,15 @@ The site includes search powered by [Pagefind](https://pagefind.app/) using the 
   <svg>...</svg>
 </button>
 
-<!-- Pagefind.astro: custom modal with raw JS API -->
+<!-- Pagefind.astro: custom modal; logic in src/scripts/pagefind.ts -->
 <dialog id="searchDialog">
   <input id="searchInput" type="search" placeholder="Search..." />
   <div id="searchResults"></div>
 </dialog>
+<script src="../scripts/pagefind.ts"></script>
 
 <script>
-  // Lazy-load Pagefind JS API on first search
+  // src/scripts/pagefind.ts: lazy-load Pagefind JS API on first search
   const pagefind = await import("/pagefind/pagefind.js");
   const search = await pagefind.search(query);
   // Render results manually...

@@ -119,5 +119,15 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      // Astro's plugin-scripts inlines small hoisted script chunks into the
+      // HTML, but the inlined copy keeps Vite's raw __VITE_PRELOAD__ marker
+      // (ReferenceError at runtime) when the chunk wraps a dynamic import in
+      // __vitePreload(). This broke the lazy /pagefind/pagefind.js import.
+      // Force scripts to always emit as chunks; keep asset inlining at the
+      // 4kB default (returning undefined falls through to it).
+      assetsInlineLimit: (filePath) =>
+        filePath.endsWith(".js") ? false : undefined,
+    },
   },
 });

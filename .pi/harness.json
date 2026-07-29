@@ -1,0 +1,34 @@
+{
+  "task": "Fix Pagefind search being broken in the production build of this Astro 7.1.5 site (Vite 8 / rolldown). SYMPTOM: the <script> inside src/components/Pagefind.astro is silently DROPPED from the production build output - after `bun run build`, no JS file in dist/ contains the string 'searchDialog' (verify: rg -lq 'searchDialog' dist/_astro/). The <dialog id=\"searchDialog\"> markup DOES ship in the HTML, so clicking the #searchTrigger button does nothing and Ctrl+K does nothing. The site uses ClientRouter, and Pagefind.astro binds its setup() on every 'astro:page-load'. DEV MODE WORKS: `bun run dev` serves /src/components/Pagefind.astro?astro&type=script correctly - only the production bundling drops it. DIAGNOSIS ALREADY DONE (do not redo): Astro 7.1.4/7.1.5 changelogs contain nothing script-related; other components' scripts DO ship in the build - the pattern they share is a STATIC import: ThemeToggle.astro uses `import { initTheme } from '../scripts/theme.ts'` inside its script, Homepage.astro and Footer.astro use `<script src=\"../scripts/foo.ts\">`. Pagefind.astro's script is the only one with NO static import - just functions plus a dynamic `import(/* @vite-ignore */ '/pagefind/pagefind.js')`. Most likely rolldown tree-shakes/drops the hoisted script entry. CANDIDATE FIXES (pick the smallest that passes the sensors, prefer the first): (1) extract the script body to src/scripts/pagefind.ts and reference it via `<script src=\"../scripts/pagefind.ts\">` like Footer/Homepage do, keeping the dynamic import(/* @vite-ignore */ '/pagefind/pagefind.js') for the pagefind runtime (that file only exists after `pagefind --site dist` runs postbuild, so it MUST stay a runtime @vite-ignore import, never a static one); (2) keep the inline script but add a static import so the module is retained. Keep the AbortController re-binding pattern and astro:page-load listener intact. CONSTRAINTS: do NOT weaken or delete the e2e/sensor commands; do NOT edit files outside src/**, astro.config.mjs, package.json, bun.lock; do NOT commit or reset git refs; dist/ is generated - never hand-edit it. VERIFY before finishing: bun run build succeeds AND rg -lq 'searchDialog' dist/_astro/ finds the emitted script.",
+  "maxIterations": 10,
+  "models": [
+    "openrouter/deepseek/deepseek-v4-pro",
+    "openrouter/anthropic/claude-sonnet-5"
+  ],
+  "stallPatience": 2,
+  "tools": ["read", "edit", "write", "bash"],
+  "writeScope": ["src/**", "astro.config.mjs", "package.json", "bun.lock"],
+  "sandbox": "auto",
+  "sensors": [
+    {
+      "name": "build",
+      "cmd": "bun run build",
+      "hint": "The production build must succeed. If it fails, fix the compile error - do not remove code to make it pass."
+    },
+    {
+      "name": "search-script-present",
+      "cmd": "rg -lq 'searchDialog' dist/_astro/",
+      "hint": "The Pagefind setup script must be emitted into the build output. It is currently being dropped during bundling. Extract the script to src/scripts/pagefind.ts and reference it with <script src=\"../scripts/pagefind.ts\"> (the Footer/Homepage pattern), keeping the pagefind runtime import a dynamic /* @vite-ignore */ import."
+    },
+    {
+      "name": "astro-check",
+      "cmd": "bun x astro check",
+      "hint": "Type/content validation must pass. If you moved the script to a .ts file, keep its types valid (the file is plain TS, no .astro frontmatter)."
+    },
+    {
+      "name": "search-e2e",
+      "cmd": "(bun x astro preview --port 4399 >/tmp/loop-preview.log 2>&1 & SP=$!; sleep 2; browser-assert http://localhost:4399 --click '#searchTrigger' --wait '#searchDialog[open]' --type '#searchInput' 'stoicism' --wait '.result-card' --assert 'document.querySelectorAll(\".result-card\").length > 0'; RC=$?; kill $SP 2>/dev/null; exit $RC)",
+      "hint": "Behavioral gate: the built site must actually open the search dialog and return results. If the dialog opens but no results appear, the /pagefind/pagefind.js runtime import is broken (it must stay a dynamic @vite-ignore import of the absolute path '/pagefind/pagefind.js'). If the dialog never opens, the setup script still isn't shipping or astro:page-load never fires."
+    }
+  ]
+}

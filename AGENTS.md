@@ -80,6 +80,7 @@ bun x hyperlink dist/path/to/page.html --skip-external
 - `bun run build:github-pages` manually appends Pagefind after an Astro build with `GITHUB_PAGES=true`.
 - `lint:html` and `lint:links` require built files in `dist/`.
 - Build concurrency is set to 4 in `astro.config.mjs` to avoid rate-limiting `image.erfi.io`.
+- `vite.build.assetsInlineLimit` in `astro.config.mjs` vetoes script inlining (returns `false` for `.js`). Astro's plugin-scripts inlines small hoisted script chunks into the HTML, but the inlined copy keeps Vite's raw `__VITE_PRELOAD__` marker (ReferenceError at runtime) when the chunk wraps a dynamic import in `__vitePreload()`. This broke the lazy `/pagefind/pagefind.js` import (search dialog opened, every query showed "Search unavailable"). Scripts must always emit as chunks; do not remove the veto.
 
 ## Remote Image Handling
 

@@ -76,7 +76,7 @@ Several components carry inline type declarations to satisfy `astro check` witho
 - **Header.astro**: Image `width`/`height` props use numeric literals (`60`) instead of strings to match Astro's `ImageMetadata` types. The favicon is fetched at 60x60 for appropriate display size.
 - **Masonry.astro**: Avoids `key` props on native HTML elements (unlike React, Astro templates don't support `key` on non-component elements).
 - **NextPost.astro**: Uses a `CollectionName` type (from `collections.ts`) for the collection prop, a `PostData` interface for frontmatter fields, and typed `getImage()` parameters.
-- **Pagefind.astro**: Uses a native `<dialog>` element with the raw Pagefind JS API (`/pagefind/pagefind.js`). The API is lazy-loaded via dynamic `import()` on first search and cached. The `setup()` function runs on every `astro:page-load` to rebind DOM queries and event listeners after ClientRouter navigations. Dark mode is handled via `.dark` CSS selectors.
+- **Pagefind.astro**: Uses a native `<dialog>` element with the raw Pagefind JS API (`/pagefind/pagefind.js`). The API is lazy-loaded via dynamic `import()` on first search and cached. The search logic lives in `src/scripts/pagefind.ts` (referenced via `<script src>`); it must stay a build-emitted chunk, not an inlined script - see the `assetsInlineLimit` note in `astro.config.mjs`. The `setup()` function runs on every `astro:page-load` to rebind DOM queries and event listeners after ClientRouter navigations. Dark mode is handled via `.dark` CSS selectors.
 
 ## Shared Utilities
 
