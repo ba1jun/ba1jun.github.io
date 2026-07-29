@@ -87,21 +87,22 @@ bun x hyperlink dist/path/to/page.html --skip-external
 - Remote images from `image.erfi.io` are downloaded and transformed during production builds.
 - Astro caches processed images in `node_modules/.astro/assets/`; a warm cache avoids re-downloading.
 - `src/scripts/undici-retry.ts` configures a global `RetryAgent` for build-time HTTP fetches with exponential backoff (5 retries, 1s-60s), 120s body timeout, and 6 max connections.
-- The Dockerfile uses a BuildKit cache mount for `node_modules/.astro/` so the image cache persists across Docker builds.
+- The Dockerfile is a bare BusyBox httpd image that copies a pre-built `dist/`; it runs no image processing itself. The Astro image cache only matters for the `bun run build` step (local or CI).
 - CI caches the Astro image directory separately from `node_modules` to survive dependency updates.
 - If remote image builds fail in CI, check rate limits on the CDN and verify the Astro image cache is warm.
 
 ## Image Service (@erfianugrah/astro-image-hq)
 
 - Production builds use the [`@erfianugrah/astro-image-hq`](https://www.npmjs.com/package/@erfianugrah/astro-image-hq) custom Astro image service (configured in `astro.config.mjs`).
-- Profile is `photo`: hybrid routing — 4:2:0 10-bit fast path (NVENC > avifenc-svt > sharp) for typical content, with content-aware shadow boost promoting dark gradient images to 4:4:4 10-bit aom.
+- Profile is `photo`: hybrid routing - 4:2:0 10-bit fast path (NVENC > avifenc-svt > sharp) for typical content, with content-aware shadow boost promoting dark gradient images to 4:4:4 10-bit aom.
+- Routing guards (since 0.1.x): codec capability detection runs at startup, and per-image constraints can drop the requested codec before encode - SVT-AV1 needs a >=64px smallest side and even dimensions for 4:2:0 (odd dimensions fall back to aom, which handles them internally), NVENC needs >=128px frames (falls back to sharp). Dimensions are re-validated after resize and encode failures retry with the next encoder in the chain.
 - Override precedence is **boost-as-floor**: profile defaults → component override (`<Image quality={N} />`) → shadow boost merges last. Bright images take the component value; dark gradients get clamped up by the boost.
 - Falls back to sharp 8-bit with a warning when `avifenc` is missing — local dev still works without it.
 - Required system package: `libavif` on Arch, `libavif-bin` on Debian/Ubuntu. CI installs it via apt before `bun install` (see `.github/workflows/deploy.yml`).
 - Optional: ffmpeg + `av1_nvenc` for GPU-accelerated AVIF — produces 4:2:0 only (8-bit or 10-bit); routing skips NVENC when 4:4:4 chroma is requested.
 - Source code lives at https://github.com/erfianugrah/astro-image-hq (`~/astro-image-hq` for local development). Bump the `@erfianugrah/astro-image-hq` version in `package.json` then `bun install` to consume releases.
 - When running locally without `avifenc`, the build still completes via sharp fallback. Banding may be visible in dark photographs; install `libavif` for the full fix.
-- Image transforms cost ~150-500ms via NVENC (GPU), ~1-2s via avifenc-svt (CPU 4:2:0), ~3-5s via avifenc-aom (CPU 4:4:4 boosted). Full revista build (~462 transforms) takes 5-8 minutes wall clock.
+- Image transforms cost ~150-500ms via NVENC (GPU), ~1-2s via avifenc-svt (CPU 4:2:0), ~3-5s via avifenc-aom (CPU 4:4:4 boosted). A cold full build (~360 transforms as of 0.1.4) takes 5-8 minutes wall clock; a warm `node_modules/.astro/assets/` cache revalidates in seconds.
 
 ## Formatting
 

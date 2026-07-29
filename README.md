@@ -715,12 +715,13 @@ The GitHub Actions workflow in `.github/workflows/deploy.yml` handles deployment
 
 ## Docker Setup
 
-The project includes Docker support for containerized deployment using Caddy as the web server.
+The project includes Docker support for containerized deployment using BusyBox httpd as the web server.
 
 ### Quick Start
 
 ```bash
-# Build the container
+# Build the container (requires a pre-built dist/)
+bun run build
 docker build -t revista:latest .
 
 # Run the container
@@ -733,22 +734,13 @@ docker compose up -d
 ### Dockerfile
 
 ```dockerfile
-FROM caddy:2.9.1-alpine
-
-WORKDIR /usr/share/caddy
-
-COPY ./dist .
-COPY Caddyfile /etc/caddy/Caddyfile
-
-RUN chown -R root:root /usr/share/caddy && \
-    chmod -R 755 /usr/share/caddy
-
+FROM busybox:1.37
+COPY dist /var/www
+CMD ["httpd", "-f", "-p", "80", "-h", "/var/www"]
 EXPOSE 80
-
-CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
 ```
 
-The Caddyfile is straightforward — Cloudflare handles cache headers and security at the edge, so Caddy just serves files with zstd/gzip compression, precompressed asset delivery, structured JSON logging, and a Prometheus metrics endpoint. See [docs/docker.md](docs/docker.md) for the full configuration.
+A single-stage build: the `dist/` directory is pre-built with `bun run build` and copied into the image. BusyBox httpd serves static files with no runtime dependencies, no config files, and no scripting -- Cloudflare handles compression, cache headers, and HTTPS at the edge. See [docs/docker.md](docs/docker.md) for the full configuration.
 
 ### Multi-Architecture Support
 
@@ -764,11 +756,11 @@ docker buildx build \
 
 ### Key Details
 
-1. Uses Caddy 2.9.1 on Alpine Linux (~40MB image)
-2. Proper file permissions for security
-3. Serves precompressed assets (zstd, brotli, gzip) for fast delivery
+1. Uses BusyBox 1.37 for a minimal footprint (~2.5 MB image)
+2. Single static binary, single process -- minimal attack surface
+3. Resource limits: 1 CPU and 64 MB RAM (configured in compose.yaml)
 4. Exposes port 80 (Cloudflare handles HTTPS in production)
-5. Volume mounts for `/data` and `/config` persist Caddy state across restarts
+5. Image signed with Cosign in CI for supply chain security
 
 ## Security Measures
 

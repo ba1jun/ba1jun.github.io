@@ -45,11 +45,13 @@ const imageAssets = await Promise.all(
     if (image) {
       return await getImage({
         src: image.src,
-        width: 3840, // Maximum quality size
-        height: 2160, // Maintains aspect ratio
-        format: "avif", // Optimal compression format
-        loading: "lazy", // Defer loading of off-screen images
-        decoding: "async", // Allow browser to decode image asynchronously
+        alt: image.alt,
+        width: 1920,
+        height: 1080,
+        fit: "inside",
+        decoding: "async",
+        format: "avif",
+        loading: "lazy",
       });
     }
     return null;
@@ -60,6 +62,7 @@ const imageAssets = await Promise.all(
 Benefits:
 
 - AVIF format reduces file size by ~50% compared to JPEG
+- `fit: "inside"` ensures images never upscale beyond natural dimensions
 - Proper width/height attributes prevent Cumulative Layout Shift (CLS)
 - Lazy loading defers off-screen image loading
 
@@ -91,26 +94,9 @@ This configuration:
 
 The site is deployed to Cloudflare Workers with Static Assets for edge caching:
 
-### Caddy Configuration
+### Cloudflare Workers
 
-The Docker container uses Caddy with zstd + gzip compression and precompressed asset delivery:
-
-```
-:80 {
-    encode zstd gzip
-    root * /usr/share/caddy
-    try_files {path} {path}/ /404.html
-    file_server {
-        precompressed zstd br gzip
-    }
-}
-```
-
-Benefits:
-
-- zstd compression for better ratios than gzip alone
-- Precompressed asset serving (if `.zst`, `.br`, or `.gz` files exist, Caddy serves those directly)
-- No explicit cache/security headers needed - Cloudflare handles that at the edge
+The site is deployed to Cloudflare Workers with Static Assets for edge caching. Compression (zstd, gzip, brotli), cache headers, and security headers are handled by Cloudflare at the edge.
 
 ### Edge Deployment
 
@@ -118,7 +104,7 @@ The project deploys to multiple edge platforms:
 
 1. **Cloudflare Workers (with Static Assets)**: Main deployment with global edge distribution
 2. **Deno Deploy**: Secondary deployment for additional edge presence
-3. **GitHub Pages**: Tertiary deployment for GitHub-hosted access
+3. **GitHub Pages**: Alternate deployment for GitHub-hosted access
 
 ## Mobile Optimization
 
