@@ -2,7 +2,7 @@
 
 ## Overview
 
-Revista is an Astro 6 static site for photography, writing, and CV content.
+Revista is an Astro 7 static site for photography, writing, and CV content.
 It uses MDX content collections, a small number of React islands, Tailwind CSS v4, and Pagefind search.
 Primary runtime and package manager: Bun. Some helper scripts still run through Node.
 

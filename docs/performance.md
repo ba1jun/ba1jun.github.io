@@ -168,7 +168,7 @@ Build optimizations in `astro.config.mjs`:
 
 ```javascript
 build: {
-  concurrency: 10, // Parallelized build process
+  concurrency: 4, // Parallelized build process
   measuring: {
     entryBuilding: true,
     pageGeneration: true,

@@ -20,7 +20,7 @@
 
 ## Overview
 
-Revista is a photography portfolio and blog built on Astro v6.1. I created it to showcase various photography collections and writing organized into different categories like long-form, short-form, muses, zeitweilig, and my CV. The project prioritizes speed and visual design while using Astro's content collection API to manage everything efficiently.
+Revista is a photography portfolio and blog built on Astro v7.1.5. I created it to showcase various photography collections and writing organized into different categories like long-form, short-form, muses, zeitweilig, and my CV. The project prioritizes speed and visual design while using Astro's content collection API to manage everything efficiently.
 
 The project supports multiple deployment targets with optimized builds for each platform, including GitHub Pages with proper base path configuration.
 
@@ -595,7 +595,7 @@ I've optimized the site in several ways:
 
 3. **Preloading and Prefetching**: Astro's `prefetch` feature loads linked pages before the user clicks, making navigation feel instant.
 
-4. **Efficient Bundling**: Astro v6.1 includes improved bundling and tree-shaking to minimize client-side code, with enhanced hydration strategies and faster component rendering.
+4. **Efficient Bundling**: Astro v7.1.5 includes improved bundling and tree-shaking to minimize client-side code, with enhanced hydration strategies and faster component rendering.
 
 5. **Cloudflare CDN**: The site uses Cloudflare's CDN with custom cache headers to serve content from edge locations worldwide.
 
@@ -670,10 +670,10 @@ While the site is currently in English, I've structured it with future translati
 
 2. **TypeScript**:
    - The project uses TypeScript v5.9.3 throughout
-   - Astro's built-in TypeScript support with `@astrojs/check` v0.9.6 catches type errors during build
+   - Astro's built-in TypeScript support with `@astrojs/check` v0.9.10 catches type errors during build
 
 3. **Prettier**:
-   - Code formatting with Prettier v3.7.4 ensures consistent style
+   - Code formatting with Prettier v3.8.1 ensures consistent style
    - The Astro Prettier plugin (prettier-plugin-astro v0.14.1) properly formats .astro files
 
 4. **Tailwind CSS v4**:
@@ -805,10 +805,10 @@ To start working with this project:
    ```
 
    This installs:
-   - Astro v6.1
+   - Astro v7.1.5
    - Tailwind CSS v4.2.2
-   - React v19.2.1
-   - MDX v4.3.13 and other dependencies
+   - React v19.2.4
+   - @astrojs/mdx v7.0.5 and other dependencies
 
 1. Run the development server:
 
