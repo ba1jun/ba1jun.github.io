@@ -1,0 +1,66 @@
+{
+  "task": "Migrate Tailwind from v4-running-in-v3-compat-mode to native v4 CSS-first config, per docs/plans/2026-08-04-streamline-stack.md section 8. You may ONLY modify src/styles/global.css and delete tailwind.config.mjs. Do NOT touch any other file. Build is warm. EMPIRICAL CONTEXT (already verified, trust it): .prose rules land inside @layer utilities via addComponents -> addUtilities in tailwindcss 4.2.2, and .max-w-7xl is emitted after .prose, so the cascade works by source order - the require() rationale in the global.css comment is not applicable to 4.2.2. STEPS: (1) Delete the DEAD config first: in tailwind.config.mjs the objectPosition (top-33/top-50), backgroundPosition (center-33), backgroundSize (size-66) keys and the 2xl:'3800px' screen are all verified unreadable by v4 AND unused in src/ AND absent from the built CSS - delete them (or just proceed to step 2 which deletes the whole file). (2) In src/styles/global.css replace `@config '../../tailwind.config.mjs';` with native v4: `@plugin \"@tailwindcss/typography\";` and `@custom-variant dark (&:where(.dark, .dark *));` and an `@theme` block containing the two font families (--font-overpass-mono and --font-inconsolata, keeping their existing stack values from tailwind.config.mjs) and the custom breakpoints. CRITICAL: v3 theme.screens REPLACED defaults but v4 @theme MERGES, so you must clear the defaults first with `--breakpoint-*: initial;` then set --breakpoint-sm: 800px; --breakpoint-md: 1200px; --breakpoint-lg: 1900px; --breakpoint-xl: 2500px; (no 2xl - it is dead). (3) KEEP the @utility prose-no-quotes block (already native v4, load-bearing) and KEEP the @layer base border-color shim (do not retire it in this change - separate concern). (4) Delete tailwind.config.mjs. (5) Only AFTER the canaries pass, delete the now-obsolete 9-line comment above the old @config line (the require()/ESM cascade rationale). VERIFY: `bun run build` succeeds; `bunx playwright test tests/styling.spec.ts` - all six canaries pass (prose max-width 1280px at 1600px viewport, 800px sm breakpoint, both mono fonts, prose-no-quotes, dark bg) - the breakpoint canary catching a bad --breakpoint-* reset is the most important one; `VISUAL_PORT=4403 ./scripts/check-visual.sh` passes (rendering must be pixel-stable); `bunx playwright test` full suite green. The CSS output may legitimately reorder - that is fine - but .prose must still be inside @layer utilities with .max-w-7xl after it, and no 640px/768px/1024px/1280px default breakpoints may leak in. Do not commit - the loop owns git.",
+  "maxIterations": 5,
+  "models": ["openrouter/deepseek/deepseek-v4-pro", "openrouter/z-ai/glm-5"],
+  "stallPatience": 2,
+  "tools": ["read", "edit", "write", "bash"],
+  "writeScope": ["src/styles/**", "tailwind.config.mjs"],
+  "sandbox": "auto",
+  "sensors": [
+    {
+      "name": "no-config-directive",
+      "cmd": "! rg -q '@config' src/styles/global.css",
+      "hint": "Remove the @config directive from global.css - config moves into @theme/@plugin/@custom-variant."
+    },
+    {
+      "name": "no-config-file",
+      "cmd": "! test -f tailwind.config.mjs",
+      "hint": "Delete tailwind.config.mjs once its live contents are migrated into global.css."
+    },
+    {
+      "name": "native-v4-blocks",
+      "cmd": "rg -q '@plugin' src/styles/global.css && rg -q '@custom-variant dark' src/styles/global.css && rg -q '@theme' src/styles/global.css && rg -q -- '--breakpoint-\\*' src/styles/global.css",
+      "hint": "global.css needs @plugin for typography, @custom-variant for dark, an @theme block, and --breakpoint-*: initial to clear v4 default breakpoints before setting the custom ones."
+    },
+    {
+      "name": "styling-canaries",
+      "cmd": "bunx playwright test tests/styling.spec.ts",
+      "hint": "All six canaries must pass. The 800px breakpoint canary catches a bad --breakpoint-* reset; the max-width canary catches the typography plugin landing unlayered. Fix the config, not the tests."
+    },
+    {
+      "name": "format",
+      "cmd": "bun x prettier --check src/styles/",
+      "hint": "Run bun x prettier --write on global.css, then re-check."
+    },
+    {
+      "name": "astro-check",
+      "cmd": "bun x astro check",
+      "hint": "Type/content errors. Should be unaffected - if this fails you touched something outside scope."
+    },
+    {
+      "name": "build",
+      "cmd": "bun run build",
+      "hint": "Build must succeed. A malformed @theme/@plugin block fails here."
+    },
+    {
+      "name": "prose-still-layered",
+      "cmd": "bash -c 'f=$(ls dist/_astro/BaseLayout.*.css); prettier --parser css \"$f\" 2>/dev/null | rg -q \"@layer utilities\" && prettier --parser css \"$f\" 2>/dev/null | rg \".prose\" | head -1 >/dev/null'",
+      "hint": "The built CSS must still contain layered utilities including .prose. If .prose vanished or the layer structure changed radically, the plugin is not loading."
+    },
+    {
+      "name": "visual-regression",
+      "cmd": "VISUAL_PORT=4403 ./scripts/check-visual.sh",
+      "hint": "Rendering must be pixel-stable against the approved baselines. A config migration that changes computed styles shows up here - fix the config, do not update baselines."
+    },
+    {
+      "name": "playwright-suite",
+      "cmd": "bunx playwright test",
+      "hint": "Full suite must be green."
+    },
+    {
+      "name": "judge",
+      "cmd": "bun ~/.pi/agent/skills/self-correcting-loop/judge.ts --model openrouter/moonshotai/kimi-k3 --spec 'Judge the CURRENT STATE of the Tailwind v4 native-config migration. FAIL if: tailwind.config.mjs still exists; src/styles/global.css still has an @config directive; the @theme block is missing the two font families or any of the four custom breakpoints (sm 800, md 1200, lg 1900, xl 2500); the v4 default breakpoints were not cleared (--breakpoint-*: initial or equivalent) so 640/768/1024/1280 could leak in; @plugin \"@tailwindcss/typography\" or @custom-variant dark is missing; the @utility prose-no-quotes block or the @layer base border-color shim was deleted (both are load-bearing and out of scope); the dead v3 keys (objectPosition/backgroundPosition/backgroundSize/2xl screen) were migrated instead of deleted; or the working tree gained changes outside src/styles/ and tailwind.config.mjs. PASS only when the config is fully native v4, the defaults are cleared, and the load-bearing blocks survive.'",
+      "hint": "The judge found the migration incomplete or scope creep. Finish it - do not argue with the judge by weakening the spec."
+    }
+  ]
+}
