@@ -1,0 +1,101 @@
+{
+  "task": "Remove React entirely and replace the four React islands with vanilla Astro + inline scripts or CSS, per docs/plans/2026-08-04-streamline-stack.md section 7. You may ONLY modify: src/components/**, src/layouts/**, src/pages/cv.astro, astro.config.mjs, tsconfig.json, package.json, bun.lock, scripts/sync-readme-versions.js, README.md, tests/islands.spec.ts, and delete components.json. Do NOT touch any other file. Build is warm. REQUIRED: (1) THEME - rewrite src/components/ThemeToggle.astro as a self-contained component (delete src/components/ThemeToggle.tsx). Same 30x30 transparent button, same SVG sun/moon. Drive the dark-state visuals (circle r 5 vs 9, rays opacity 1/0 and scale 1/0.3, 300ms) from CSS on the html.dark class instead of React state - this removes the MutationObserver. Keep a small script that dispatches window Event 'theme-toggle' on click and syncs aria-label between 'Switch to light theme'/'Switch to dark theme'. Keep the contract with src/scripts/theme.ts (initTheme, astro:after-swap re-apply) intact. VERIFY the circle r animation renders; if CSS r is unsupported, set r via setAttribute in the script. Also fix the SECOND call site src/pages/cv.astro which imports ThemeToggle directly - point it at the .astro and drop client:load. (2) HAMBURGER - create src/components/Hamburger.astro (delete Hamburger.tsx). Preserve: 30x30 button class 'hamburger', aria-label Open/Close menu, aria-expanded bound to state, aria-controls='nav-links', the three-bar-to-X 300ms animation, opening/closing #nav-links by toggling .open/.collapsed and the inert attribute, close on Escape when open, close on click outside (ignoring clicks inside #nav-links or on .hamburger), close on astro:page-load. It is imperative DOM code - a plain script is a direct translation. Update src/components/Header.astro to use it. (3) SCROLLTOTOP - create src/components/ScrollToTop.astro (delete ScrollToTop.tsx AND the whole shadcn chain: src/components/ui/button.tsx, src/components/ui/utils.ts, components.json). Preserve: hidden until scrollY>300, passive rAF-throttled scroll listener, click scrolls to top smooth, aria-label='Scroll to top', fixed bottom-right rounded-full shadow. IMPORTANT: the current bg-primary/text-primary-foreground/ring-primary classes resolve to ZERO CSS (bug 3.2) - replace them with real colours from the site palette (dark surface #222125 / light #f2f2f2). Inline the chevron SVG; no icon dependency. Update src/layouts/BaseLayout.astro. Then flip the test.fail() in tests/islands.spec.ts for the non-transparent-background assertion to a normal test() so it now passes. (4) HEROIMAGE - the plan's W4 decision is: REPLACE HeroImage.tsx (191 lines, rAF+lerp parallax) with a vanilla Astro component + script that preserves the parallax effect with no React. Keep the -20%/120% oversized inner container and the translate3d scroll formula from docs/depth-parallax-research.md. Update src/layouts/MarkdownPostLayout.astro. If the parallax cannot be faithfully reproduced, keep it simplest correct - a static hero with the same layout and no parallax is acceptable, but preserve the image, sizing, and data-pagefind-body attributes. (5) STRIP CONFIG - fix scripts/sync-readme-versions.js FIRST: remove the react badge entry and rule so the next build does NOT write a React-unknown badge into README.md (delete the README.md react badge line too). Remove @astrojs/react import and react() from the integrations array in astro.config.mjs. Do NOT touch vite.build.assetsInlineLimit - it is load-bearing for Pagefind (the __VITE_PRELOAD__ bug). Remove jsx and jsxImportSource from tsconfig.json but keep allowJs. Run: bun remove @astrojs/react react react-dom @types/react @types/react-dom lucide-react class-variance-authority @radix-ui/react-slot tailwind-merge clsx. VERIFY: zero .tsx files under src/ (`git ls-files 'src/**/*.tsx'` empty); package.json dependencies length is 22; no 'jsxImportSource' in tsconfig.json; no '@astrojs/react' in astro.config.mjs; 'assetsInlineLimit' still present in astro.config.mjs; no 'React-unknown' in README.md; bun x astro check passes; bun run build succeeds; the hardened tests/theme.spec.ts, tests/navigation.spec.ts, tests/islands.spec.ts all pass; scripts/check-visual.sh passes (visual regression gate). Do not commit - the loop owns git. Do not change content .mdx files.",
+  "maxIterations": 6,
+  "models": [
+    "openrouter/deepseek/deepseek-v4-pro",
+    "openrouter/z-ai/glm-5"
+  ],
+  "stallPatience": 2,
+  "tools": [
+    "read",
+    "edit",
+    "write",
+    "bash"
+  ],
+  "writeScope": [
+    "src/components/**",
+    "src/layouts/**",
+    "src/pages/cv.astro",
+    "astro.config.mjs",
+    "tsconfig.json",
+    "package.json",
+    "bun.lock",
+    "scripts/sync-readme-versions.js",
+    "README.md",
+    "tests/islands.spec.ts",
+    "components.json"
+  ],
+  "sandbox": "auto",
+  "sensors": [
+    {
+      "name": "no-tsx",
+      "cmd": "[ -z \"$(git ls-files 'src/**/*.tsx')\" ]",
+      "hint": "Delete all .tsx files. The four islands plus ui/button.tsx must be gone (replaced by .astro)."
+    },
+    {
+      "name": "no-react-dep",
+      "cmd": "! jq -e '.dependencies.react' package.json >/dev/null && ! jq -e '.dependencies[\"@astrojs/react\"]' package.json >/dev/null",
+      "hint": "Run bun remove for the React chain."
+    },
+    {
+      "name": "dep-count",
+      "cmd": "[ \"$(jq '.dependencies|length' package.json)\" -eq 22 ]",
+      "hint": "package.json must drop from 32 to 22 runtime deps. Check you removed exactly the 10 React-chain packages."
+    },
+    {
+      "name": "no-jsx-tsconfig",
+      "cmd": "! rg -q 'jsxImportSource' tsconfig.json",
+      "hint": "Remove jsx and jsxImportSource from tsconfig.json (keep allowJs)."
+    },
+    {
+      "name": "no-react-integration",
+      "cmd": "! rg -q '@astrojs/react' astro.config.mjs",
+      "hint": "Remove the @astrojs/react import and react() from integrations."
+    },
+    {
+      "name": "inline-limit-veto-intact",
+      "cmd": "rg -q 'assetsInlineLimit' astro.config.mjs",
+      "hint": "The assetsInlineLimit veto is load-bearing for Pagefind (the __VITE_PRELOAD__ bug). Do NOT remove it."
+    },
+    {
+      "name": "no-react-badge",
+      "cmd": "! rg -q 'React-unknown' README.md",
+      "hint": "Fix sync-readme-versions.js to drop the react badge rule, and remove the badge line from README.md."
+    },
+    {
+      "name": "format",
+      "cmd": "FILES=$(ls astro.config.mjs tsconfig.json package.json scripts/sync-readme-versions.js tests/islands.spec.ts src/components/ThemeToggle.astro src/components/Header.astro 2>/dev/null; ls src/components/Hamburger.astro src/components/ScrollToTop.astro src/components/HeroImage.astro 2>/dev/null); bun x prettier --check $FILES",
+      "hint": "Prettier-check only the files you own that were clean on base plus your new .astro files. cv.astro and the layouts are pre-existing dirty and out of scope - do not reformat them."
+    },
+    {
+      "name": "astro-check",
+      "cmd": "bun x astro check",
+      "hint": "Type/content errors. Fix your new .astro components."
+    },
+    {
+      "name": "build",
+      "cmd": "bun run build",
+      "hint": "The production build must succeed. If it complains about react/jsx-runtime, you left a client: directive or a .tsx import somewhere."
+    },
+    {
+      "name": "hardened-island-tests",
+      "cmd": "bunx playwright test tests/theme.spec.ts tests/navigation.spec.ts tests/islands.spec.ts",
+      "hint": "The hardened tests assert the exact island behaviour (aria-expanded, inert, .open/.collapsed, theme dark-class flip, scroll-to-top). They must pass against your vanilla replacements. Do not re-add isVisible() guards or weaken assertions."
+    },
+    {
+      "name": "visual-regression",
+      "cmd": "VISUAL_PORT=4401 ./scripts/check-visual.sh",
+      "hint": "A route renders differently from its approved baseline. Compare the render - if the change is intentional and correct, you still must make it pixel-stable; do NOT update baselines to hide a regression."
+    },
+    {
+      "name": "playwright-suite",
+      "cmd": "bunx playwright test",
+      "hint": "Full suite must be green. The ScrollToTop bg test should now pass (you replaced the unstyled button with real colours)."
+    },
+    {
+      "name": "judge",
+      "cmd": "bun ~/.pi/agent/skills/self-correcting-loop/judge.ts --model openrouter/moonshotai/kimi-k3 --spec 'Judge the CURRENT STATE of the React removal. FAIL if: any .tsx file remains under src/; package.json still lists react, react-dom, @astrojs/react, lucide-react, class-variance-authority, @radix-ui/react-slot, tailwind-merge, or clsx; tsconfig.json still has jsx/jsxImportSource; astro.config.mjs still imports @astrojs/react OR (critically) had its vite.build.assetsInlineLimit veto removed; ThemeToggle/Hamburger/ScrollToTop/HeroImage lost behaviour (aria attributes, inert toggling, .open/.collapsed, Escape/click-outside/astro:page-load handling, theme-toggle event dispatch, scroll-to-top threshold and smooth scroll); the shadcn ui/ chain still exists; sync-readme-versions.js would still write a React badge; ScrollToTop still uses unstyled bg-primary/text-primary-foreground tokens; or the working tree gained changes outside the declared writeScope. PASS only when React is fully gone, every island is faithfully reproduced in vanilla Astro, config is stripped, and the assetsInlineLimit veto survives.'",
+      "hint": "The judge found React remnants or lost island behaviour. Finish the removal faithfully - do not argue with the judge by weakening the spec."
+    }
+  ]
+}
