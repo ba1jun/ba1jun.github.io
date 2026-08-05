@@ -1,15 +1,18 @@
 @import "tailwindcss";
 
-/*
-  Load the v3 config via @config so Tailwind v4 picks up custom screens,
-  fonts, and the typography plugin. The plugin MUST be loaded with require()
-  rather than an ES module import — the ESM path emits .prose rules as
-  unlayered CSS, which always beats @layer utilities in the cascade and
-  prevents utilities like max-w-7xl / max-sm:px-5 from overriding
-  prose's baked-in max-width:65ch. Using require() keeps .prose inside
-  @layer utilities where later utilities can win by source order.
-*/
-@config '../../tailwind.config.mjs';
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-sm: 800px;
+  --breakpoint-md: 1200px;
+  --breakpoint-lg: 1900px;
+  --breakpoint-xl: 2500px;
+  --font-overpass-mono: var(--font-overpass-mono), "Overpass Mono", monospace;
+  --font-inconsolata: var(--font-inconsolata), "Inconsolata", monospace;
+}
 
 /* Typography plugin: suppress smart-quotes on blockquotes.
    Replaces the old JS-based typography.no-quotes config extension. */
