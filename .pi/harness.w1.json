@@ -1,0 +1,78 @@
+{
+  "task": "Collapse the 28 per-collection route files into one config-driven set and fix the reading-time bug, per docs/plans/2026-08-04-streamline-stack.md sections 3.1 and 6. You may ONLY modify: src/config/**, src/pages/**, src/content.config.ts, src/scripts/remark-reading-time.mjs, src/scripts/collections.ts, src/scripts/utils.ts, src/components/BlogPost.astro, and tests/reading-time.spec.ts. Do NOT touch any other file. Build is warm so `bun run build` is fast. REQUIRED OUTCOME: (1) Create src/config/collections.ts exporting ROUTE_COLLECTIONS with exactly these five entries - {name:'muses',title:'Muses',layout:'post',readingTime:true}, {name:'short_form',title:'Short Form',layout:'post',readingTime:true}, {name:'long_form',title:'Long Form',layout:'post',readingTime:true}, {name:'zeitweilig',title:'Zeitweilig',layout:'post',readingTime:true}, {name:'authors',title:'Authors',layout:'author',readingTime:false} - plus a getRouteCollection(name) helper that throws on unknown names. (2) Create parameterised routes src/pages/[collection]/index.astro, [collection]/[...id].astro, [collection]/tags/index.astro, [collection]/tags/[tag].astro, [collection]/rss.xml.ts that reproduce EXACTLY the URLs and behaviour of the current per-collection files (use getStaticPaths over ROUTE_COLLECTIONS). [...id].astro must use MarkdownPostLayout for layout:'post' and AuthorLayout for layout:'author'; index/tags must pass reading time only when readingTime:true. authors index/detail must NOT show reading time. (3) Delete the 24 superseded files: the 4 collection index .astro (muses.astro, short_form.astro, long_form.astro, zeitweilig.astro, authors.astro) and the 4 per-collection directories (muses/, short_form/, long_form/, zeitweilig/, authors/) under src/pages/. Keep index.astro, 404.astro, cv.astro, _README.md. (4) READING-TIME FIX: list and tag pages currently call getReadingTime(post.body) on raw MDX which counts imports/JSX and disagrees with detail pages (adam shows 27s 300ms on list vs 17s 100ms on detail). Make list and detail use the SAME source of truth. FIRST verify empirically whether getCollection() entries expose the remark plugin's readingTimeMs via entry.data (add a temporary console.log in a route, run build, inspect). If yes, read it from entry.data.readingTimeMs and add readingTimeMs as optional to baseSchema in src/content.config.ts. If no, call await render(entry) per entry and use remarkPluginFrontmatter.readingTimeMs. Either way, DELETE every `import getReadingTime from \"reading-time\"` and getReadingTime(post.body) call from src/pages/ so there are ZERO direct reading-time imports under src/pages/. (5) Flip tests/reading-time.spec.ts from test.fixme() to a normal test so it now passes. VERIFY: `bun run build` succeeds; `./scripts/capture-routes.sh /tmp/r1.txt && diff /tmp/routes-baseline.txt /tmp/r1.txt` produces NO diff (this is the critical URL-parity gate - a non-empty diff means you broke a production URL, fix it); `rg -c 'from \"reading-time\"' src/pages/` returns nothing (zero matches); the page count via `git ls-files 'src/pages/**' | grep -v README | wc -l` is <= 9; `bunx playwright test tests/reading-time.spec.ts` passes. Do not commit - the loop owns git. Do not change any content .mdx file.",
+  "maxIterations": 6,
+  "models": [
+    "openrouter/deepseek/deepseek-v4-pro",
+    "openrouter/z-ai/glm-5"
+  ],
+  "stallPatience": 2,
+  "tools": [
+    "read",
+    "edit",
+    "write",
+    "bash"
+  ],
+  "writeScope": [
+    "src/config/**",
+    "src/pages/**",
+    "src/content.config.ts",
+    "src/scripts/remark-reading-time.mjs",
+    "src/scripts/collections.ts",
+    "src/scripts/utils.ts",
+    "src/components/BlogPost.astro",
+    "tests/reading-time.spec.ts"
+  ],
+  "sandbox": "auto",
+  "sensors": [
+    {
+      "name": "format",
+      "cmd": "FILES=$(ls src/content.config.ts src/scripts/remark-reading-time.mjs src/scripts/collections.ts src/scripts/utils.ts src/components/BlogPost.astro tests/reading-time.spec.ts 2>/dev/null; ls src/config/*.ts 2>/dev/null; find 'src/pages/[collection]' -type f 2>/dev/null); bun x prettier --check $FILES",
+      "hint": "Prettier-check the files you own (existing + your new src/config/*.ts and src/pages/[collection]/*). Missing dirs are tolerated. Do not reformat unrelated files."
+    },
+    {
+      "name": "astro-check",
+      "cmd": "bun x astro check",
+      "hint": "Type/content errors. Fix your new routes - e.g. dynamic layout union needs a shared Props interface or an explicit branch."
+    },
+    {
+      "name": "build",
+      "cmd": "bun run build",
+      "hint": "The production build must succeed. Read the error and fix your routes."
+    },
+    {
+      "name": "route-parity",
+      "cmd": "./scripts/capture-routes.sh /tmp/r1.txt && diff /tmp/routes-baseline.txt /tmp/r1.txt",
+      "hint": "CRITICAL: a route was added or dropped. Every URL in the baseline must still be emitted. Fix your [collection] getStaticPaths or the deleted-file set."
+    },
+    {
+      "name": "no-raw-reading-time",
+      "cmd": "! rg -q 'from \"reading-time\"' src/pages/",
+      "hint": "List pages must use the remark plugin's readingTimeMs, not getReadingTime(post.body). Remove the raw import."
+    },
+    {
+      "name": "page-count",
+      "cmd": "[ \"$(git ls-files 'src/pages/**' | grep -v README | wc -l)\" -le 9 ]",
+      "hint": "Collapse the per-collection route files into [collection]/ routes. Delete the superseded files."
+    },
+    {
+      "name": "reading-time-fixed",
+      "cmd": "bunx playwright test tests/reading-time.spec.ts",
+      "hint": "Flip the fixme to a normal test and make list/detail reading times match via a single source of truth."
+    },
+    {
+      "name": "lint-internal-links",
+      "cmd": "bun x hyperlink dist/index.html --internal",
+      "hint": "An internal link is broken - a route produces a bad href. External checks excluded."
+    },
+    {
+      "name": "playwright-suite",
+      "cmd": "bunx playwright test",
+      "hint": "Full suite must be green except the known test.fail() for the ScrollToTop bg-primary bug (which is expected)."
+    },
+    {
+      "name": "judge",
+      "cmd": "bun ~/.pi/agent/skills/self-correcting-loop/judge.ts --model openrouter/moonshotai/kimi-k3 --spec 'Judge the CURRENT STATE of the route collapse and reading-time fix. FAIL if: any of the 24 superseded per-collection route files still exist under src/pages/ (muses.astro, short_form.astro, long_form.astro, zeitweilig.astro, authors.astro, or a per-collection subdirectory); src/config/collections.ts is missing or does not drive all five collection routes; any list/tag page still imports reading-time directly or calls getReadingTime on raw post.body; the list and detail reading time for a post come from DIFFERENT computations (the bug the task fixes); authors routes now show reading time (they must not); [...id].astro does not switch between MarkdownPostLayout and AuthorLayout; or the working tree gained changes outside the declared writeScope. PASS only when the routes are genuinely collapsed to a config-driven set, URL parity holds, and reading time has a single source of truth.'",
+      "hint": "The judge found the collapse or reading-time fix incomplete. Finish the work - do not argue with the judge by weakening the spec."
+    }
+  ]
+}
