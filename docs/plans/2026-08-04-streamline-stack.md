@@ -137,7 +137,7 @@ read"`) and nothing ever reads it. Pages re-format the raw ms instead.
 **Fix:** single source of truth = the remark plugin's `readingTimeMs`. See W1
 Task 4 for how list pages get it without an N-times `render()` cost.
 
-### 3.2 ScrollToTop renders an unstyled button - CONFIRMED
+### 3.2 ScrollToTop renders an unstyled button - CONFIRMED, then REVERSED
 
 `ScrollToTop.tsx:39-45` styles the button with `bg-primary`,
 `text-primary-foreground`, `focus:ring-primary`. Those are shadcn theme tokens.
@@ -152,9 +152,27 @@ Grepping the built CSS for each:
 ```
 
 And `--color-primary` is defined nowhere in `src/styles/` or
-`tailwind.config.mjs`. The tokens never resolve, so 32,150 bytes of JS currently
-ship a button with no background colour and no text colour. The W2 replacement
-must pick real colours, not port these class names.
+`tailwind.config.mjs`. The tokens never resolve.
+
+**CORRECTION (post-W2, user review):** the transparent floating-chevron look
+this produces IS the intended design, not a bug. The original analysis above
+correctly identified that the tokens resolve to nothing but incorrectly
+concluded the button needed real colours. W2 initially painted it a solid
+circle per that wrong spec; the user sent it back ("needs to be transparent")
+and the replacement now uses `background-color: transparent; color: inherit;`
+with a transparent-background test locking the design in.
+
+### 3.2b Favicon placeholder loses alpha - found in user review
+
+`NextPost.astro` falls back to an optimized favicon for posts without an
+`image`. The 360x360 request (>=64px, even) routes through astro-image-hq's
+SVT-AV1 4:2:0 path, which drops the alpha plane: the transparent logo becomes a
+solid black square (verified: 0/129600 transparent pixels in the built asset).
+The 60x60 variant keeps alpha because sub-64px inputs fall back off the SVT
+path. Pre-existing on the live site (identical asset hash), not introduced by
+this branch. Fixed by requesting `format: "png"` for the favicon (sharp path
+preserves alpha). **Upstream fix still owed in astro-image-hq: detect
+`hasAlpha` and route alpha-bearing images off the 4:2:0 encoders.**
 
 ### 3.3 Dead Tailwind config - CONFIRMED
 

@@ -50,7 +50,18 @@ const postsData = await Promise.all(
   }),
 );
 
-const favicon = await optimizeImage(CDN_FAVICON_URL, "favicon");
+// The favicon is a transparent-background logo. It must NOT go through the
+// avifenc-svt 4:2:0 path (>=64px even dimensions), which drops the alpha plane
+// and renders the placeholder as a solid black square. PNG keeps alpha.
+const favicon = await getImage({
+  src: CDN_FAVICON_URL,
+  alt: "favicon",
+  width: 640,
+  height: 360,
+  fit: "inside",
+  format: "png",
+  decoding: "async",
+});
 ---
 
 {

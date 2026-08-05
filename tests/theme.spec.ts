@@ -39,6 +39,27 @@ test.describe("Theme toggle", () => {
     await expect(toggle).toHaveAttribute("aria-label", /Switch to dark/);
   });
 
+  test("sun rays appear in dark mode, hidden in light mode", async ({
+    page,
+  }) => {
+    // Regression gate: the rays' hidden state must live in the stylesheet, not
+    // an inline style - inline opacity:0 beats the html.dark rule and the rays
+    // never render.
+    await page.goto("/");
+    const rays = page.locator("#theme-toggle-rays");
+
+    await expect
+      .poll(() => rays.evaluate((el) => getComputedStyle(el).opacity))
+      .toBe("0");
+
+    await page.evaluate(() => {
+      document.documentElement.classList.add("dark");
+    });
+    await expect
+      .poll(() => rays.evaluate((el) => getComputedStyle(el).opacity))
+      .toBe("1");
+  });
+
   test("dark mode persists across navigation", async ({ page }) => {
     await page.goto("/");
     await page.evaluate(() => {

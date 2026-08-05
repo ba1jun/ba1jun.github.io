@@ -1,6 +1,7 @@
 ---
-// Scroll-to-top button. rAF-throttled visibility, smooth scroll, real colours
-// replacing the unstyled bg-primary/text-primary-foreground tokens (bug 3.2).
+// Scroll-to-top button. rAF-throttled visibility, smooth scroll. Background is
+// deliberately transparent with an inherited-colour chevron - that was the
+// original design (the React version's bg-primary token resolved to no CSS).
 // All hooks re-wire on astro:page-load so they survive view transitions.
 ---
 
@@ -27,12 +28,8 @@
 
 <style is:global>
   #scroll-to-top {
-    background-color: #222125;
-    color: #f2f2f2;
-  }
-  html.dark #scroll-to-top {
-    background-color: #f2f2f2;
-    color: #222125;
+    background-color: transparent;
+    color: inherit;
   }
   #scroll-to-top.visible {
     opacity: 1;
