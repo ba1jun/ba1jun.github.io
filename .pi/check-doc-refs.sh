@@ -8,7 +8,7 @@ cd "$(dirname "$0")/.."
 files=(
   README.md AGENTS.md src/README.md src/components/README.md
   src/components/cv/README.md src/layouts/README.md src/pages/_README.md
-  scripts/README.md docs/README.md docs/depth-parallax-research.md
+  scripts/README.md src/content/README.md docs/README.md docs/depth-parallax-research.md
   docs/docker.md docs/performance.md
 )
 

@@ -1,0 +1,41 @@
+{
+  "task": "Update ALL documentation so it accurately describes the codebase AFTER the streamline-stack refactor (plan: docs/plans/2026-08-04-streamline-stack.md, section 11 has the per-file checklist). You may ONLY modify: README.md, AGENTS.md, src/README.md, src/components/README.md, src/components/cv/README.md, src/layouts/README.md, src/pages/_README.md, scripts/README.md, src/content/README.md, docs/README.md, docs/depth-parallax-research.md, docs/docker.md, docs/performance.md. Do NOT touch code, config, tests, or src/content/*.mdx. WHAT THE REFACTOR CHANGED (docs must reflect this): (1) REACT IS GONE - no .tsx files, no @astrojs/react integration, no client:load/client:idle directives, no react in package.json (22 runtime deps). The four islands are now vanilla .astro components (ThemeToggle.astro, Hamburger.astro, ScrollToTop.astro, HeroImage.astro) whose scripts wire DOM inside astro:page-load handlers with cleanup closures so they survive ClientRouter view-transition swaps. The shadcn ui/ chain (ui/button.tsx, ui/utils.ts, components.json) is deleted. ScrollToTop is intentionally transparent with an inherited-colour chevron. AGENTS.md 'React Island Patterns' section must be replaced with a vanilla-script section; src/README.md's 'React + Astro Integration' section needs a full rewrite. (2) ROUTES COLLAPSED - the per-collection route files are gone; src/config/collections.ts exports ROUTE_COLLECTIONS driving src/pages/[collection]/{index.astro,[...id].astro,tags/index.astro,tags/[tag].astro,rss.xml.ts}. authors uses AuthorLayout and shows no reading time; cv.astro stays bespoke. Adding a collection is now one config entry. (3) READING TIME - list and detail pages both use the remark plugin's readingTimeMs (remarkPluginFrontmatter); no list page computes getReadingTime(post.body) anymore. (4) TAILWIND IS NATIVE V4 - tailwind.config.mjs is DELETED; config lives in src/styles/global.css as @plugin \"@tailwindcss/typography\", @custom-variant dark (&:where(.dark, .dark *)), and an @theme block (--breakpoint-*: initial then sm 800/md 1200/lg 1900/xl 2500, plus --font-overpass-mono/--font-inconsolata). The old 'typography plugin must use require()' instruction is FALSE on tailwindcss 4.2.2 and must be removed. Dead v3 keys (objectPosition/backgroundPosition/backgroundSize/2xl) are gone. (5) PRESERVED (docs must NOT claim these changed): vite.build.assetsInlineLimit veto in astro.config.mjs (load-bearing for Pagefind), the Pagefind search implementation, the image service, the lightbox. (6) Also fix pre-existing staleness the plan lists: README badge lines (React badge is gone; MDX badge should read @astrojs/mdx 7.0.5), src/content/README.md says 'Astro v6.1' (actual: 7.1.5), docs/performance.md line ~73 claims no content config is needed (now true post-W3 - verify before keeping), the HeroImage sections in docs/performance.md must describe the vanilla component. Keep each file's structure/tone; surgical edits over rewrites except where a whole section is invalidated (React sections). Keep mermaid diagrams valid. VERIFY: bun x prettier --check on every edited file; .pi/check-doc-refs.sh passes; no doc may reference tailwind.config.mjs, .tsx files, client:load/client:idle, or @astrojs/react as if they exist. Do not commit - the loop owns git.",
+  "maxIterations": 8,
+  "models": ["openrouter/deepseek/deepseek-v4-pro", "openrouter/z-ai/glm-5"],
+  "stallPatience": 2,
+  "tools": ["read", "edit", "write", "bash"],
+  "writeScope": ["README.md", "AGENTS.md", "src/README.md", "src/components/README.md", "src/components/cv/README.md", "src/layouts/README.md", "src/pages/_README.md", "scripts/README.md", "src/content/README.md", "docs/**"],
+  "sandbox": "auto",
+  "sensors": [
+    {
+      "name": "format",
+      "cmd": "bun x prettier --check README.md AGENTS.md src/README.md src/components/README.md src/components/cv/README.md src/layouts/README.md src/pages/_README.md scripts/README.md src/content/README.md docs/README.md docs/depth-parallax-research.md docs/docker.md docs/performance.md",
+      "hint": "Docs must stay prettier-clean. Run bun x prettier --write on the file(s) you edited."
+    },
+    {
+      "name": "doc-refs",
+      "cmd": ".pi/check-doc-refs.sh",
+      "hint": "A doc references a repo path that does not exist. Fix the reference or remove it."
+    },
+    {
+      "name": "no-react-era-refs",
+      "cmd": "! rg -q 'tailwind\\.config\\.mjs|client:load|client:idle|@astrojs/react' README.md AGENTS.md src/README.md src/components/README.md src/layouts/README.md src/pages/_README.md scripts/README.md src/content/README.md docs/README.md docs/performance.md",
+      "hint": "A doc still references the deleted tailwind.config.mjs, hydration directives, or the React integration as if they exist. Update it to the post-refactor reality."
+    },
+    {
+      "name": "no-tsx-refs",
+      "cmd": "! rg -q '\\.tsx' README.md AGENTS.md src/README.md src/components/README.md src/layouts/README.md src/pages/_README.md docs/README.md docs/performance.md",
+      "hint": "A doc still references .tsx files. The islands are vanilla .astro now - update the reference."
+    },
+    {
+      "name": "no-stale-astro-version",
+      "cmd": "! rg -q 'Astro 6\\b|Astro v6' README.md AGENTS.md src/README.md src/components/README.md src/layouts/README.md scripts/README.md src/content/README.md docs/README.md docs/depth-parallax-research.md docs/docker.md docs/performance.md",
+      "hint": "The site runs Astro 7.1.5 (see package.json). Update stale Astro 6 version claims."
+    },
+    {
+      "name": "judge",
+      "cmd": "bun ~/.pi/agent/skills/self-correcting-loop/judge.ts --model openrouter/moonshotai/kimi-k3 --spec 'FULL-REVIEW: judge the CURRENT STATE of every doc file (README.md, AGENTS.md, src/README.md, src/components/README.md, src/components/cv/README.md, src/layouts/README.md, src/pages/_README.md, scripts/README.md, src/content/README.md, docs/README.md, docs/depth-parallax-research.md, docs/docker.md, docs/performance.md) against the actual post-refactor repo. FAIL and cite file:line if any doc: describes React islands, .tsx files, client: hydration directives, or @astrojs/react as present; references the deleted tailwind.config.mjs or describes config living anywhere but @theme/@plugin/@custom-variant in global.css; repeats the false claim that the typography plugin must be loaded via require(); describes per-collection route files (muses.astro, long_form/[...id].astro etc.) instead of the [collection] parameterised routes driven by src/config/collections.ts; says list pages compute reading time from raw post.body; claims authors pages show reading time; lists component inventories that do not match files on disk; shows a React badge or stale version (Astro 7.1.5, @astrojs/mdx 7.0.5, Tailwind 4.2.2); or omits the astro:page-load wiring pattern where it describes the vanilla islands. Also FAIL if the diff touched code/config/tests or src/content/*.mdx, if the vite.build.assetsInlineLimit veto documentation was deleted or weakened, or if mermaid diagrams are left syntactically invalid. PASS only when every doc accurately describes the post-refactor codebase.'",
+      "hint": "The judge found stale or wrong doc claims. Read the cited code and correct the docs - do not argue with the judge by weakening the spec."
+    }
+  ]
+}
