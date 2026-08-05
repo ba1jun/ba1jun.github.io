@@ -28,39 +28,103 @@ test.describe("ScrollToTop", () => {
     expect(scrollY).toBeLessThan(50);
   });
 
-  test.fail(
-    "ScrollToTop button has a non-transparent background-color",
-    async ({ page }) => {
-      // Documents current bug: bg-primary on the ScrollToTop button
-      // resolves to no CSS, so the computed background is transparent.
-      // The button uses class bg-primary which should produce a visible
-      // background when the fill is wired up to a CSS variable.
-      await page.goto("/long_form/");
+  test("ScrollToTop button has a non-transparent background-color", async ({
+    page,
+  }) => {
+    // Documents current bug: bg-primary on the ScrollToTop button
+    // resolves to no CSS, so the computed background is transparent.
+    // The button uses class bg-primary which should produce a visible
+    // background when the fill is wired up to a CSS variable.
+    await page.goto("/long_form/");
 
-      // Wait for client:idle island hydration
-      await page.waitForTimeout(2000);
+    // Wait for client:idle island hydration
+    await page.waitForTimeout(2000);
 
-      // Scroll down to make the button appear
-      await page.evaluate(() => window.scrollTo(0, 800));
-      await page.waitForTimeout(500);
+    // Scroll down to make the button appear
+    await page.evaluate(() => window.scrollTo(0, 800));
+    await page.waitForTimeout(500);
 
-      const btn = page.locator('button[aria-label="Scroll to top"]');
-      await expect(btn).toBeVisible({ timeout: 5000 });
+    const btn = page.locator('button[aria-label="Scroll to top"]');
+    await expect(btn).toBeVisible({ timeout: 5000 });
 
-      const bg = await btn.evaluate((el) => {
-        const style = getComputedStyle(el);
-        return {
-          color: style.backgroundColor,
-          opacity: style.opacity,
-        };
-      });
+    const bg = await btn.evaluate((el) => {
+      const style = getComputedStyle(el);
+      return {
+        color: style.backgroundColor,
+        opacity: style.opacity,
+      };
+    });
 
-      // The button should have a non-transparent, non-translucent background
-      const isTransparent =
-        bg.color === "rgba(0, 0, 0, 0)" || bg.color === "transparent";
-      expect(isTransparent, `computed backgroundColor was ${bg.color}`).toBe(
-        false,
-      );
-    },
-  );
+    // The button should have a non-transparent, non-translucent background
+    const isTransparent =
+      bg.color === "rgba(0, 0, 0, 0)" || bg.color === "transparent";
+    expect(isTransparent, `computed backgroundColor was ${bg.color}`).toBe(
+      false,
+    );
+  });
+});
+
+test.describe("islands survive client-side navigation (ClientRouter)", () => {
+  // Regression gate for the W2 ClientRouter bug: vanilla islands that attach
+  // listeners at script top level go dead after an astro view-transition swap,
+  // because the swap replaces the DOM but does not re-execute bundled scripts.
+  // page.goto() does a full load and cannot catch this; only a real in-app
+  // navigation exercises it.
+
+  test("hamburger still works after a client-side navigation", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto("/long_form/");
+    // In-app navigation via a content link triggers a view transition.
+    await page.locator('a[href="/long_form/adam/"]').first().click();
+    await page.waitForURL(/\/long_form\/adam\//);
+    const hamburger = page.getByRole("button", {
+      name: /open menu|close menu/i,
+    });
+    await expect(hamburger).toBeVisible();
+    await expect(hamburger).toHaveAttribute("aria-expanded", "false");
+    await hamburger.click();
+    await expect(hamburger).toHaveAttribute("aria-expanded", "true");
+    await expect(page.locator("#nav-links")).toHaveClass(/open/);
+  });
+
+  test("theme toggle still works after a client-side navigation", async ({
+    page,
+  }) => {
+    await page.goto("/long_form/");
+    await page.locator('a[href="/long_form/adam/"]').first().click();
+    await page.waitForURL(/\/long_form\/adam\//);
+    const toggle = page.getByRole("button", {
+      name: /switch to (light|dark) theme/i,
+    });
+    await expect(toggle).toBeVisible();
+    const before = await page.evaluate(() =>
+      document.documentElement.classList.contains("dark"),
+    );
+    await toggle.click();
+    await expect
+      .poll(() =>
+        page.evaluate(() =>
+          document.documentElement.classList.contains("dark"),
+        ),
+      )
+      .toBe(!before);
+  });
+
+  test("hero image is visible after a client-side navigation", async ({
+    page,
+  }) => {
+    await page.goto("/long_form/");
+    await page.locator('a[href="/long_form/adam/"]').first().click();
+    await page.waitForURL(/\/long_form\/adam\//);
+    // The hero <img> renders opacity-0; the island script adds opacity-100.
+    // If the script never re-runs after the swap, the hero stays invisible.
+    const hero = page
+      .locator("img.opacity-0, img[class*='opacity-100']")
+      .first();
+    await expect
+      .poll(async () => hero.evaluate((el) => getComputedStyle(el).opacity))
+      .toBe("1");
+  });
 });

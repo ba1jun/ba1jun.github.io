@@ -9,7 +9,6 @@ import rehypeKatex from "rehype-katex";
 import icon from "astro-icon";
 import { remarkReadingTime } from "./src/scripts/remark-reading-time.mjs";
 import undiciRetry from "./src/scripts/undici-retry.ts";
-import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 import hqService from "@erfianugrah/astro-image-hq";
 // Use no-op passthrough image service in dev to skip Sharp processing.
@@ -44,7 +43,6 @@ export default defineConfig({
     sitemap(),
     mdx(), // inherits syntaxHighlight, shikiConfig, remarkPlugins, rehypePlugins from markdown config
     undiciRetry(),
-    react(),
   ],
 
   markdown: {

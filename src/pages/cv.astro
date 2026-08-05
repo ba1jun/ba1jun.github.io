@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ThemeToggle from "../components/ThemeToggle";
+import ThemeToggle from "../components/ThemeToggle.astro";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -65,7 +65,7 @@ const personSchema = {
   <div class="max-w-4xl mx-auto shadow-[0_4px_24px_-4px_rgba(0,0,0,0.15)] dark:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.5)] rounded-lg overflow-hidden print:shadow-none">
     <!-- Revista toolbar -->
     <div class="flex items-center justify-end gap-3 px-4 sm:px-8 py-3 text-gray-700 dark:text-[rgb(245,245,245)] print:hidden">
-      <ThemeToggle client:load />
+      <ThemeToggle />
     </div>
 
     <!-- Imported CV content -->

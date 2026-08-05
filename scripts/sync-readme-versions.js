@@ -25,7 +25,6 @@ function clean(raw) {
 const v = {
   astro: clean(pkg.dependencies["astro"]),
   tailwind: clean(pkg.dependencies["tailwindcss"]),
-  react: clean(pkg.dependencies["react"]),
   ts: clean(pkg.dependencies["typescript"]),
   mdx: clean(pkg.dependencies["@astrojs/mdx"]),
 };
@@ -39,7 +38,7 @@ const rules = [
     /Tailwind_CSS-[\d.]+(?:-[a-z.]+)?-38B2AC/g,
     `Tailwind_CSS-${v.tailwind}-38B2AC`,
   ],
-  [/React-[\d.]+(?:-[a-z.]+)?-61DAFB/g, `React-${v.react}-61DAFB`],
+
   [/TypeScript-[\d.]+(?:-[a-z.]+)?-3178C6/g, `TypeScript-${v.ts}-3178C6`],
   [/MDX-[\d.]+(?:-[a-z.]+)?-1B1F24/g, `MDX-${v.mdx}-1B1F24`],
 
@@ -87,7 +86,7 @@ for (const file of findMarkdownFiles(ROOT)) {
 
 if (updated > 0) {
   console.log(
-    `\n✓ Synced versions across ${updated} file(s): Astro ${v.astro}, Tailwind ${v.tailwind}, React ${v.react}, TS ${v.ts}, MDX ${v.mdx}`,
+    `\n✓ Synced versions across ${updated} file(s): Astro ${v.astro}, Tailwind ${v.tailwind}, TS ${v.ts}, MDX ${v.mdx}`,
   );
 } else {
   console.log(`✓ All docs already up to date (Astro ${v.astro})`);

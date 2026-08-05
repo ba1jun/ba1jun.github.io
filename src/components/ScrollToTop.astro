@@ -1,0 +1,85 @@
+---
+// Scroll-to-top button. rAF-throttled visibility, smooth scroll, real colours
+// replacing the unstyled bg-primary/text-primary-foreground tokens (bug 3.2).
+// All hooks re-wire on astro:page-load so they survive view transitions.
+---
+
+<button
+  id="scroll-to-top"
+  aria-label="Scroll to top"
+  class="fixed bottom-4 right-4 p-2 rounded-full shadow-lg opacity-0 invisible pointer-events-none transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="m18 15-6-6-6 6"></path>
+  </svg>
+</button>
+
+<style is:global>
+  #scroll-to-top {
+    background-color: #222125;
+    color: #f2f2f2;
+  }
+  html.dark #scroll-to-top {
+    background-color: #f2f2f2;
+    color: #222125;
+  }
+  #scroll-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+</style>
+
+<script>
+  let cleanupSTT: () => void = () => {};
+
+  document.addEventListener("astro:page-load", () => {
+    cleanupSTT();
+
+    const btn = document.getElementById("scroll-to-top");
+    if (!btn) return;
+
+    let ticking = false;
+    let rafId = 0;
+
+    function toggleVisibility() {
+      if (!ticking) {
+        ticking = true;
+        rafId = requestAnimationFrame(() => {
+          if (window.scrollY > 300) {
+            btn!.classList.add("visible");
+          } else {
+            btn!.classList.remove("visible");
+          }
+          ticking = false;
+        });
+      }
+    }
+
+    btn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    window.addEventListener("scroll", toggleVisibility, { passive: true });
+
+    // Initial visibility check (page may have loaded scrolled down)
+    toggleVisibility();
+
+    cleanupSTT = () => {
+      window.removeEventListener("scroll", toggleVisibility);
+      cancelAnimationFrame(rafId);
+      ticking = false;
+    };
+  });
+</script>

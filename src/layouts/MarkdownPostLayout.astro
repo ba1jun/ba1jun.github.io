@@ -4,7 +4,7 @@ import "../styles/lightbox.css";
 import "katex/dist/katex.min.css";
 import Prose from "../components/Prose.astro";
 import { getImage } from "astro:assets";
-import HeroImage from "../components/HeroImage.tsx";
+import HeroImage from "../components/HeroImage.astro";
 import NextPost from "../components/NextPost.astro";
 import { formatDate } from "../scripts/utils.ts";
 import type { CollectionName } from "../scripts/collections";
@@ -93,7 +93,6 @@ const metaImage = image
   {
     image ? (
       <HeroImage
-        client:load
         title={title}
         tags={frontmatter.tags}
         backgroundImage={backgroundImage!.src}
