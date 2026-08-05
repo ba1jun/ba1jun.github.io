@@ -1,0 +1,59 @@
+---
+import { getCollection, render } from "astro:content";
+import MarkdownPostLayout from "../../layouts/MarkdownPostLayout.astro";
+import AuthorLayout from "../../layouts/AuthorLayout.astro";
+import { buildDetailPaths } from "../../scripts/collections";
+import { formatReadingTime } from "../../scripts/utils";
+import {
+  ROUTE_COLLECTIONS,
+  getRouteCollection,
+} from "../../config/collections";
+
+export async function getStaticPaths() {
+  const paths: {
+    params: { collection: string; id: string };
+    props: { entry: any };
+  }[] = [];
+  for (const config of ROUTE_COLLECTIONS) {
+    const entries = await getCollection(config.name);
+    for (const dp of buildDetailPaths(entries)) {
+      paths.push({
+        params: { collection: config.name, ...dp.params },
+        props: dp.props,
+      });
+    }
+  }
+  return paths;
+}
+
+const { entry } = Astro.props;
+const { collection } = Astro.params;
+const config = getRouteCollection(collection!);
+
+const { Content, remarkPluginFrontmatter } = await render(entry as any);
+---
+
+{
+  config.layout === "post" ? (
+    <MarkdownPostLayout
+      frontmatter={entry.data}
+      currentId={entry.id}
+      collection={config.name}
+    >
+      {config.readingTime && (
+        <p class="prose prose-slate dark:prose-invert italic no-underline">
+          {formatReadingTime(remarkPluginFrontmatter.readingTimeMs)}
+        </p>
+      )}
+      <Content />
+    </MarkdownPostLayout>
+  ) : (
+    <AuthorLayout
+      frontmatter={entry.data}
+      currentId={entry.id}
+      collection={config.name}
+    >
+      <Content />
+    </AuthorLayout>
+  )
+}

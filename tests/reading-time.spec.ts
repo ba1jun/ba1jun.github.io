@@ -4,7 +4,7 @@ import { test, expect } from "@playwright/test";
 // should match the detail-page reading time for the same post.
 // Currently they differ (list says "27s 300ms", detail says "17s 100ms"
 // for the adam post), so this test documents the inconsistency.
-test.fixme("list-card and detail-page reading times match for adam", async ({
+test("list-card and detail-page reading times match for adam", async ({
   page,
 }) => {
   // Navigate to the long_form list page

@@ -27,6 +27,7 @@ const baseSchema = z.object({
   pubDate: z.coerce.date(),
   updatedDate: z.coerce.date().optional(),
   slug: z.string().optional(),
+  readingTimeMs: z.number().optional(),
 });
 
 const muses = defineCollection({

@@ -1,0 +1,18 @@
+---
+import TagLayout from "../../../layouts/TagLayout.astro";
+import {
+  ROUTE_COLLECTIONS,
+  getRouteCollection,
+} from "../../../config/collections";
+
+export async function getStaticPaths() {
+  return ROUTE_COLLECTIONS.map((c) => ({
+    params: { collection: c.name },
+  }));
+}
+
+const { collection } = Astro.params;
+const config = getRouteCollection(collection!);
+---
+
+<TagLayout directory={config.name} title={`${config.title} Tag Index`} />
