@@ -1,16 +1,27 @@
 {
   "task": "Harden the Playwright test suite and capture baselines for the streamline-stack refactor (plan: docs/plans/2026-08-04-streamline-stack.md). You may ONLY modify files under tests/ and scripts/. Do NOT touch src/, astro.config.mjs, tsconfig.json, package.json, tailwind.config.mjs, or any doc file except nothing. The build is warm (node_modules/.astro/assets present) so `bun run build` is fast. Steps: (1) scripts/capture-routes.sh already exists - leave it, and run `./scripts/capture-routes.sh /tmp/routes-baseline.txt` after any build so the manifest sensor works (it currently has 83 entries: 76 html + 7 xml). (2) Create tests/styling.spec.ts per plan section Task W0.2 with SIX tests that MUST PASS on the current tree: prose max-width overridden to 1280px by max-w-7xl on /long_form/adam/ at 1600px viewport; custom sm breakpoint is 800px not 640px (probe a .sm\\:grid element's display above and below 800px); font-overpass-mono resolves to Overpass Mono on /; font-inconsolata resolves to Inconsolata on /long_form/adam/; prose-no-quotes suppresses blockquote ::before content on /long_form/adam/ (skip if no blockquote); .dark class sets html background to rgb(34,33,37). (3) Convert conditional guards to hard assertions: in tests/theme.spec.ts replace the `if (await toggle.isVisible(...).catch(() => false))` guard with an unconditional `getByRole` assertion that the toggle exists, is visible, and clicking it flips the `dark` class on documentElement (use expect.poll); in tests/navigation.spec.ts remove the `if (await hamburger.isVisible())` wrappers so the hamburger test asserts visibility, aria-expanded false->true on click, aria-controls=nav-links, #nav-links gaining .open and losing inert, then Escape returning aria-expanded to false and .collapsed restored - these MUST match the current React Hamburger behaviour so they pass now. (4) Create tests/islands.spec.ts with two ScrollToTop tests: button is absent before scrolling, appears after scrolling 800px, and clicking returns scrollY near top; AND a second test asserting the button has a non-transparent background-color - mark THAT test `test.fail()` because it documents a current bug (bg-primary resolves to no CSS). (5) Create tests/reading-time.spec.ts asserting the list-card reading time on /long_form/ for the adam post equals the detail-page reading time on /long_form/adam/ - this MUST FAIL on the current tree, so mark it `test.fixme()` with a comment referencing plan section 3.1. VERIFY before finishing: run `bun run build` then `bunx playwright test` and ensure the only non-passing entries are the one test.fail() (expected fail) and the one test.fixme() (skipped); `bun x prettier --check .` must pass; `./scripts/capture-routes.sh /tmp/routes-baseline.txt && diff /tmp/routes-baseline.txt /tmp/routes-baseline.txt` is trivially fine. Do not weaken any assertion to make it pass - the point is to catch regressions, so assertions must describe the real current behaviour, verified by running them.",
   "maxIterations": 6,
-  "models": ["openrouter/anthropic/claude-sonnet-5", "openrouter/deepseek/deepseek-v4-pro"],
+  "models": [
+    "openrouter/deepseek/deepseek-v4-pro",
+    "openrouter/z-ai/glm-5"
+  ],
   "stallPatience": 2,
-  "tools": ["read", "edit", "write", "bash"],
-  "writeScope": ["tests/**", "scripts/**"],
+  "tools": [
+    "read",
+    "edit",
+    "write",
+    "bash"
+  ],
+  "writeScope": [
+    "tests/**",
+    "scripts/**"
+  ],
   "sandbox": "auto",
   "sensors": [
     {
       "name": "format",
-      "cmd": "bun x prettier --check .",
-      "hint": "Run bun x prettier --write on every file you edited, then re-check."
+      "cmd": "bun x prettier --check tests/ scripts/",
+      "hint": "Run bun x prettier --write on every file you edited under tests/ or scripts/, then re-check. Scope is tests/+scripts/ only because the rest of the repo is not prettier-clean on the base tree."
     },
     {
       "name": "astro-check",
@@ -44,7 +55,7 @@
     },
     {
       "name": "judge",
-      "cmd": "bun ~/.pi/agent/skills/self-correcting-loop/judge.ts --model openrouter/anthropic/claude-sonnet-5 --spec 'Judge the CURRENT STATE of tests/ and scripts/ for this test-hardening task. FAIL if: any of the six styling canaries in tests/styling.spec.ts is missing or trivially tautological (asserting a value it never reads from the page); tests/theme.spec.ts or tests/navigation.spec.ts still wraps its body in `if (await ...isVisible())` or `.catch(() => false)` guards that would pass when the element is gone; tests/islands.spec.ts lacks a ScrollToTop appear-and-scroll test or lacks a test.fail()-marked non-transparent-background assertion; tests/reading-time.spec.ts lacks a test.fixme() list-vs-detail consistency assertion; scripts/capture-routes.sh does not emit a sorted, deduplicated list of dist html+xml paths; or the diff modified anything outside tests/ and scripts/. PASS only when the suite would genuinely catch a removed island, a wrong Tailwind breakpoint, an unstyled button, and the reading-time inconsistency.'",
+      "cmd": "bun ~/.pi/agent/skills/self-correcting-loop/judge.ts --model openrouter/deepseek/deepseek-v4-pro --spec 'Judge the CURRENT STATE of tests/ and scripts/ for this test-hardening task. FAIL if: any of the six styling canaries in tests/styling.spec.ts is missing or trivially tautological (asserting a value it never reads from the page); tests/theme.spec.ts or tests/navigation.spec.ts still wraps its body in `if (await ...isVisible())` or `.catch(() => false)` guards that would pass when the element is gone; tests/islands.spec.ts lacks a ScrollToTop appear-and-scroll test or lacks a test.fail()-marked non-transparent-background assertion; tests/reading-time.spec.ts lacks a test.fixme() list-vs-detail consistency assertion; scripts/capture-routes.sh does not emit a sorted, deduplicated list of dist html+xml paths; or the WORKING TREE gained changes outside tests/ and scripts/ (judge the full current state of tests/ and scripts/, not only the diff). PASS only when the suite would genuinely catch a removed island, a wrong Tailwind breakpoint, an unstyled button, and the reading-time inconsistency.'",
       "hint": "The judge found the hardening is insufficient. Strengthen assertions rather than weakening them - do not argue with the judge by lowering the bar."
     }
   ]
