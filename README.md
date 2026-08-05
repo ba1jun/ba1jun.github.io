@@ -3,7 +3,7 @@
   <img alt="Astro" src="https://img.shields.io/badge/Astro-7.1.5-FF5D01.svg?logo=astro&logoColor=white" />
   <img alt="Tailwind CSS" src="https://img.shields.io/badge/Tailwind_CSS-4.2.2-38B2AC.svg?logo=tailwind-css&logoColor=white" />
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.9.3-3178C6.svg?logo=typescript&logoColor=white" />
-  <img alt="MDX" src="https://img.shields.io/badge/MDX-5.0.0-beta.12-1B1F24.svg?logo=mdx&logoColor=white" />
+  <img alt="MDX" src="https://img.shields.io/badge/%40astrojs%2Fmdx-7.0.5-1B1F24.svg?logo=mdx&logoColor=white" />
   <img alt="Bun" src="https://img.shields.io/badge/Bun-Latest-F9F1E1.svg?logo=bun&logoColor=black" />
   <br/>
   <img alt="GitHub CI/CD" src="https://img.shields.io/badge/CI%2FCD-GitHub_Actions-2088FF.svg?logo=github-actions&logoColor=white" />
@@ -46,7 +46,7 @@ The project supports multiple deployment targets with optimized builds for each 
 graph TD
     A["/revista" Root] --> B["📁 src"]
     A --> C["📁 public<br>(static assets)"]
-    A --> D["⚙️ Configuration Files<br>(astro.config, tailwind.config)"]
+    A --> D["⚙️ Configuration Files<br>(astro.config, tsconfig)"]
 ```
 
 ### Source Directory Structure
@@ -78,9 +78,9 @@ graph TD
     E --> E4["🧩 Navigation.astro"]
     E --> E5["🧩 Homepage.astro"]
     E --> E6["🧩 Masonry.astro"]
-    E --> E7["🧩 HeroImage.tsx"]
+    E --> E7["🧩 HeroImage.astro"]
     E --> E8["🧩 NextPost.astro"]
-    E --> E9["🧩 ThemeToggle.tsx"]
+    E --> E9["🧩 ThemeToggle.astro"]
 
     F["📁 layouts"] --> F1["📄 BaseLayout.astro"]
     F --> F2["📄 MarkdownPostLayout.astro"]
@@ -91,7 +91,7 @@ graph TD
     G --> G2["🌐 404.astro<br>(error page)"]
     G --> G3["🌐 cv.astro<br>(resume)"]
 
-    I["📁 styles"] --> I1["🎨 global.css<br>(site-wide styles)"]
+    I["📁 styles"] --> I1["🎨 global.css<br>(site-wide styles + Tailwind config)"]
     I --> I2["🎨 MasonryLayout.css<br>(photo grid styling)"]
 
     J["📁 scripts"] --> J1["⚡ theme.ts<br>(dark/light mode)"]
@@ -141,14 +141,13 @@ graph TD
 - `public/`: Static assets like images and fonts
 - Configuration files:
   - `astro.config.mjs`: Astro configuration
-  - `tailwind.config.mjs`: Tailwind CSS configuration
   - `tsconfig.json`: TypeScript configuration
 
 ## Key Features
 
 1. **Multiple Content Collections**: The site organizes content into different types (long_form, short_form, muses, zeitweilig, authors, cv), each managed as an Astro content collection using the glob loader pattern. This gives me type-safe content management, explicit file selection, and simplified querying.
 
-2. **Responsive Design**: The site uses Tailwind CSS for a mobile-first approach. I've customized the breakpoints to match my specific needs at 800px, 1200px, 1900px, 2500px, and 3800px, which ensures the site looks good on everything from phones to ultra-wide monitors.
+2. **Responsive Design**: The site uses Tailwind CSS for a mobile-first approach. I've customized the breakpoints to match my specific needs at 800px, 1200px, 1900px, and 2500px, which ensures the site looks good on everything from phones to ultra-wide monitors.
 
 3. **Dark Mode**: Users can toggle between light and dark themes with the ThemeToggle component. Theme preference is stored in localStorage so it persists across visits. The dark theme uses a deep charcoal background with light text for comfortable reading at night.
 
@@ -321,7 +320,7 @@ image:
   src: "https://image.erfi.io/stockholm-reflections-01.jpg"
   alt: "Office building reflection with stark contrast on a winter day"
   positionx: "center"
-  positiony: "top-33"
+  positiony: "50%"
 pubDate: 2024-01-21
 ---
 
@@ -358,7 +357,9 @@ graph TD
     H -.-> H0["📡 /zeitweilig/rss.xml"]
 ```
 
-### Long-form and Short-form Routes
+### Collection Detail Routes
+
+All five collections (muses, short_form, long_form, zeitweilig, authors) share the same parameterised routes under `src/pages/[collection]/`:
 
 ```mermaid
 graph TD
@@ -386,40 +387,40 @@ graph TD
 
 </details>
 
-The routing system combines static and dynamic routes:
+The routing system combines static and parameterised dynamic routes, all driven by a single config array in `src/config/collections.ts`:
 
-- **Static routes** like `/muses` are defined by files at `src/pages/muses.astro`
-- **Dynamic routes** like `/long_form/camera-review` are handled by `src/pages/long_form/[...id].astro`
-- **Collection pages** use `getStaticPaths()` to generate routes from content collections
+- **Static routes** like `/cv` are defined by files at `src/pages/cv.astro`
+- **Parameterised collection routes** under `src/pages/[collection]/` handle all five collections via `getRouteCollection()`
+- **Collection pages** use `getStaticPaths()` via shared helpers in `src/scripts/collections.ts`
 - **Tag pages** are automatically generated for each tag used in the content
 
-Each collection follows the same pattern of routes: index, individual posts, tags index, and tag-specific pages.
+Each collection follows the same pattern of routes: index, individual posts, tags index, tag-specific pages, and RSS feed.
 
 ### Route Explanation:
 
 1. **Root and Static Routes**:
    - `/`: Home page (`src/pages/index.astro`)
    - `/404`: Custom 404 error page (`src/pages/404.astro`)
-   - `/authors`: Authors page (`src/pages/authors.astro`)
    - `/cv`: CV page (`src/pages/cv.astro`)
 
-2. **Collection Routes**:
-   For each collection (long_form, short_form, muses, zeitweilig):
-   - `/{collection}`: Index page for the collection (`src/pages/{collection}/index.astro`)
-   - `/{collection}/post-id`: Individual post pages (`src/pages/{collection}/[...id].astro`)
-   - `/{collection}/tags`: Tag index for the collection (`src/pages/{collection}/tags/index.astro`)
-   - `/{collection}/tags/tag-name`: Pages for specific tags (`src/pages/{collection}/tags/[tag].astro`)
+2. **Collection Routes** (config-driven):
+   For each collection defined in `src/config/collections.ts` (muses, short_form, long_form, zeitweilig, authors):
+   - `/{collection}`: Index page (`src/pages/[collection]/index.astro`)
+   - `/{collection}/post-id`: Individual post (`src/pages/[collection]/[...id].astro`)
+   - `/{collection}/tags`: Tag index (`src/pages/[collection]/tags/index.astro`)
+   - `/{collection}/tags/tag-name`: Tag-specific page (`src/pages/[collection]/tags/[tag].astro`)
 
 3. **Dynamic Route Generation**:
-   - Post pages (e.g., `/long_form/post-id`) are generated dynamically based on the content in the respective collection using `getStaticPaths()` in `[...id].astro`.
-   - Tag pages (e.g., `/long_form/tags/tag-name`) are generated for each unique tag used in the collection, also using `getStaticPaths()` in `[tag].astro`.
+   - Post pages (e.g., `/long_form/post-id`) are generated using `buildDetailPaths()` from `src/scripts/collections.ts`.
+   - Tag pages (e.g., `/muses/tags/tag-name`) use `buildTagPaths()`.
+   - The `[collection]` segment is resolved via `getRouteCollection()` from `src/config/collections.ts`.
 
 4. **RSS Feeds**:
-   - Each collection has an RSS feed available at `/{collection}/rss.xml`, generated by `rss.xml.ts` files in each collection's directory.
+   - Each collection has an RSS feed at `/{collection}/rss.xml`, generated by `src/pages/[collection]/rss.xml.ts` via the `generateRss()` helper.
 
 ## Styling System
 
-The site uses Tailwind CSS v4.2.2 for styling, with carefully configured settings in `tailwind.config.mjs` to create a cohesive design system:
+The site uses Tailwind CSS v4.2.2 for styling, with all configuration living in `src/styles/global.css` via `@theme` blocks, `@plugin` directives, and `@custom-variant` declarations:
 
 ### Design System Components
 
@@ -439,36 +440,24 @@ The site uses Tailwind CSS v4.2.2 for styling, with carefully configured setting
    - **Photography-Optimized**: The color scheme is designed to enhance rather than compete with images
 
 3. **Layout System**
-   - **Photography-Specific Breakpoints**: Custom breakpoints designed for optimal image viewing:
-     ```js
-     // tailwind.config.mjs
-     screens: {
-       'sm': '800px',   // Small devices (tablets)
-       'md': '1200px',  // Medium devices (laptops)
-       'lg': '1900px',  // Large devices (desktops)
-       'xl': '2500px',  // Extra large (large monitors)
-       '2xl': '3800px', // Ultra-wide displays
-     }
+   - **Photography-Specific Breakpoints**: Custom breakpoints designed for optimal image viewing, defined in the `@theme` block:
+     ```css
+     /* src/styles/global.css @theme */
+     --breakpoint-sm: 800px; /* Small devices (tablets) */
+     --breakpoint-md: 1200px; /* Medium devices (laptops) */
+     --breakpoint-lg: 1900px; /* Large devices (desktops) */
+     --breakpoint-xl: 2500px; /* Extra large (large monitors) */
      ```
    - These breakpoints are significantly different from Tailwind defaults, prioritizing photography display over conventional web design breakpoints
 
 4. **Component Styling**
-   - **Custom Utilities**: Extended Tailwind with utilities for:
-     ```js
-      extend: {
-        objectPosition: {
-          'top-33': 'center top 33.33%',
-          'top-50': 'center top 50%',
-        },
-        // Other extended utilities
-      }
-     ```
-   - **Typography Plugin**: The `@tailwindcss/typography` plugin provides rich styling for long-form content
+   - **Custom Utilities**: Image focal-point overrides are applied as inline `style` attributes (e.g., `object-position: center top 33.33%`). No custom Tailwind utility extensions are needed.
+   - **Typography Plugin**: The `@tailwindcss/typography` plugin provides rich styling for long-form content, loaded via `@plugin` in `global.css`.
 
 ### Styling Implementation
 
 1. **Dark Mode Strategy**
-   - **Class-based Implementation**: The `dark` class on `<html>` drives Tailwind's dark variant. Theme state is managed by `src/scripts/theme.ts` and toggled via the `ThemeToggle.tsx` React component.
+   - **Custom Variant Implementation**: The `@custom-variant dark (&:where(.dark, .dark *))` directive drives Tailwind's dark variant. Theme state is managed by `src/scripts/theme.ts` and toggled via the `ThemeToggle.astro` vanilla component.
 
 2. **CSS Organization**
    - **Global Styles**: `src/styles/global.css` contains:
@@ -476,16 +465,17 @@ The site uses Tailwind CSS v4.2.2 for styling, with carefully configured setting
      ```css
      /* Tailwind v4 single import */
      @import "tailwindcss";
-     @config '../../tailwind.config.mjs';
+     @plugin "@tailwindcss/typography";
+     @custom-variant dark (&:where(.dark, .dark *));
 
-     /* Global custom styles */
-     :root {
-       /* Custom CSS variables */
-     }
-
-     /* Dark mode specific overrides */
-     .dark {
-       /* Dark mode CSS variables */
+     @theme {
+       --breakpoint-sm: 800px;
+       --breakpoint-md: 1200px;
+       --breakpoint-lg: 1900px;
+       --breakpoint-xl: 2500px;
+       --font-overpass-mono:
+         var(--font-overpass-mono), "Overpass Mono", monospace;
+       --font-inconsolata: var(--font-inconsolata), "Inconsolata", monospace;
      }
      ```
 
@@ -493,8 +483,8 @@ The site uses Tailwind CSS v4.2.2 for styling, with carefully configured setting
      - `MasonryLayout.css`: Custom grid-based implementation
      - `lightbox.css`: Custom lightbox styling (fade transitions, overlay, controls)
 
-3. **CSS-in-JS Integration**
-   - The project uses minimal CSS-in-JS, primarily in the React components like `ThemeToggle.tsx` and `HeroImage.tsx`, where dynamic styling is needed
+3. **Inline Styles**
+   - The project uses inline `style` attributes for dynamic positioning (image focal points, parallax offsets). No CSS-in-JS -- all styles are either Tailwind utilities or plain CSS.
 
 ### Style Architecture Principles
 
@@ -798,7 +788,6 @@ To start working with this project:
    This installs:
    - Astro v7.1.5
    - Tailwind CSS v4.2.2
-   - React v19.2.4
    - @astrojs/mdx v7.0.5 and other dependencies
 
 1. Run the development server:

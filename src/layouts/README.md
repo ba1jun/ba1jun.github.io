@@ -12,7 +12,7 @@ Layouts provide the reusable page-level structures that wrap content throughout 
 
 1. **[BaseLayout.astro](BaseLayout.astro)**: Foundation for all pages - handles the common HTML structure, metadata, global scripts (theme, RSS, scroll-to-top), and shared components like Header and Footer. Uses a sticky footer pattern (`flex-col` with `flex-1` on `<main>`) so the footer stays at the bottom on short-content pages without distributing gaps.
 
-2. **[MarkdownPostLayout.astro](MarkdownPostLayout.astro)**: Wraps MDX content pages. Handles the hero image (via `HeroImage` React island), formatted dates, Masonry galleries, and the `NextPost` related-content component. Includes Pagefind search attributes: `data-pagefind-filter` for collection type, `data-pagefind-sort` for date ordering, and `data-pagefind-meta` for date metadata in search results.
+2. **[MarkdownPostLayout.astro](MarkdownPostLayout.astro)**: Wraps MDX content pages. Handles the hero image (via `HeroImage.astro` vanilla component), formatted dates, Masonry galleries, and the `NextPost` related-content component. Includes Pagefind search attributes: `data-pagefind-filter` for collection type, `data-pagefind-sort` for date ordering, and `data-pagefind-meta` for date metadata in search results.
 
 3. **[AuthorLayout.astro](AuthorLayout.astro)**: Layout for author profile pages. Similar structure to MarkdownPostLayout but tailored for contributor bios. Includes `data-pagefind-filter` for the `authors` collection and `data-pagefind-meta` for author profile images in search results.
 
@@ -50,4 +50,4 @@ Layouts receive strongly-typed props from content collections, validated by the 
 
 ## Responsive Design
 
-All layouts use Tailwind CSS v4 utilities with custom breakpoints optimized for photography viewing at 800px, 1200px, 1900px, 2500px, and 3800px.
+All layouts use Tailwind CSS v4 utilities with custom breakpoints optimized for photography viewing at 800px, 1200px, 1900px, 2500px.

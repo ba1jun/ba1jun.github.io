@@ -46,7 +46,7 @@ const baseSchema = z.object({
 });
 
 const short_form = defineCollection({
-  // Modern Astro v6.1 collection pattern
+  // Astro 7.1.5 collection pattern
   loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/short_form" }),
   schema: baseSchema,
 });
@@ -75,9 +75,9 @@ description: It started with an idea or rather an intention to create something 
 <!-- Content goes here -->
 ```
 
-## Astro v6.1 Enhancements
+## Astro 7.1.5 Enhancements
 
-The content collections in this project use Astro's modern glob loader pattern. The key benefits include:
+The content collections in this project use Astro 7.1.5's glob loader pattern. The key benefits include:
 
 1. **Explicit File Selection**: The `loader: glob({})` pattern provides more control over which files are included in each collection
 2. **Type Safety**: Zod schemas ensure content follows the correct structure

@@ -178,7 +178,7 @@ The tool supports all content collections defined in `content.config.ts`:
    Image src: https://image.erfi.io/stockholm-reflections-01.jpg
    Image alt: Office building reflection with stark contrast on a winter day
    Image positionx (optional): center
-   Image positiony (optional): top-33
+   Image positiony (optional): 50%
    ```
 
 4. Preview and confirm:
@@ -191,7 +191,7 @@ The tool supports all content collections defined in `content.config.ts`:
    pubDate: 2025-05-19T12:45:26.789Z
    tags: ["sweden", "architecture", "street", "reflection"]
    author: "Erfi Anugrah"
-   image: { src: https://image.erfi.io/stockholm-reflections-01.jpg, alt: Office building reflection with stark contrast on a winter day, positionx: center, positiony: top-33 }
+   image: { src: https://image.erfi.io/stockholm-reflections-01.jpg, alt: Office building reflection with stark contrast on a winter day, positionx: center, positiony: 50% }
    description: A winter wander through Stockholm's glass-filled business district
    ---
 

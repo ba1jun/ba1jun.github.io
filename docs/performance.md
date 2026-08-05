@@ -20,17 +20,8 @@ The performance strategy for this site addresses multiple aspects of web perform
 The project leverages Astro's islands architecture to minimize JavaScript:
 
 - Static HTML rendering for most content
-- Selective hydration only where needed (with `client:idle`, `client:visible` directives)
-- Example: The ThemeToggle component only hydrates itself, not the entire page
-
-```astro
-<!-- Only this component gets JavaScript -->
-<ThemeToggle client:idle />
-
-<!-- These remain static HTML -->
-<Navigation />
-<Header />
-```
+- Selective scripting only where needed -- each interactive island is a vanilla `.astro` component whose inline `<script>` block wires DOM inside `astro:page-load` handlers
+- Example: The ThemeToggle component is a self-contained `.astro` file with an SVG toggle and a `theme-toggle` custom event; `theme.ts` handles state
 
 ### Image Optimization
 
@@ -173,26 +164,26 @@ These settings provide:
 
 ## Hero Image Optimization
 
-The `HeroImage` component (`src/components/HeroImage.tsx`) renders the fullscreen parallax hero on content pages. Key optimizations:
+The `HeroImage` component (`src/components/HeroImage.astro`) renders the fullscreen parallax hero on content pages as a vanilla Astro component. Key optimizations:
 
 ### Scroll Performance
 
 - **rAF-batched rendering**: Scroll events trigger a `requestAnimationFrame` loop instead of writing to `style.transform` on every scroll event, avoiding layout thrashing
-- **Idle when settled**: The rAF loop self-terminates when the lerp reaches its target, restarting only on the next scroll event — no wasted frames
+- **Idle when settled**: The rAF loop self-terminates when the lerp reaches its target, restarting only on the next scroll event -- no wasted frames
 - **Smooth lerp easing**: Parallax position interpolates toward the target (`lerpSpeed = 0.1`) for fluid motion instead of 1:1 mechanical scroll tracking
 - **IntersectionObserver gating**: The scroll listener and rAF loop only run while the hero is in the viewport; `willChange: transform` is toggled accordingly
 
 ### Image Loading
 
-- **`<img>` instead of `background-image`**: Uses real `<img>` elements with `fetchPriority="high"` and `decoding="sync"`, giving the browser proper resource prioritization hints that CSS backgrounds don't support
+- **`<img>` instead of `background-image`**: Uses real `<img>` elements with `fetchpriority="high"` and `decoding="sync"`, giving the browser proper resource prioritization hints that CSS backgrounds don't support
 - **Fade-in on load**: Images start at `opacity: 0` and transition over 700ms on load, preventing the white flash during image decode
-- **Hydration-safe**: On mount, checks `img.complete` to handle images that loaded before React hydration (cached or fast network), preventing images from staying invisible
+- **Hydration-safe**: On `astro:page-load`, checks `img.complete` to handle images that loaded before the script runs (cached or fast network), preventing images from staying invisible
 
 ### Accessibility
 
 - **`prefers-reduced-motion`**: Parallax is completely disabled when the user has motion reduction enabled
 - **Text legibility**: Subtle gradient overlay (top/bottom darkening) and text shadows ensure title/tag readability across all hero images without altering the photograph
-- **Screen reader image**: Hidden `<img>` with alt text preserved for accessibility
+- **Screen reader image**: Real `<img>` with alt text preserved for accessibility
 
 ## Monitoring and Metrics
 

@@ -6,61 +6,71 @@
 
 ## Component Architecture
 
-### React + Astro Integration
+### Vanilla Island Patterns
 
-This project uses a combination of Astro components (`.astro` files) and React components (`.tsx` files) to create a performant, interactive website. Here's how they work together:
+All interactive components are vanilla Astro `.astro` files with inline `<script>` blocks. There is no React, no JSX, and no hydration directives.
 
 ```mermaid
 graph TD
     A["BaseLayout.astro"] --> B["Header.astro"]
     B --> C["ThemeToggle.astro"]
-    C -->|"client:idle"| D["ThemeToggle.tsx"]
     B --> E["Navigation.astro"]
-    B --> F["Hamburger.tsx"]
+    B --> F["Hamburger.astro"]
 ```
 
 ### Key Integration Points
 
-1. **ThemeToggle Component** (split architecture):
-   - **ThemeToggle.astro**: Lightweight wrapper that imports and renders the React component with `client:idle`
-   - **ThemeToggle.tsx**: React component with CSS transitions for sun/moon animations. Watches for `class` attribute changes via `MutationObserver` and dispatches a `theme-toggle` custom event on click.
-   - **theme.ts**: Shared module that handles the actual theme logic - reads/writes `localStorage`, toggles the `dark` class on `<html>`, and listens for both the `theme-toggle` event and `astro:after-swap` (for View Transitions).
+1. **ThemeToggle** (self-contained Astro component):
+   - Inline SVG with CSS-driven dark-state visuals (ray opacity/scale, circle radius)
+   - Dispatches `theme-toggle` custom event on click
+   - `theme.ts` handles localStorage persistence and the `dark` class on `<html>`
+   - `initTheme()` is called in the script block (idempotent -- safe across navigations)
+   - All DOM hooks re-wire on `astro:page-load` for ClientRouter compatibility
+
+2. **Hamburger** (vanilla Astro component):
+   - 3-bar-to-X CSS transition animation
+   - Escape key handler and click-outside-to-close
+   - Cleanup closure removes document-level listeners before re-adding on navigation
+
+3. **ScrollToTop** (vanilla Astro component):
+   - rAF-throttled scroll listener with self-terminating loop
+   - Transparent background with inherited-colour chevron
+   - Smooth `window.scrollTo({ behavior: "smooth" })`
+
+4. **HeroImage** (vanilla Astro component):
+   - translate3d parallax with rAF+lerp loop
+   - IntersectionObserver-gated (parallax only runs while visible)
+   - Fade-in on image load, `prefers-reduced-motion` respect
+   - Cleanup closure pattern for ClientRouter safety
 
 ```astro
 ---
-import ThemeToggle from "./ThemeToggle";
+// ThemeToggle.astro -- self-contained, no React wrapper
 ---
 
-<!-- ThemeToggle.astro -->
-<ThemeToggle client:idle />
-```
+<button id="theme-toggle-btn" aria-label="Switch to dark theme">
+  <svg><!-- sun/moon SVG with CSS-driven states --></svg>
+</button>
 
-```tsx
-// ThemeToggle.tsx — React handles UI, theme.ts handles state
-const toggleTheme = () => {
-  window.dispatchEvent(new Event("theme-toggle"));
-};
+<script>
+  import { initTheme } from "../scripts/theme.ts";
+  initTheme();
 
-// MutationObserver watches for class changes on <html>
-// to keep React's isDark state in sync with theme.ts
-```
-
-```typescript
-// theme.ts — single source of truth for theme state
-export function initTheme(): void {
-  applyTheme(getThemePreference());
-  window.addEventListener("theme-toggle", toggleTheme);
-  document.addEventListener("astro:after-swap", () => {
-    applyTheme(getThemePreference());
+  document.addEventListener("astro:page-load", () => {
+    const btn = document.getElementById("theme-toggle-btn");
+    btn?.addEventListener("click", () => {
+      window.dispatchEvent(new Event("theme-toggle"));
+    });
   });
-}
+</script>
 ```
 
-2. **State Management**:
-   - `theme.ts` owns the state (localStorage + DOM class)
-   - React component is a pure UI layer that dispatches events
-   - `MutationObserver` keeps React in sync without tight coupling
-   - `astro:after-swap` re-applies theme after View Transitions body swap
+### State Management
+
+- `theme.ts` owns the state (localStorage + DOM class)
+- Astro components are pure UI that dispatch events
+- `astro:page-load` re-applies theme after View Transitions body swap
+- No React state, no `useEffect`, no `MutationObserver` sync needed
 
 ## Masonry Image Grid Implementation
 
@@ -127,14 +137,12 @@ The site uses a highly customized Tailwind configuration with specific breakpoin
 
 ### Custom Breakpoints
 
-```javascript
-screens: {
-  "sm": "800px",  // Standard laptops
-  "md": "1200px", // Larger laptops/small desktops
-  "lg": "1900px", // Standard desktop monitors
-  "xl": "2500px", // Large/high-res monitors
-  "2xl": "3800px", // Ultra-wide displays
-},
+```css
+/* src/styles/global.css @theme block */
+--breakpoint-sm: 800px;
+--breakpoint-md: 1200px;
+--breakpoint-lg: 1900px;
+--breakpoint-xl: 2500px;
 ```
 
 These breakpoints were specifically chosen based on:
@@ -145,20 +153,7 @@ These breakpoints were specifically chosen based on:
 
 ### Custom Utilities
 
-```javascript
-objectPosition: {
-  "top-33": "center top 33.33%",
-  "top-50": "center top 50%",
-},
-backgroundPosition: {
-  "center-33": "center 33.33%",
-},
-backgroundSize: {
-  "size-66": "100% 66.67%",
-}
-```
-
-These custom utilities provide precise control over image positioning and cropping, especially important for hero images and featured content where art direction is critical.
+Image focal-point overrides are applied directly as inline `style` attributes on `<img>` elements (e.g., `style="object-position: center top 33.33%"`). No custom Tailwind utilities are needed.
 
 ## Content Schema and Validation
 
@@ -168,7 +163,7 @@ These custom utilities provide precise control over image positioning and croppi
 
 ### MDX remarkPlugins Behavior
 
-The `mdx()` integration inherits `remarkPlugins` and `rehypePlugins` from the base `markdown` config, so plugins only need to be listed once in `markdown.remarkPlugins`. The MDX integration does not specify its own `remarkPlugins` array.
+The `mdx()` integration inherits `remarkPlugins` and `rehypePlugins` from the base `markdown` config. Plugins are listed once via `markdown.processor: unified({ remarkPlugins: [...], rehypePlugins: [...] })` -- MDX picks them up automatically. The MDX integration does not specify its own `remarkPlugins` array.
 
 ### Schema Definition Pattern
 
@@ -223,27 +218,9 @@ This provides a way to:
 
 ## Image Optimization Strategy
 
-The project uses a multi-layered approach to image optimization:
+1. **Astro image service**: The [`@erfianugrah/astro-image-hq`](https://www.npmjs.com/package/@erfianugrah/astro-image-hq) custom Astro image service (profile `photo`) handles production builds, with a `noop` service fallback in dev. Configured in `astro.config.mjs`; handles AVIF/WebP conversion, responsive sizing, and proper metadata.
 
-1. **Server-side optimization** via `astro:assets`:
-   - Format conversion to AVIF/WebP
-   - Responsive sizing
-   - Proper metadata
-
-2. **CDN integration** for external assets:
-
-   ```javascript
-   // astro.config.mjs
-   image: {
-     domains: ["erfianugrah.com", "image.erfi.io"],
-     service: {
-       entrypoint: "astro/assets/services/sharp",
-       config: {
-         limitInputPixels: false,
-       },
-     },
-   },
-   ```
+2. **CDN integration** for external assets via `image.erfi.io`.
 
 3. **Loading optimizations**:
    - `loading="lazy"` for below-the-fold images

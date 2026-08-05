@@ -3,7 +3,7 @@
 ## Overview
 
 Revista is an Astro 7 static site for photography, writing, and CV content.
-It uses MDX content collections, a small number of React islands, Tailwind CSS v4, and Pagefind search.
+It uses MDX content collections, vanilla Astro components with inline scripts for interactivity, Tailwind CSS v4, and Pagefind search.
 Primary runtime and package manager: Bun. Some helper scripts still run through Node.
 
 ## Rule Sources
@@ -16,7 +16,8 @@ Primary runtime and package manager: Bun. Some helper scripts still run through 
 
 ```text
 src/
-  components/       Astro components plus React islands; `ui/` holds shadcn-style helpers
+  components/       Astro components; `ui/` is empty (shadcn removed post-refactor)
+  config/           Route and collection configuration (collections.ts)
   content/          MDX content collections: muses, short_form, long_form, zeitweilig, authors, cv
   content.config.ts Zod-backed collection schemas and glob loaders
   consts.ts         Site constants, metadata, CDN URLs, social links
@@ -110,7 +111,7 @@ bun x hyperlink dist/path/to/page.html --skip-external
 - `prettier-plugin-astro` handles `.astro` files.
 - Use 2-space indentation; prefer double quotes unless a file already uses a different local convention.
 - Do not reformat unrelated files just because you touched one file.
-- Preserve file-local style in vendored or generated-style code such as `src/components/ui/button.tsx`.
+- Preserve file-local style in vendored or generated-style code.
 
 ## Imports
 
@@ -123,22 +124,24 @@ bun x hyperlink dist/path/to/page.html --skip-external
 
 ## TypeScript and Astro Conventions
 
-- `tsconfig.json` extends `astro/tsconfigs/base` with `strictNullChecks: true`.
-- JSX uses `react-jsx` with `jsxImportSource: "react"`.
+- TypeScript strict mode via `tsconfig.json` extending `astro/tsconfigs/base` with `strictNullChecks: true`. No JSX transform is configured -- React has been removed.
 - Keep shared types near the module that owns them; export them when reused.
 - Use `satisfies` for object literals when it improves safety, as in `src/index.ts`.
 - In `.astro` files, define a `Props` interface when the component accepts props.
 - Prefer explicit return types for exported helpers when the shape is not obvious.
 - Avoid `any`; use unions, interfaces, generics, or Zod-backed data shapes instead.
 
-## React Island Patterns
+## Vanilla Island Patterns
 
-- React is used only for interactive islands such as toggles, menu controls, and scroll helpers.
-- Hydration happens from the parent `.astro` file with `client:load`, `client:idle`, or similar directives.
-- Do not add Next.js-style `"use client"`; that pattern does not belong in this Astro repo.
-- Default exports are the norm for React components in `src/components/*.tsx`.
-- Clean up observers and event listeners in `useEffect` return functions.
-- Guard browser-only APIs if code may run before the DOM is ready.
+- Interactivity is handled by vanilla `.astro` components with inline `<script>` blocks.
+- Each script wires DOM inside an `astro:page-load` event handler so it survives ClientRouter view-transition swaps.
+- Cleanup closures tear down previous listeners before re-adding, preventing accumulation across navigations.
+- The four interactive islands are:
+  - **ThemeToggle.astro**: SVG sun/moon toggle; dispatches `theme-toggle` event; CSS drives dark-state visuals; `theme.ts` handles localStorage and the `dark` class.
+  - **Hamburger.astro**: Mobile menu toggle with 3-bar-to-X animation, Escape key handler, and click-outside-to-close.
+  - **ScrollToTop.astro**: rAF-throttled visibility toggle; smooth `window.scrollTo`; transparent background with inherited-colour chevron.
+  - **HeroImage.astro**: Parallax hero with translate3d scroll, IntersectionObserver gate, rAF+lerp loop, fade-in on load, and `prefers-reduced-motion` respect.
+- The `scripts/` directory holds shared logic (theme, lightbox, pagefind) as plain TypeScript modules -- no React, no JSX.
 
 ## Astro Component Patterns
 
@@ -150,17 +153,17 @@ bun x hyperlink dist/path/to/page.html --skip-external
 
 ## Styling and Tailwind
 
-- Tailwind CSS v4 is wired through `@tailwindcss/vite` in `astro.config.mjs`.
-- Global entrypoint is `src/styles/global.css` and it references `tailwind.config.mjs` with `@config`.
-- Dark mode uses the `class` strategy.
-- Custom breakpoints are not Tailwind defaults: `sm=800`, `md=1200`, `lg=1900`, `xl=2500`, `2xl=3800`.
-- Font families center on `Inconsolata` and `Overpass Mono`.
+- Tailwind CSS v4.2.2 is wired through `@tailwindcss/vite` in `astro.config.mjs`.
+- All config lives in `src/styles/global.css` as `@theme` blocks, `@plugin` directives, and `@custom-variant` declarations. No separate Tailwind config file exists.
+- Dark mode uses `@custom-variant dark (&:where(.dark, .dark *))`.
+- Custom breakpoints are defined in the `@theme` block: `sm=800`, `md=1200`, `lg=1900`, `xl=2500`.
+- Font families center on `Inconsolata` and `Overpass Mono` (defined as `--font-overpass-mono` and `--font-inconsolata` in `@theme`).
 - Prefer utility classes first; add custom CSS only for masonry, lightbox, imported CV styling, or layout edge cases.
-- The typography plugin is loaded with `require()` intentionally; do not convert it to ESM import without rechecking the setup.
+- The typography plugin is loaded via `@plugin "@tailwindcss/typography"` in `global.css`. ESM imports work natively with Tailwind v4.2.2 -- the old `require()` workaround is no longer needed.
 
 ## Naming Conventions
 
-- Components and layouts use PascalCase (`Header.astro`, `ThemeToggle.tsx`, `BaseLayout.astro`).
+- Components and layouts use PascalCase (`Header.astro`, `ThemeToggle.astro`, `BaseLayout.astro`).
 - Utility modules use camelCase (`sortByDate.ts`, `collections.ts`).
 - Constants use UPPER_SNAKE_CASE (`SITE_TITLE`).
 - Functions and locals use camelCase; types and interfaces use PascalCase.

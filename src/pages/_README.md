@@ -16,25 +16,23 @@ Pages define the routes of the site. The project uses static site generation (SS
 - **[404.astro](404.astro)**: Custom error page featuring random quotes from [burgundy.ts](../scripts/burgundy.ts)
 - **[cv.astro](cv.astro)**: Resume page importing a pre-rendered HTML export from [cv-v0](https://github.com/erfianugrah/cv-v0)
 
-### Collection Index Pages
+### Collection Routes (Config-Driven)
 
-Each collection has a top-level index page that lists all its entries:
+All collection routes are generated from a single config array in [src/config/collections.ts](../config/collections.ts). The parameterised routes live under `src/pages/[collection]/`:
 
-- **[muses.astro](muses.astro)**: Photography collections landing page
-- **[short_form.astro](short_form.astro)**: Short blog posts index
-- **[long_form.astro](long_form.astro)**: Long-form articles index
-- **[zeitweilig.astro](zeitweilig.astro)**: Ephemeral content index
-- **[authors.astro](authors.astro)**: Author profiles index
+- **[index.astro]([collection]/index.astro)**: Collection index page listing all entries, driven by `ROUTE_COLLECTIONS`
+- **[[...id].astro]([collection]/[...id].astro)**: Individual content pages; uses `buildDetailPaths()` from [collections.ts](../scripts/collections.ts)
+- **[tags/index.astro]([collection]/tags/index.astro)**: Tag listing for a collection
+- **[tags/[tag].astro]([collection]/tags/[tag].astro)**: Tag-specific pages; uses `buildTagPaths()`
+- **[rss.xml.ts]([collection]/rss.xml.ts)**: RSS feed per collection; uses `generateRss()`
+
+Adding a collection requires only one entry in `ROUTE_COLLECTIONS` -- all five route types are generated automatically.
 
 ### Dynamic Pages
 
-Each collection follows the same routing pattern:
+The `[collection]` segment is matched by Astro's file-based routing against the collection name. For example, `/muses/some-post` hits `[collection]/[...id].astro` with `collection = "muses"` and `id = "some-post"`.
 
-- **`[collection]/[...id].astro`**: Individual content pages generated from collections
-- **`[collection]/tags/[tag].astro`**: Tag-specific pages showing all content with a given tag
-- **`[collection]/tags/index.astro`**: Tag listings for each collection
-
-This applies to all five collections: `muses`, `short_form`, `long_form`, `zeitweilig`, and `authors`.
+This covers all five collections: `muses`, `short_form`, `long_form`, `zeitweilig`, and `authors`. The `cv` collection has a bespoke page at `cv.astro` and is deliberately excluded from `ROUTE_COLLECTIONS`.
 
 ## Dynamic Routing
 

@@ -6,7 +6,7 @@
 
 ## Overview
 
-Components are the reusable building blocks of the site. Most are Astro `.astro` files (zero JS by default), with a few React `.tsx` islands for interactive bits that need client-side state.
+Components are the reusable building blocks of the site. All are Astro `.astro` files -- zero JS by default, with a few vanilla islands whose inline `<script>` blocks wire DOM inside `astro:page-load` handlers so they survive ClientRouter view-transition swaps.
 
 ## Key Components
 
@@ -16,15 +16,15 @@ Components are the reusable building blocks of the site. Most are Astro `.astro`
 
 - **[Homepage.astro](Homepage.astro)**: Landing page component used in [index.astro](../pages/index.astro). References [homePage.ts](../scripts/homePage.ts) for randomizing featured images via Fisher-Yates shuffle.
 
-- **[HeroImage.tsx](HeroImage.tsx)**: React island (`client:load`) for the parallax hero image on content pages. Uses a `<picture>` element with `<source>` for responsive image delivery; the `<img>` carries real alt text (no separate sr-only element). An `IntersectionObserver` ensures the parallax scroll handler only runs while visible, and `will-change: transform` keeps it on the compositor. Supports per-image `positionX`/`positionY` focal point overrides and absolute tag links with collection awareness. The `-20%`/`120%` oversized inner div gives headroom for the parallax offset.
+- **[HeroImage.astro](HeroImage.astro)**: Vanilla parallax hero image on content pages. Uses a `<picture>` element with `<source>` for responsive image delivery; the `<img>` carries real alt text (no separate sr-only element). An `IntersectionObserver` ensures the parallax scroll handler only runs while visible, and `will-change: transform` keeps it on the compositor. Supports per-image `positionX`/`positionY` focal point overrides and absolute tag links with collection awareness. The `-20%`/`120%` oversized inner div gives headroom for the parallax offset. All hooks re-wire on `astro:page-load`.
 
 - **[NextPost.astro](NextPost.astro)**: Related content suggestion shown at the bottom of posts. Picks a random post from the same collection (excluding the current one) and renders it as a linked preview card.
 
 ### Header Components
 
 - **[Header.astro](Header.astro)**: Main header, incorporates:
-  - **[Hamburger.tsx](Hamburger.tsx)**: Mobile menu toggle (`client:idle`). Uses CSS transitions (no framer-motion). Includes `aria-expanded`, `aria-controls`, Escape key handler, and click-outside-to-close for accessibility.
-  - **[ThemeToggle.astro](ThemeToggle.astro)**: Light/dark mode switcher wrapping the React [ThemeToggle.tsx](ThemeToggle.tsx) component (`client:idle`). The React component uses CSS transitions for sun/moon animations and dispatches a `theme-toggle` custom event; [theme.ts](../scripts/theme.ts) handles the actual class toggle and localStorage persistence.
+  - **[Hamburger.astro](Hamburger.astro)**: Mobile menu toggle. Uses CSS transitions (no framer-motion). Includes `aria-expanded`, `aria-controls`, Escape key handler, and click-outside-to-close for accessibility. All hooks re-wire on `astro:page-load`.
+  - **[ThemeToggle.astro](ThemeToggle.astro)**: Self-contained light/dark mode switcher with inline SVG sun/moon. CSS drives dark-state visuals; `theme-toggle` custom event is dispatched on click; [theme.ts](../scripts/theme.ts) handles the actual class toggle and localStorage persistence. All hooks re-wire on `astro:page-load`.
   - **[Navigation.astro](Navigation.astro)**: Site navigation menu with `aria-label` attributes
   - **[Pagefind.astro](Pagefind.astro)**: Search functionality using the raw [Pagefind JS API](https://pagefind.app/docs/api/). Renders a custom `<dialog>` modal with debounced search, result cards, and thumbnail images. The search icon trigger button is placed in `Header.astro`. Reinitializes via `astro:page-load` for ClientRouter compatibility. Uses `AbortController` for event listener cleanup across navigations.
 
@@ -38,20 +38,19 @@ Components are the reusable building blocks of the site. Most are Astro `.astro`
 
 ### Typography Components
 
-- **[Prose.astro](Prose.astro)**: [TailwindCSS](../../tailwind.config.mjs) typographic layout used throughout the site for consistent text formatting.
+- **[Prose.astro](Prose.astro)**: Tailwind CSS typographic layout used throughout the site for consistent text formatting.
 - **[ProseCv.astro](ProseCv.astro)**: Specialized version for the [CV](../content/cv) collection. Uses runtime JS to add a `.skills-list` class (replacing the unsupported `:contains()` pseudo-class) and listens for `astro:page-load` for View Transitions compatibility.
 - **[ProseHeadings.astro](ProseHeadings.astro)**: Specialized component for formatting headings.
 
 ### Utility Components
 
-- **[sortByDate.ts](sortByDate.ts)**: Used in [Pages](../pages/) to chronologically order posts rendered by [BlogPost.astro](BlogPost.astro). (Pure TypeScript — no JSX, so the file uses `.ts` rather than `.tsx`.)
+- **[sortByDate.ts](sortByDate.ts)**: Used in [Pages](../pages/) to chronologically order posts rendered by [BlogPost.astro](BlogPost.astro).
 
-- **[ScrollToTop.tsx](ScrollToTop.tsx)**: React island for the "back to top" button. Uses `requestAnimationFrame` throttling on the scroll listener for performance, and smooth scrolling via `window.scrollTo`.
+- **[ScrollToTop.astro](ScrollToTop.astro)**: Vanilla "back to top" button. Uses `requestAnimationFrame` throttling on the scroll listener for performance, and smooth scrolling via `window.scrollTo`. Transparent background with inherited-colour chevron. All hooks re-wire on `astro:page-load`.
 
 ### UI Primitives
 
-- **[ui/button.tsx](ui/button.tsx)**: Shared button component built with `class-variance-authority` for consistent styling variants.
-- **[ui/utils.ts](ui/utils.ts)**: `cn()` utility for merging Tailwind classes (wraps `clsx` + `tailwind-merge`).
+The `ui/` directory is empty -- shadcn/ui was removed during the React removal refactor. Tailwind utility classes are applied directly in `.astro` components instead.
 
 ### CV Components
 
@@ -66,7 +65,7 @@ Components follow a hierarchical structure, with layout components (BaseLayout, 
 ## Notes
 
 - All components follow Astro's `.astro` file format with a mix of frontmatter, HTML templates, and component script sections
-- React islands use `client:idle` unless they need to be visible immediately (HeroImage uses `client:load`)
+- Interactive islands use vanilla inline scripts wired inside `astro:page-load` handlers with cleanup closures for ClientRouter compatibility
 - Styling uses Tailwind CSS v4 utilities
 
 ### Type Safety
@@ -96,4 +95,4 @@ The following were removed during the code quality refactoring:
 - `fslightbox.js` - vendored lightbox, replaced by custom `lightbox.ts`
 - GLightbox CSS/JS - replaced by custom lightbox (73 KB -> ~2.4 KB gzipped)
 - `FormattedDate.astro` - date formatting now handled inline via `formatDate()` from `utils.ts`
-- `framer-motion` - removed as dependency; Hamburger.tsx and ThemeToggle.tsx now use pure CSS transitions
+- `framer-motion` - removed as dependency; Hamburger.astro and ThemeToggle.astro now use pure CSS transitions
