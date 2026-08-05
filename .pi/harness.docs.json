@@ -1,0 +1,31 @@
+{
+  "task": "Review ALL documentation files in this repo and update them so every statement accurately describes the CURRENT codebase. The doc files in scope (and ONLY these may be modified): README.md, AGENTS.md, src/README.md, src/components/README.md, src/components/cv/README.md, src/layouts/README.md, src/pages/_README.md, scripts/README.md, docs/README.md, docs/depth-parallax-research.md, docs/docker.md, docs/performance.md. HARD CONSTRAINT: do NOT touch anything under src/content/ (no .mdx content files), and do NOT modify any code, config, or test files - docs only. For each doc file, read it fully, cross-check its claims against the actual repo (read the code/config it references), and fix what is stale or wrong: (a) version claims must match package.json (Astro 7.1.5, Tailwind 4.2.2, React 19.x - AGENTS.md currently says 'Astro 6', which is wrong); (b) component/layout/script inventories must match the actual files on disk - add missing ones, remove dead ones; (c) package.json script names and behaviors cited in docs must match; (d) the Pagefind search docs must reflect the CURRENT implementation: markup in src/components/Pagefind.astro references src/scripts/pagefind.ts via <script src>, and astro.config.mjs has a vite.build.assetsInlineLimit veto that keeps scripts emitted as chunks (src/README.md section 'Search' around line 255-267 still describes the old inline-script design - stale); (e) remove or correct references to files/flags/scripts that no longer exist. Preserve each file's existing structure, tone, and formatting conventions - surgical edits, not rewrites. Keep mermaid diagrams syntactically valid. Do not invent features; if a doc describes something the code no longer does, fix the doc, not the code. VERIFY: bun x prettier --check on every file you edited must pass, and .pi/check-doc-refs.sh must pass.",
+  "maxIterations": 8,
+  "models": ["openrouter/deepseek/deepseek-v4-pro", "openrouter/anthropic/claude-sonnet-5"],
+  "stallPatience": 2,
+  "tools": ["read", "edit", "write", "bash"],
+  "writeScope": ["README.md", "AGENTS.md", "src/README.md", "src/components/README.md", "src/components/cv/README.md", "src/layouts/README.md", "src/pages/_README.md", "scripts/README.md", "docs/**"],
+  "sandbox": "auto",
+  "sensors": [
+    {
+      "name": "format",
+      "cmd": "bun x prettier --check README.md AGENTS.md src/README.md src/components/README.md src/components/cv/README.md src/layouts/README.md src/pages/_README.md scripts/README.md docs/README.md docs/depth-parallax-research.md docs/docker.md docs/performance.md",
+      "hint": "Docs must stay prettier-clean. Run bun x prettier --write on the file(s) you edited."
+    },
+    {
+      "name": "doc-refs",
+      "cmd": ".pi/check-doc-refs.sh",
+      "hint": "A doc references a repo path that does not exist. Fix the reference to point at the real path (check with ls/rg), or remove it if the referenced thing is gone."
+    },
+    {
+      "name": "no-stale-astro-version",
+      "cmd": "! rg -q 'Astro 6\\b' AGENTS.md README.md src/README.md src/components/README.md src/layouts/README.md scripts/README.md docs/README.md docs/depth-parallax-research.md docs/docker.md docs/performance.md",
+      "hint": "The site runs Astro 7.1.5 (see package.json). Update stale 'Astro 6' version claims."
+    },
+    {
+      "name": "judge",
+      "cmd": "bun ~/.pi/agent/skills/self-correcting-loop/judge.ts --model openrouter/anthropic/claude-sonnet-5 --spec 'FULL-REVIEW TASK: do not judge only the diff - read the CURRENT STATE of every doc file (README.md, AGENTS.md, src/README.md, src/components/README.md, src/components/cv/README.md, src/layouts/README.md, src/pages/_README.md, scripts/README.md, docs/README.md, docs/depth-parallax-research.md, docs/docker.md, docs/performance.md) and cross-check each file against the actual repo. FAIL and list every file:line where a doc statement is factually wrong or stale about the current codebase, including but not limited to: version numbers vs package.json (Astro 7.1.5); the Pagefind implementation (markup in src/components/Pagefind.astro, ALL search logic in src/scripts/pagefind.ts referenced via <script src>, assetsInlineLimit script-inlining veto in astro.config.mjs - any doc still describing the search logic as living inline in Pagefind.astro is STALE); component/layout/script inventories vs files on disk; package.json script names/behaviors cited in docs. Also FAIL if the diff modifies anything under src/content/ or any code/config/test file, or deletes substantive docs without accurate replacement. PASS only when every doc file is accurate about the current codebase.'",
+      "hint": "The judge found doc claims that do not match the current codebase. Read the cited code and correct the doc statements - do not argue with the judge by weakening the spec."
+    }
+  ]
+}
