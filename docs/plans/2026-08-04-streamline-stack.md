@@ -26,14 +26,19 @@ parameterised `[collection]/` routes. Tailwind config moves from
 
 ## 1. Status tracker
 
-| ID  | Workstream                        | Status              | Gate                           |
-| --- | --------------------------------- | ------------------- | ------------------------------ |
-| W0  | Test hardening + baseline capture | [ ] not started     | New tests green on `main`      |
-| W1  | Route collapse + reading-time fix | [ ] not started     | URL parity 76/76               |
-| W2  | React removal                     | [ ] not started     | Hardened specs green, 0 `.tsx` |
-| W3  | Tailwind v4 native config         | [ ] not started     | CSS canaries green             |
-| W4  | HeroImage / parallax decision     | [ ] blocked on user | -                              |
-| W5  | Docs sweep                        | [ ] not started     | `check-doc-refs.sh` passes     |
+| ID  | Workstream                        | Status                                       | Gate                           |
+| --- | --------------------------------- | -------------------------------------------- | ------------------------------ |
+| W0  | Test hardening + baseline capture | [x] done (`8c2fb56`)                         | 8 sensors green                |
+| W1  | Route collapse + reading-time fix | [x] done (`41ac82c`)                         | URL parity 83/83               |
+| W2  | React removal                     | [x] done (`64fdd44`)                         | 14 sensors green, 0 `.tsx`     |
+| W3  | Tailwind v4 native config         | [x] done (`bf3b23b`)                         | 6/6 canaries, in-session judge |
+| W4  | HeroImage / parallax decision     | [x] done - folded into W2 (vanilla parallax) | -                              |
+| W5  | Docs sweep                        | [x] done (`6bce71b`)                         | 6 sensors green                |
+
+Post-W2 user-review fixes in `2db4010` (sun-rays inline-style bug, transparent
+ScrollToTop restored, favicon placeholder alpha). Final state: 262,990 -> 35,379
+bytes of JS, 32 -> 22 runtime deps, 28 -> 8 route files, 83/83 URL parity, 86
+passed + 1 skipped in the Playwright suite.
 
 Execution order is W0 -> W1 -> W2 -> W3 -> W5, with W4 slotted into W2 once the
 user decides. W0 is not optional: sections 3.4 and 9 explain why the current
