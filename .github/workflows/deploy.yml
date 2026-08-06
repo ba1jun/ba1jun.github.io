@@ -16,10 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: "24"
 
@@ -35,7 +35,7 @@ jobs:
           avifenc --version
 
       - name: Cache Bun packages
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.bun/install/cache
           key: ${{ runner.os }}-bun-cache-${{ hashFiles('**/bun.lock') }}
@@ -43,7 +43,7 @@ jobs:
             ${{ runner.os }}-bun-cache-
 
       - name: Cache Astro image assets
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: node_modules/.astro
           key: ${{ runner.os }}-astro-assets-${{ hashFiles('bun.lock') }}-${{ hashFiles('src/content/**/*.mdx', 'src/content/**/*.md') }}
@@ -78,42 +78,66 @@ jobs:
           path: dist
           retention-days: 7
 
-  deploy-to-deno:
+  # Quality gate: the built artifact is what gets deployed, so test IT.
+  # (deploy jobs all `needs` this job.)
+  test:
     needs: build-revista
-    if: github.event_name == 'push'
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+
+      - name: Setup Bun environment
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Cache Bun packages
+        uses: actions/cache@v6
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-cache-${{ hashFiles('**/bun.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-cache-
+
+      - name: Install project dependencies
+        run: bun install
+
       - name: Download build artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: dist
           path: dist
 
-      - name: Setup Deno
-        uses: denoland/setup-deno@v2
-        with:
-          deno-version: v2.x
+      - name: Install Playwright chromium
+        run: bunx playwright install --with-deps chromium
 
-      - name: Deploy to Deno
-        uses: denoland/deployctl@v1
+      - name: Run Playwright tests
+        run: bunx playwright test
+
+      - name: Upload Playwright failure screenshots
+        if: failure()
+        uses: actions/upload-artifact@v7
         with:
-          project: "revista-3"
-          entrypoint: "https://deno.land/std@0.188.0/http/file_server.ts"
-          root: "dist"
+          name: playwright-screenshots
+          path: test-results
+          retention-days: 7
 
   deploy-to-cloudflare-workers:
-    needs: build-revista
+    needs: [build-revista, test]
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: "24"
 
@@ -126,13 +150,13 @@ jobs:
         run: bun install
 
       - name: Download built artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: dist
           path: dist
 
       - name: Deploy to Cloudflare Workers
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_WRANGLER_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -141,7 +165,7 @@ jobs:
           wranglerVersion: "4.75.0"
 
   build-and-push-docker:
-    needs: build-revista
+    needs: [build-revista, test]
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     outputs:
@@ -149,10 +173,10 @@ jobs:
       tags: ${{ steps.meta.outputs.tags }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: dist
           path: dist
@@ -216,7 +240,7 @@ jobs:
       id-token: write # Needed for keyless signing
     steps:
       - name: Install Cosign
-        uses: sigstore/cosign-installer@v4.1.1
+        uses: sigstore/cosign-installer@v4.1.2
         with:
           cosign-release: "v2.4.1"
 
@@ -277,7 +301,7 @@ jobs:
             --certificate-oidc-issuer=https://token.actions.githubusercontent.com
 
   deploy-to-github-pages:
-    needs: build-revista
+    needs: [build-revista, test]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
@@ -292,10 +316,10 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: "24"
 
@@ -311,7 +335,7 @@ jobs:
           avifenc --version
 
       - name: Cache Bun packages
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.bun/install/cache
           key: ${{ runner.os }}-bun-cache-${{ hashFiles('**/bun.lock') }}
@@ -319,7 +343,7 @@ jobs:
             ${{ runner.os }}-bun-cache-
 
       - name: Cache Astro image assets
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: node_modules/.astro
           key: ${{ runner.os }}-astro-assets-${{ hashFiles('bun.lock') }}-${{ hashFiles('src/content/**/*.mdx', 'src/content/**/*.md') }}
@@ -355,9 +379,14 @@ jobs:
         with:
           path: dist
 
+      # Pages deployments can sit in deployment_queued for >10 min on the
+      # GitHub side (observed 2026-08-06); the default 600000ms action timeout
+      # aborts while still queued. Allow 20 minutes.
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+        with:
+          timeout: 1200000
 
   purge-cloudflare-cache:
     needs: [deploy-to-cloudflare-workers]
