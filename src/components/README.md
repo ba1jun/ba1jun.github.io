@@ -18,7 +18,7 @@ Components are the reusable building blocks of the site. All are Astro `.astro` 
 
 - **[HeroImage.astro](HeroImage.astro)**: Vanilla parallax hero image on content pages. Uses a `<picture>` element with `<source>` for responsive image delivery; the `<img>` carries real alt text (no separate sr-only element). An `IntersectionObserver` ensures the parallax scroll handler only runs while visible, and `will-change: transform` keeps it on the compositor. Supports per-image `positionX`/`positionY` focal point overrides and absolute tag links with collection awareness. The `-20%`/`120%` oversized inner div gives headroom for the parallax offset. All hooks re-wire on `astro:page-load`.
 
-- **[NextPost.astro](NextPost.astro)**: Related content suggestion shown at the bottom of posts. Picks a random post from the same collection (excluding the current one) and renders it as a linked preview card.
+- **[NextPost.astro](NextPost.astro)**: Related content suggestion shown at the bottom of posts. Picks a random post from the same collection (excluding the current one) and renders it as a linked preview card. For posts without a hero image, the favicon placeholder is fetched as PNG (not AVIF) because the SVT-AV1 4:2:0 encoder drops the alpha plane, turning the transparent logo into a solid black square.
 
 ### Header Components
 
@@ -39,7 +39,7 @@ Components are the reusable building blocks of the site. All are Astro `.astro` 
 ### Typography Components
 
 - **[Prose.astro](Prose.astro)**: Tailwind CSS typographic layout used throughout the site for consistent text formatting.
-- **[ProseCv.astro](ProseCv.astro)**: Specialized version for the [CV](../content/cv) collection. Uses runtime JS to add a `.skills-list` class (replacing the unsupported `:contains()` pseudo-class) and listens for `astro:page-load` for View Transitions compatibility.
+- **[ProseCv.astro](ProseCv.astro)**: Specialized version for the [CV](../content/cv) collection. Uses runtime JS (wired on `astro:page-load`) to add `.company-section`, `.job-section`, `.education-section`, and `.skills-list` classes for print-friendly formatting.
 - **[ProseHeadings.astro](ProseHeadings.astro)**: Specialized component for formatting headings.
 
 ### Utility Components

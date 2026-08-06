@@ -128,11 +128,12 @@ graph TD
   - `scripts/`: TypeScript files for client-side functionality
     - `theme.ts`: Shared theme preference, apply, toggle, and init helpers
     - `lightbox.ts`: Custom image lightbox with keyboard/touch navigation
-    - `homePage.ts`: Homepage dynamic content and random image selection
+    - `homePage.ts`: Homepage hero-image randomization
     - `getRandomImage.ts`: Random featured image selection for tag pages
     - `burgundy.ts`: 404 page quote rotation
     - `rss.ts`: RSS link visibility and URL management
     - `since94.ts`: Years-since-1994 counter (used in MDX)
+    - `duration.ts`: Computes month counts and duration categories for timeline visualizations
 
     - `undici-retry.ts`: HTTP fetch retry helper for build-time requests
     - `utils.ts`: Shared `shuffle()` and `formatDate()` utilities
@@ -425,13 +426,12 @@ The site uses Tailwind CSS v4.2.2 for styling, with all configuration living in 
 ### Design System Components
 
 1. **Typography System**
-   - **Custom Fonts**: The site uses two variable fonts for better performance and flexibility:
-     - "Overpass Mono Variable": A monospace font for code, technical details, and headers
-     - "Inconsolata Variable": A secondary monospace used for specific UI elements
+   - **Custom Fonts**: The site uses two monospace fonts for a consistent technical aesthetic:
+     - "Overpass Mono": A monospace font for code, technical details, and headers
+     - "Inconsolata": A secondary monospace used for specific UI elements
    - These fonts were chosen for their:
      - Technical, precise aesthetic that complements photography
      - Excellent readability at different sizes
-     - Variable font support for optimal performance
      - Wide character set support
 2. **Color System**
    - **Base Light Theme**: Clean white background (#f2f2f2) with deep charcoal text (#333333)
@@ -517,9 +517,7 @@ Client-side JavaScript lives in the `src/scripts/` directory, providing essentia
   - Adjacent image preloading, body scroll lock
   - Full View Transitions lifecycle support (destroy/reinit on `astro:page-load`)
 
-- **`getRandomImage.ts`**: Helper utility used by components to select random featured images
-  - Used in both the homepage and tag pages
-  - Ensures images don't repeat in the same view
+- **`getRandomImage.ts`**: Entry point for tag-page random images -- wires the `.randomimage` selector via `initRandomImages()` from `randomImage.ts` on `astro:page-load`
   - Handles empty image arrays gracefully
 
 ### Content Enhancement
@@ -534,16 +532,13 @@ Client-side JavaScript lives in the `src/scripts/` directory, providing essentia
   - Updates RSS link URLs dynamically
   - Provides visual feedback when subscription options are available
 
-- **`homePage.ts`**: Powers the dynamic homepage content:
-  - Selects featured content from different collections
-  - Uses Fisher-Yates shuffle (from `utils.ts`) to randomize the selection
-  - Ensures fresh content appears on each page load
+- **`homePage.ts`**: Entry point for homepage hero-image randomization -- wires the `#homepage` selector via `initRandomImages()` from `randomImage.ts` (with `updateAnchor: true`) on `astro:page-load`
 
 ### Shared Utilities
 
 - **`utils.ts`**: Common helpers shared across scripts:
   - `shuffle()`: Fisher-Yates array shuffle
-  - `formatDate()`: consistent date formatting using native `Date.toDateString()`
+  - `formatDate()`: formats a Date to `"Mon DD, YYYY HH:MM:SS.mmm"` using `toLocaleDateString("en-US", ...)` plus manual time sub-fields
 
 - **`collections.ts`**: Shared content collection helpers:
   - `CollectionName` type: union of all content collection keys (`"muses" | "short_form" | …`), used across layouts and pages for type-safe `getCollection()` calls
@@ -670,7 +665,7 @@ While the site is currently in English, I've structured it with future translati
    - Configured with the typography plugin for long-form content
 
 5. **Playwright**:
-   - End-to-end test suite with 74 tests across 12 spec files
+   - End-to-end test suite with 88 tests across 15 spec files
    - Run with `bunx playwright test` or target a single file with `bunx playwright test tests/spec-name.spec.ts`
 
 ## CI/CD Workflow

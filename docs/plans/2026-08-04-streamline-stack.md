@@ -176,8 +176,7 @@ solid black square (verified: 0/129600 transparent pixels in the built asset).
 The 60x60 variant keeps alpha because sub-64px inputs fall back off the SVT
 path. Pre-existing on the live site (identical asset hash), not introduced by
 this branch. Fixed by requesting `format: "png"` for the favicon (sharp path
-preserves alpha). **Upstream fix still owed in astro-image-hq: detect
-`hasAlpha` and route alpha-bearing images off the 4:2:0 encoders.**
+preserves alpha). **Fixed upstream in astro-image-hq 0.1.5: alpha-bearing images now route off SVT/NVENC to aom to preserve transparency.**
 
 ### 3.3 Dead Tailwind config - CONFIRMED
 
