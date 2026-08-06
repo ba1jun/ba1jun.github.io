@@ -4,7 +4,6 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import BlogPost from "../../../components/BlogPost.astro";
 import { sortByDate } from "../../../components/sortByDate";
 import { buildTagPaths } from "../../../scripts/collections";
-import { formatReadingTime } from "../../../scripts/utils";
 import {
   ROUTE_COLLECTIONS,
   getRouteCollection,
@@ -40,19 +39,19 @@ const resolved = config.readingTime
         const { remarkPluginFrontmatter } = await render(post);
         return {
           post,
-          readingTimeMs: remarkPluginFrontmatter.readingTimeMs as number,
+          minutesRead: remarkPluginFrontmatter.minutesRead as string,
         };
       }),
     )
   : sorted.map((post) => ({
       post,
-      readingTimeMs: undefined as number | undefined,
+      minutesRead: undefined as string | undefined,
     }));
 ---
 
 <BaseLayout title={`${tag} -- ${collectionSlug}`} is404Page={false}>
   {
-    resolved.map(({ post, readingTimeMs }) => (
+    resolved.map(({ post, minutesRead }) => (
       <BlogPost
         url={`/${collectionSlug}/${post.id}/`}
         image={post.data?.image?.src || ""}
@@ -62,9 +61,7 @@ const resolved = config.readingTime
         pubDate={post.data?.pubDate || ""}
         positionx={post.data?.image?.positionx || ""}
         positiony={post.data?.image?.positiony || ""}
-        minutesRead={
-          readingTimeMs != null ? formatReadingTime(readingTimeMs) : undefined
-        }
+        minutesRead={minutesRead}
       />
     ))
   }
