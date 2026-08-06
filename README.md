@@ -9,8 +9,6 @@
   <img alt="GitHub CI/CD" src="https://img.shields.io/badge/CI%2FCD-GitHub_Actions-2088FF.svg?logo=github-actions&logoColor=white" />
   <img alt="Docker" src="https://img.shields.io/badge/Docker-Enabled-2496ED.svg?logo=docker&logoColor=white" />
   <img alt="Cloudflare" src="https://img.shields.io/badge/Cloudflare-Deployed-F38020.svg?logo=cloudflare&logoColor=white" />
-  <img alt="Deno Deploy" src="https://img.shields.io/badge/Deno-Deployed-000000.svg?logo=deno&logoColor=white" />
-  <img alt="GitHub Pages" src="https://img.shields.io/badge/GitHub%20Pages-Deployed-222222.svg?logo=github&logoColor=white" />
 </p>
 
 ## Quick Links
@@ -21,7 +19,7 @@
 
 Revista is a photography portfolio and blog built on Astro v7.1.6. I created it to showcase various photography collections and writing organized into different categories like long-form, short-form, muses, zeitweilig, and my CV. The project prioritizes speed and visual design while using Astro's content collection API to manage everything efficiently.
 
-The project supports multiple deployment targets with optimized builds for each platform, including GitHub Pages with proper base path configuration.
+The project deploys to Cloudflare Workers (static assets) and as a Docker image.
 
 ## Documentation Map
 
@@ -183,8 +181,6 @@ bun run dev
 # Standard production build
 bun run build
 
-# GitHub Pages specific build (includes base path configuration)
-bun run build:github-pages
 
 # Preview production build
 bun run preview
@@ -633,16 +629,7 @@ While the site is currently in English, I've structured it with future translati
 
 1. **Cloudflare**:
    - Handles hosting and CDN services
-   - The CI/CD pipeline includes cache purging to ensure visitors see the latest content
 
-2. **Deno Deploy**:
-   - Provides a secondary deployment target
-   - Shows how the site can adapt to different hosting environments
-
-3. **GitHub Pages**:
-   - Provides an additional deployment target using GitHub's native hosting
-   - Uses a separate build process with correct base path (`/revista-3`) configuration
-   - Includes proper permissions and environment configuration for Pages deployment
    - Maintains compatibility with other deployment targets through environment-specific builds
 
 ## Development Tools
@@ -677,24 +664,15 @@ The GitHub Actions workflow in `.github/workflows/deploy.yml` handles deployment
    - Implements dependency caching to speed up subsequent builds
    - Includes retry logic in case of transient errors
 
-2. **Deno Deployment**:
-   - Pushes the built site to Deno Deploy
-
-3. **Cloudflare Deployment**:
+2. **Cloudflare Deployment**:
    - Deploys to Cloudflare Workers (with static assets) via Wrangler
 
-4. **GitHub Pages Deployment**:
-   - Uses a dedicated build process with environment-specific configuration
-   - Builds independently with the correct site URL and base path for GitHub Pages
-   - Employs the `build:github-pages` npm script for proper routing
-   - Maintains full compatibility with other deployment platforms
-
-5. **Docker Handling**:
+3. **Docker Handling**:
    - Builds a multi-architecture Docker image for broader compatibility
    - Pushes to Docker Hub for container-based deployments
    - Signs the image with Cosign for security verification
 
-6. **Cache Management**:
+4. **Cache Management**:
    - Purges Cloudflare's edge cache after each deployment
 
 ## Docker Setup
@@ -794,11 +772,8 @@ To start working with this project:
 1. Build for production:
 
    ```bash
-   # Standard build (for Cloudflare, Deno, Docker)
+   # Standard build (for Cloudflare Workers and the Docker image)
    bun run build
-
-   # GitHub Pages specific build (with base path)
-   bun run build:github-pages
    ```
 
    Both commands include Pagefind indexing for search functionality.
@@ -821,18 +796,14 @@ To start working with this project:
 The project supports several deployment methods:
 
 1. Cloudflare Workers (primary)
-2. Deno Deploy
-3. GitHub Pages
-4. Docker container (deployable to any container platform)
+2. Docker container (deployable to any container platform)
 
 ### Deployment Secrets & Tokens
 
-| Target             | Required secrets (GitHub Actions)                                                                                                                    | Notes                                            |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
-| Cloudflare Workers | `CLOUDFLARE_WRANGLER_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_ZONE_ID`, `CLOUDFLARE_CACHE_PURGE_TOKEN`, `CLOUDFLARE_ZONE_NAME`, `CLOUDFLARE_WWW` | Wrangler deploy + cache purge hosts              |
-| Deno Deploy        | _None referenced in the workflow_                                                                                                                    | Uses `deployctl` with public project settings    |
-| GitHub Pages       | _None beyond repository permissions_                                                                                                                 | Build uses `build:github-pages` base/path config |
-| Docker Hub         | `DOCKER_USERNAME`, `DOCKER_REGISTRY_TOKEN`                                                                                                           | Used for pushing versioned images                |
+| Target             | Required secrets (GitHub Actions)                    | Notes                                                                                                                 |
+| ------------------ | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Cloudflare Workers | `CLOUDFLARE_WRANGLER_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` | Wrangler deploy only - static-asset deploys are atomic and asset URLs are content-hashed, so no cache purge is needed |
+| Docker Hub         | `DOCKER_USERNAME`, `DOCKER_REGISTRY_TOKEN`           | Used for pushing versioned images                                                                                     |
 
 ## Contributing
 
@@ -865,7 +836,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - The Astro community for building such a great static site generator
 - Tailwind CSS for their utility-first approach
 - Cloudflare for reliable hosting and CDN services
-- Deno Deploy for providing an additional deployment option
 - All contributors who have helped improve this project
 
 ## Contact

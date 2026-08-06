@@ -41,7 +41,6 @@ bun run dev                    # Astro dev server
 bun run start                  # alias for dev
 bun run build                  # production build; also runs prebuild + postbuild hooks
 bun run preview                # preview built site from dist/
-bun run build:github-pages     # GitHub Pages build with /revista-3 base path
 bun run prebuild               # sync README/doc version badges
 bun run postbuild              # run Pagefind over dist/ only
 bun run lint:html              # validate generated HTML in dist/
@@ -78,7 +77,6 @@ bun x hyperlink dist/path/to/page.html --skip-external
 - `bun run build` triggers `prebuild` automatically via package scripts.
 - `prebuild` runs `scripts/sync-readme-versions.js`.
 - `postbuild` runs `pagefind --site dist` automatically after a successful build.
-- `bun run build:github-pages` manually appends Pagefind after an Astro build with `GITHUB_PAGES=true`.
 - `lint:html` and `lint:links` require built files in `dist/`.
 - Build concurrency is set to 4 in `astro.config.mjs` to avoid rate-limiting `image.erfi.io`.
 - `vite.build.assetsInlineLimit` in `astro.config.mjs` vetoes script inlining (returns `false` for `.js`). Astro's plugin-scripts inlines small hoisted script chunks into the HTML, but the inlined copy keeps Vite's raw `__VITE_PRELOAD__` marker (ReferenceError at runtime) when the chunk wraps a dynamic import in `__vitePreload()`. This broke the lazy `/pagefind/pagefind.js` import (search dialog opened, every query showed "Search unavailable"). Scripts must always emit as chunks; do not remove the veto.
@@ -199,13 +197,11 @@ bun x hyperlink dist/path/to/page.html --skip-external
 
 - Do not commit `dist/`, generated Pagefind output, or `.env` files.
 - Cloudflare Worker entrypoint is `src/index.ts`; keep it minimal and edge-safe.
-- GitHub Pages behavior is controlled by `GITHUB_PAGES=true` during build.
 - Wrangler config lives in `wrangler.jsonc`.
 
 ## Deployment Notes
 
-- Primary deployment target is Cloudflare Workers/static assets; GitHub Pages is an alternate target.
-- `GITHUB_PAGES=true` changes the `site` and `base` values in `astro.config.mjs`.
+- Deployment target is Cloudflare Workers (static assets); a Docker image is built for container hosting. Deploys are atomic and asset URLs are content-hashed, so no cache purge step exists.
 - `dist/` is generated output and Pagefind indexes it after a successful build.
 
 ## Agent Workflow Recommendations
