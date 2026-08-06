@@ -1,9 +1,9 @@
 import { test, expect } from "@playwright/test";
 
-// Section 3.1 of the streamline-stack plan: the list-card reading time
-// should match the detail-page reading time for the same post.
-// Currently they differ (list says "27s 300ms", detail says "17s 100ms"
-// for the adam post), so this test documents the inconsistency.
+// The list-card reading time must match the detail-page reading time for
+// the same post (single source of truth: the remark plugin's readingTimeMs),
+// displayed at the site's intentional second-level precision ("1m 23s") -
+// never milliseconds, never rounded to "N min read".
 test("list-card and detail-page reading times match for adam", async ({
   page,
 }) => {
@@ -24,6 +24,14 @@ test("list-card and detail-page reading times match for adam", async ({
     await page.locator("p.prose.italic").first().textContent()
   )?.trim();
 
-  // These should be the same - section 3.1 reading-time consistency
+  // Same source of truth, same second-precision format on both surfaces
   expect(listTime).toBe(detailTime);
+  expect(listTime).toMatch(/^(\d+m )?\d+s$/);
+});
+
+test("no page shows millisecond or rounded reading times", async ({ page }) => {
+  await page.goto("/long_form/");
+  const body = await page.locator("body").textContent();
+  expect(body).not.toMatch(/\d+ms\b/);
+  expect(body).not.toMatch(/\d+ min read/);
 });
