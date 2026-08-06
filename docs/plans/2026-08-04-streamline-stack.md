@@ -139,6 +139,13 @@ read"`) and nothing ever reads it. Pages re-format the raw ms instead.
   precision (`"3m 12s 480ms"`), and `BlogPost.astro:13,25,74-77` names the prop
   `minutesRead` while receiving that string.
 
+**Decision update (post-implementation, user call):** the absurd precision is
+intentional site design. The display was briefly changed to the plugin's
+`minutesRead` ("1 min read") and reverted; the final format is second-level
+precision (`"1m 23s"`, `"17s"`) for reading times and `HH:MM:SS` for dates,
+with milliseconds dropped. The single-source-of-truth consistency fix
+above stands unchanged.
+
 **Fix:** single source of truth = the remark plugin's `readingTimeMs`. See W1
 Task 4 for how list pages get it without an N-times `render()` cost.
 
