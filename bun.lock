@@ -10,7 +10,7 @@
         "@astrojs/mdx": "7.0.5",
         "@astrojs/rss": "4.0.19",
         "@astrojs/sitemap": "3.7.3",
-        "@erfianugrah/astro-image-hq": "^0.1.4",
+        "@erfianugrah/astro-image-hq": "^0.1.5",
         "@iconify-json/mdi": "^1.2.3",
         "@tailwindcss/vite": "^4.2.2",
         "@types/sanitize-html": "^2.16.1",
@@ -143,7 +143,7 @@
 
     "@emnapi/wasi-threads": ["@emnapi/wasi-threads@1.2.0", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-N10dEJNSsUx41Z6pZsXU8FjPjpBEplgH24sfkmITrBED1/U2Esum9F3lfLrMjKHHjmi557zQn7kR9R+XWXu5Rg=="],
 
-    "@erfianugrah/astro-image-hq": ["@erfianugrah/astro-image-hq@0.1.4", "", { "peerDependencies": { "astro": ">=5.0.0", "sharp": ">=0.33.0" } }, "sha512-9Utx8Y+wrD763LXi+conGAGOYz+7+3PvrjHy1PmxGX5uuhKoNueh798FEduwvHmK2Fk8IqgQn85kzpeAhNG5mQ=="],
+    "@erfianugrah/astro-image-hq": ["@erfianugrah/astro-image-hq@0.1.5", "", { "peerDependencies": { "astro": ">=5.0.0", "sharp": ">=0.33.0" } }, "sha512-YAIm3/LU6Z2QF1CHL8nwP7SazEatP8JWKhSrAxLxe+QmI/DWB0jCt9WSDwYQkkoTfryH075SOQkCvPpFUJwaYw=="],
 
     "@esbuild/aix-ppc64": ["@esbuild/aix-ppc64@0.28.1", "", { "os": "aix", "cpu": "ppc64" }, "sha512-Svl7tq8k/08+p6CXPpRjQ1fKX+1odH/BQbb48fV6fj3CWHhsoIOoY87w1oHXm0qEpkIK3ZfVgp0hed3XBXzXMQ=="],
 
