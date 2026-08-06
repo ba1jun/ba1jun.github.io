@@ -3,6 +3,7 @@ import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import BlogPost from "../../components/BlogPost.astro";
 import { sortByDate } from "../../components/sortByDate";
+import { formatReadingTime } from "../../scripts/utils";
 import {
   ROUTE_COLLECTIONS,
   getRouteCollection,
@@ -17,7 +18,7 @@ const config = getRouteCollection(collection!);
 const posts = await getCollection(config.name);
 
 // Pre-sort by date, then resolve reading times via render for a single
-// source of truth (the remark plugin's minutesRead, same as detail pages).
+// source of truth (the remark plugin's readingTimeMs, same as detail pages).
 const sorted = [...posts].sort(sortByDate);
 
 const resolved = config.readingTime
@@ -26,19 +27,19 @@ const resolved = config.readingTime
         const { remarkPluginFrontmatter } = await render(post);
         return {
           post,
-          minutesRead: remarkPluginFrontmatter.minutesRead as string,
+          readingTimeMs: remarkPluginFrontmatter.readingTimeMs as number,
         };
       }),
     )
   : sorted.map((post) => ({
       post,
-      minutesRead: undefined as string | undefined,
+      readingTimeMs: undefined as number | undefined,
     }));
 ---
 
 <BaseLayout title={config.title} is404Page={false}>
   {
-    resolved.map(({ post, minutesRead }) => (
+    resolved.map(({ post, readingTimeMs }) => (
       <BlogPost
         url={`/${config.name}/${post.id}/`}
         image={post.data?.image?.src || ""}
@@ -48,7 +49,9 @@ const resolved = config.readingTime
         pubDate={post.data?.pubDate || ""}
         positionx={post.data?.image?.positionx || ""}
         positiony={post.data?.image?.positiony || ""}
-        minutesRead={minutesRead}
+        minutesRead={
+          readingTimeMs != null ? formatReadingTime(readingTimeMs) : undefined
+        }
       />
     ))
   }

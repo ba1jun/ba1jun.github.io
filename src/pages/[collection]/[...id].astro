@@ -3,6 +3,7 @@ import { getCollection, render } from "astro:content";
 import MarkdownPostLayout from "../../layouts/MarkdownPostLayout.astro";
 import AuthorLayout from "../../layouts/AuthorLayout.astro";
 import { buildDetailPaths } from "../../scripts/collections";
+import { formatReadingTime } from "../../scripts/utils";
 import {
   ROUTE_COLLECTIONS,
   getRouteCollection,
@@ -41,7 +42,7 @@ const { Content, remarkPluginFrontmatter } = await render(entry as any);
     >
       {config.readingTime && (
         <p class="prose prose-slate dark:prose-invert italic no-underline">
-          {remarkPluginFrontmatter.minutesRead}
+          {formatReadingTime(remarkPluginFrontmatter.readingTimeMs)}
         </p>
       )}
       <Content />
