@@ -3,6 +3,7 @@ import * as React from "react"
 import type { HeadFC, PageProps } from "gatsby"
 import { Link as GatsbyLink } from "gatsby"
 import { Box, Container, Flex, Heading, Link, Text, jsx } from "theme-ui"
+import EmojiFavicon from "../components/emoji-favicon"
 
 const themes = [
   {
@@ -180,6 +181,7 @@ export const Head: HeadFC = () => (
   <>
     <html lang="en" />
     <title>Research | Jun Bai</title>
+    <EmojiFavicon />
     <meta
       name="description"
       content="Research by Jun Bai on trustworthy AI, agent memory, context faithfulness, and interpretability."
