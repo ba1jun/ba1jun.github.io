@@ -1,0 +1,54 @@
+*,
+*::before,
+*::after {
+  letter-spacing: 0 !important;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+[data-testid="social-header"] > div,
+[data-testid="social-header"] > div > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  padding-inline: 1rem;
+  width: 100%;
+  min-width: 0;
+}
+
+[data-testid="social-header"] a {
+  margin: 0 !important;
+}
+
+@media (max-width: 479px) {
+  [data-testid="social-header"] > div {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    gap: 0.75rem 1.25rem;
+    padding-inline: 0;
+  }
+}
+
+h1,
+h2,
+h3,
+p {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
