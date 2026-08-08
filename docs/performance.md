@@ -1,0 +1,200 @@
+# Performance Optimization
+
+### Performance strategy for the Revista project
+
+---
+
+## Overview
+
+The performance strategy for this site addresses multiple aspects of web performance:
+
+1. **Network optimization**: Reducing file sizes and request counts
+2. **Rendering optimization**: Ensuring fast page rendering and minimal layout shifts
+3. **Resource prioritization**: Loading critical resources first
+4. **Caching strategy**: Effective use of browser and CDN caching
+
+## Optimization Techniques
+
+### Astro's Islands Architecture
+
+The project leverages Astro's islands architecture to minimize JavaScript:
+
+- Static HTML rendering for most content
+- Selective scripting only where needed -- each interactive island is a vanilla `.astro` component whose inline `<script>` block wires DOM inside `astro:page-load` handlers
+- Example: The ThemeToggle component is a self-contained `.astro` file with an SVG toggle and a `theme-toggle` custom event; `theme.ts` handles state
+
+### Image Optimization
+
+#### Size and Format Optimization
+
+Images are processed through Astro's built-in image optimization:
+
+```javascript
+// Masonry.astro
+const imageAssets = await Promise.all(
+  images.map(async (image) => {
+    if (image) {
+      return await getImage({
+        src: image.src,
+        alt: image.alt,
+        width: 1920,
+        height: 1080,
+        fit: "inside",
+        decoding: "async",
+        format: "avif",
+        loading: "lazy",
+      });
+    }
+    return null;
+  }),
+);
+```
+
+Benefits:
+
+- AVIF format reduces file size by ~50% compared to JPEG
+- `fit: "inside"` ensures images never upscale beyond natural dimensions
+- Proper width/height attributes prevent Cumulative Layout Shift (CLS)
+- Lazy loading defers off-screen image loading
+
+### Code Optimization
+
+#### Bundle Size Reduction
+
+Tailwind CSS v4 automatically detects content sources, generating only the CSS actually used on the page. No explicit `content` configuration is needed — the framework scans `src/` automatically.
+
+#### Resource Hints
+
+Astro's prefetch directive optimizes navigation:
+
+```javascript
+// astro.config.mjs
+prefetch: {
+  prefetchAll: true,
+  defaultStrategy: "viewport",
+},
+```
+
+This configuration:
+
+- Prefetches pages when links enter the viewport
+- Speeds up perceived navigation time
+- Prioritizes likely navigation targets
+
+## CDN Integration
+
+The site is deployed to Cloudflare Workers with Static Assets for edge caching:
+
+### Cloudflare Workers
+
+The site is deployed to Cloudflare Workers with Static Assets for edge caching. Compression (zstd, gzip, brotli), cache headers, and security headers are handled by Cloudflare at the edge.
+
+### Edge Deployment
+
+The project deploys to multiple edge platforms:
+
+1. **Cloudflare Workers (with Static Assets)**: Main deployment with global edge distribution
+2. **Deno Deploy**: Secondary deployment for additional edge presence
+3. **GitHub Pages**: Alternate deployment for GitHub-hosted access
+
+## Mobile Optimization
+
+### Responsive Grid Adjustments
+
+The Masonry layout adapts for mobile with optimized configurations:
+
+```css
+@media (max-width: 768px) {
+  .masonry {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  /* Reset spanning on smaller screens for simpler layout */
+  .image-container:nth-child(3n),
+  .image-container:nth-child(4n) {
+    grid-row: auto;
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .masonry {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+}
+```
+
+This creates:
+
+- Smaller grid cells on mobile to fit more content
+- Simplified layout patterns to avoid complex reflows
+- Better touch-friendly spacing
+
+## Build Process Optimization
+
+The project uses Bun for faster builds:
+
+```json
+"scripts": {
+  "build": "astro build",
+  "postbuild": "pagefind --site dist"
+},
+```
+
+Build optimizations in `astro.config.mjs`:
+
+```javascript
+build: {
+  concurrency: 4, // Parallelized build process
+  measuring: {
+    entryBuilding: true,
+    pageGeneration: true,
+    bundling: true,
+    rendering: true,
+    assetProcessing: true,
+  },
+},
+```
+
+These settings provide:
+
+- Parallelized build processes
+- Performance metrics for build optimization
+- Efficient asset processing
+
+## Hero Image Optimization
+
+The `HeroImage` component (`src/components/HeroImage.astro`) renders the fullscreen parallax hero on content pages as a vanilla Astro component. Key optimizations:
+
+### Scroll Performance
+
+- **rAF-batched rendering**: Scroll events trigger a `requestAnimationFrame` loop instead of writing to `style.transform` on every scroll event, avoiding layout thrashing
+- **Idle when settled**: The rAF loop self-terminates when the lerp reaches its target, restarting only on the next scroll event -- no wasted frames
+- **Smooth lerp easing**: Parallax position interpolates toward the target (`lerpSpeed = 0.1`) for fluid motion instead of 1:1 mechanical scroll tracking
+- **IntersectionObserver gating**: The scroll listener and rAF loop only run while the hero is in the viewport; `willChange: transform` is toggled accordingly
+
+### Image Loading
+
+- **`<img>` instead of `background-image`**: Uses real `<img>` elements with `fetchpriority="high"` and `decoding="sync"`, giving the browser proper resource prioritization hints that CSS backgrounds don't support
+- **Fade-in on load**: Images start at `opacity: 0` and transition over 700ms on load, preventing the white flash during image decode
+- **Hydration-safe**: On `astro:page-load`, checks `img.complete` to handle images that loaded before the script runs (cached or fast network), preventing images from staying invisible
+
+### Accessibility
+
+- **`prefers-reduced-motion`**: Parallax is completely disabled when the user has motion reduction enabled
+- **Text legibility**: Subtle gradient overlay (top/bottom darkening) and text shadows ensure title/tag readability across all hero images without altering the photograph
+- **Screen reader image**: Real `<img>` with alt text preserved for accessibility
+
+## Monitoring and Metrics
+
+The project is regularly tested for performance using:
+
+- Lighthouse scores for overall performance
+- Web Vitals metrics (LCP, INP, CLS)
+- Network waterfall analysis
+
+Key metrics targeted:
+
+- **LCP (Largest Contentful Paint)**: Under 2.5s
+- **INP (Interaction to Next Paint)**: Under 200ms
+- **CLS (Cumulative Layout Shift)**: Under 0.1

@@ -1,0 +1,86 @@
+---
+import Hamburger from "./Hamburger.astro";
+import Navigation from "./Navigation.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+import { getImage } from "astro:assets";
+import { CDN_FAVICON_URL } from "../consts";
+
+export interface Props {
+  is404Page?: boolean;
+}
+
+const { is404Page = false } = Astro.props;
+
+const favicon_avif = await getImage({
+  src: CDN_FAVICON_URL,
+  alt: "favicon",
+  width: 60,
+  height: 60,
+  decoding: "async",
+  format: "avif",
+});
+---
+
+<header class="relative mb-[20px] mt-[-10px]">
+  <nav
+    aria-label="Main navigation"
+    class="flex items-center justify-between w-full h-[30px]"
+  >
+    {
+      !is404Page && (
+        <div class="flex items-center h-[30px]">
+          <a href="/" class="block">
+            <img
+              class="favicon dark:invert w-[30px] h-[30px]"
+              src={favicon_avif.src}
+              alt="Home"
+              width="30"
+              height="30"
+            />
+          </a>
+        </div>
+      )
+    }
+    <div class="flex items-center h-[30px] gap-2">
+      {
+        !is404Page && (
+          <>
+            <div class="flex items-center justify-center h-[30px] w-[30px]">
+              <button
+                id="searchTrigger"
+                class="w-[30px] h-[30px] bg-transparent border-0 p-0 cursor-pointer flex items-center justify-center"
+                aria-label="Search"
+                aria-haspopup="dialog"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <>
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.3-4.3" />
+                  </>
+                </svg>
+              </button>
+            </div>
+            <div class="flex items-center justify-center h-[30px] w-[30px]">
+              <ThemeToggle />
+            </div>
+            <div class="flex items-center justify-center h-[30px] w-[30px]">
+              <Hamburger />
+            </div>
+          </>
+        )
+      }
+    </div>
+  </nav>
+  {!is404Page && <Navigation />}
+  <slot />
+</header>

@@ -1,0 +1,47 @@
+{
+	servers {
+		metrics
+	}
+
+	# debug (disabled for production)
+	grace_period 5s
+	log {
+		level info
+		output file /var/log/access.log {
+			roll_size 1gb
+			roll_keep 5
+			roll_keep_for 168h
+		}
+		format json {
+			time_format wall
+		}
+	}
+}
+
+:2019 {
+	metrics
+}
+
+:80 {
+	root * /usr/share/caddy
+	try_files {path} {path}/ /404.html
+	encode zstd gzip
+	file_server {
+		precompressed zstd br gzip
+	}
+	handle_errors {
+		rewrite * /404.html
+		file_server
+	}
+	log {
+		level info
+		output file /var/log/revista-access.log {
+			roll_size 1gb
+			roll_keep 5
+			roll_keep_for 168h
+		}
+		format json {
+			time_format wall
+		}
+	}
+}

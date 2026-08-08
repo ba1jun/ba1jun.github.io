@@ -1,0 +1,177 @@
+---
+// Vanilla parallax hero image. Preserves the translate3d scroll parallax from
+// HeroImage.tsx: oversized container (top:-20%, height:120%), rAF+lerp loop,
+// IntersectionObserver gate, prefers-reduced-motion respect, fade-in on load.
+// All hooks re-wire on astro:page-load so they survive view transitions.
+export interface Props {
+  title: string;
+  tags: string[];
+  backgroundImage: string;
+  mobileBackgroundImage: string;
+  positionX?: string;
+  positionY?: string;
+  alt: string;
+  collection: string;
+}
+
+const {
+  title,
+  tags,
+  backgroundImage,
+  mobileBackgroundImage,
+  positionX = "30%",
+  positionY = "50%",
+  alt,
+  collection,
+} = Astro.props;
+---
+
+<div
+  id="hero-container"
+  class="relative flex flex-col justify-center items-center text-center h-screen mb-8 md:-mx-16 -mx-8 overflow-hidden"
+  data-pagefind-body
+>
+  <div id="hero-parallax" class="absolute inset-0">
+    <picture>
+      <source media="(min-width: 1200px)" srcset={backgroundImage} />
+      <img
+        id="hero-image"
+        src={mobileBackgroundImage}
+        alt={alt}
+        fetchpriority="high"
+        decoding="sync"
+        class="absolute left-0 right-0 w-full object-cover transition-opacity duration-700 opacity-0"
+        style={`object-position: ${positionX} ${positionY}; top: -20%; height: 120%;`}
+      />
+    </picture>
+  </div>
+  <div
+    class="absolute inset-0 pointer-events-none"
+    style="background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, transparent 40%, transparent 60%, rgba(0,0,0,0.2) 100%);"
+    aria-hidden="true"
+  >
+  </div>
+  <div class="relative">
+    <h1
+      class="prose prose-slate uppercase font-overpass-mono text-[rgb(245,245,245)] text-4xl fade-in-up delay-150"
+      style="text-shadow: 0 2px 12px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3);"
+    >
+      {title}
+    </h1>
+    <div class="flex gap-2 mt-2 fade-in-up delay-300 justify-center">
+      {
+        tags.map((tag: string) => (
+          <p class="font-overpass-mono text-xl">
+            <a
+              class="bg-slate-600 text-[rgb(245,245,245)] bg-opacity-50 px-2 py-1 rounded-sm no-underline"
+              href={`/${collection}/tags/${tag}`}
+              style="text-shadow: 0 1px 4px rgba(0,0,0,0.4);"
+            >
+              {tag}
+            </a>
+          </p>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<script>
+  let cleanupHero: () => void = () => {};
+
+  document.addEventListener("astro:page-load", () => {
+    cleanupHero();
+
+    // ---- image fade-in ----
+    const heroImg = document.getElementById(
+      "hero-image",
+    ) as HTMLImageElement | null;
+    if (heroImg) {
+      if (heroImg.complete) {
+        heroImg.classList.add("opacity-100");
+      } else {
+        heroImg.addEventListener(
+          "load",
+          () => heroImg.classList.add("opacity-100"),
+          { once: true },
+        );
+      }
+    }
+
+    // ---- parallax ----
+    const container = document.getElementById("hero-container");
+    const pEl = document.getElementById("hero-parallax");
+    if (!container || !pEl) {
+      cleanupHero = () => {};
+      return;
+    }
+
+    // Collect cleanup actions
+    const cleanups: (() => void)[] = [];
+
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const parallax = pEl;
+
+      let rafId = 0;
+      let running = false;
+      let currentY = window.scrollY * 0.3;
+
+      function tick() {
+        const targetY = window.scrollY * 0.3;
+        currentY += (targetY - currentY) * 0.1;
+        if (Math.abs(targetY - currentY) < 0.5) {
+          currentY = targetY;
+          parallax.style.transform = `translate3d(0, ${currentY}px, 0)`;
+          running = false;
+          return;
+        }
+        parallax.style.transform = `translate3d(0, ${currentY}px, 0)`;
+        rafId = requestAnimationFrame(tick);
+      }
+
+      function startLoop() {
+        if (!running) {
+          running = true;
+          rafId = requestAnimationFrame(tick);
+        }
+      }
+
+      let inView = false;
+      function onScroll() {
+        if (inView) startLoop();
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            inView = entry.isIntersecting;
+            if (inView) {
+              parallax.style.willChange = "transform";
+              startLoop();
+            } else {
+              parallax.style.willChange = "auto";
+              cancelAnimationFrame(rafId);
+              running = false;
+            }
+          });
+        },
+        { threshold: 0 },
+      );
+
+      observer.observe(container);
+      window.addEventListener("scroll", onScroll, { passive: true });
+
+      cleanups.push(() => {
+        observer.disconnect();
+        window.removeEventListener("scroll", onScroll);
+        cancelAnimationFrame(rafId);
+        running = false;
+        parallax.style.willChange = "auto";
+      });
+    }
+
+    cleanupHero = () => {
+      for (const fn of cleanups) fn();
+    };
+  });
+</script>

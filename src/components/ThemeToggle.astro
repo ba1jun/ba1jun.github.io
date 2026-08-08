@@ -1,0 +1,91 @@
+---
+// Self-contained theme toggle: SVG sun/moon, CSS-driven dark-state visuals.
+// Dispatches 'theme-toggle' event so theme.ts handles the actual toggle.
+// CSS drives ray opacity/scale; r is set via JS for broad browser support.
+// All DOM hooks re-wire on astro:page-load so they survive view transitions.
+---
+
+<button
+  id="theme-toggle-btn"
+  class="w-[30px] h-[30px] bg-transparent border-0 p-0 cursor-pointer relative flex items-center justify-center"
+  aria-label="Switch to dark theme"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="w-[24px] h-[24px] transition-transform duration-300"
+  >
+    <circle
+      id="theme-toggle-circle"
+      cx="12"
+      cy="12"
+      r="9"
+      fill="currentColor"
+      class="transition-all duration-300"></circle>
+    <g
+      id="theme-toggle-rays"
+      stroke="currentColor"
+      class="transition-all duration-300"
+    >
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </g>
+  </svg>
+</button>
+
+<style is:global>
+  /* Base state lives in the stylesheet, NOT inline - inline styles beat
+     html.dark rules and the sun rays can never appear. */
+  #theme-toggle-rays {
+    opacity: 0;
+    transform: scale(0.3);
+    transform-origin: center;
+  }
+  html.dark #theme-toggle-rays {
+    opacity: 1;
+    transform: scale(1);
+  }
+</style>
+
+<script>
+  import { initTheme } from "../scripts/theme.ts";
+
+  // Apply stored theme + register global listeners (idempotent -- safe to
+  // call on every navigation; internal `initialized` guard prevents
+  // duplicate window/document-level listener registration).
+  initTheme();
+
+  document.addEventListener("astro:page-load", () => {
+    const btn = document.getElementById("theme-toggle-btn");
+    const circle = document.getElementById(
+      "theme-toggle-circle",
+    ) as SVGCircleElement | null;
+    if (!btn || !circle) return;
+
+    function syncAria() {
+      const isDark = document.documentElement.classList.contains("dark");
+      btn!.setAttribute(
+        "aria-label",
+        isDark ? "Switch to light theme" : "Switch to dark theme",
+      );
+      circle!.setAttribute("r", isDark ? "5" : "9");
+    }
+
+    syncAria();
+
+    btn.addEventListener("click", () => {
+      window.dispatchEvent(new Event("theme-toggle"));
+      syncAria();
+    });
+  });
+</script>

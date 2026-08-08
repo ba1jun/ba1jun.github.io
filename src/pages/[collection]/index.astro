@@ -1,0 +1,58 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BlogPost from "../../components/BlogPost.astro";
+import { sortByDate } from "../../components/sortByDate";
+import { formatReadingTime } from "../../scripts/utils";
+import {
+  ROUTE_COLLECTIONS,
+  getRouteCollection,
+} from "../../config/collections";
+
+export async function getStaticPaths() {
+  return ROUTE_COLLECTIONS.map((c) => ({ params: { collection: c.name } }));
+}
+
+const { collection } = Astro.params;
+const config = getRouteCollection(collection!);
+const posts = await getCollection(config.name);
+
+// Pre-sort by date, then resolve reading times via render for a single
+// source of truth (the remark plugin's readingTimeMs, same as detail pages).
+const sorted = [...posts].sort(sortByDate);
+
+const resolved = config.readingTime
+  ? await Promise.all(
+      sorted.map(async (post) => {
+        const { remarkPluginFrontmatter } = await render(post);
+        return {
+          post,
+          readingTimeMs: remarkPluginFrontmatter.readingTimeMs as number,
+        };
+      }),
+    )
+  : sorted.map((post) => ({
+      post,
+      readingTimeMs: undefined as number | undefined,
+    }));
+---
+
+<BaseLayout title={config.title} is404Page={false}>
+  {
+    resolved.map(({ post, readingTimeMs }) => (
+      <BlogPost
+        url={`/${config.name}/${post.id}/`}
+        image={post.data?.image?.src || ""}
+        alt={post.data?.image?.alt || ""}
+        title={post.data?.title || ""}
+        description={post.data?.description || ""}
+        pubDate={post.data?.pubDate || ""}
+        positionx={post.data?.image?.positionx || ""}
+        positiony={post.data?.image?.positiony || ""}
+        minutesRead={
+          readingTimeMs != null ? formatReadingTime(readingTimeMs) : undefined
+        }
+      />
+    ))
+  }
+</BaseLayout>

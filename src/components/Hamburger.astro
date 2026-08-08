@@ -1,0 +1,108 @@
+---
+// Hamburger menu button: 3-bar-to-X animation, Escape/click-outside/astro:page-load handling.
+// Imperative DOM -- plain script, no React. All hooks re-wire on astro:page-load
+// so they survive view transitions. Document-level listeners are cleaned up
+// before re-adding to avoid accumulation across navigations.
+---
+
+<button
+  id="hamburger-btn"
+  class="w-[30px] h-[30px] bg-transparent border-0 p-0 cursor-pointer relative hamburger flex items-center justify-center"
+  aria-label="Open menu"
+  aria-expanded="false"
+  aria-controls="nav-links"
+>
+  <div class="relative w-[24px] h-[18px]">
+    <span
+      id="hamburger-bar1"
+      class="absolute h-[2px] w-full bg-current left-0 transition-transform duration-300"
+      style="top: 0px;"></span>
+    <span
+      id="hamburger-bar2"
+      class="absolute h-[2px] w-full bg-current left-0 top-[8px] transition-opacity duration-300"
+    ></span>
+    <span
+      id="hamburger-bar3"
+      class="absolute h-[2px] w-full bg-current left-0 transition-transform duration-300"
+      style="top: 16px;"></span>
+  </div>
+</button>
+
+<script>
+  // Cleanup closure: remove previously-registered document-level listeners
+  // before re-adding on the next astro:page-load.  Starts as a no-op.
+  let cleanupDocListeners: () => void = () => {};
+
+  document.addEventListener("astro:page-load", () => {
+    cleanupDocListeners();
+
+    const btn = document.getElementById("hamburger-btn");
+    const b1 = document.getElementById("hamburger-bar1");
+    const b2 = document.getElementById("hamburger-bar2");
+    const b3 = document.getElementById("hamburger-bar3");
+    if (!btn || !b1 || !b2 || !b3) return;
+
+    let isOpen = false;
+
+    function closeMenu() {
+      isOpen = false;
+      btn!.setAttribute("aria-label", "Open menu");
+      btn!.setAttribute("aria-expanded", "false");
+      b1!.style.transform = "translateY(0) rotate(0)";
+      b2!.style.opacity = "1";
+      b3!.style.transform = "translateY(0) rotate(0)";
+      const navLinks = document.getElementById("nav-links");
+      if (navLinks) {
+        navLinks.classList.remove("open");
+        navLinks.classList.add("collapsed");
+        navLinks.setAttribute("inert", "");
+      }
+    }
+
+    function openMenu() {
+      isOpen = true;
+      btn!.setAttribute("aria-label", "Close menu");
+      btn!.setAttribute("aria-expanded", "true");
+      b1!.style.transform = "translateY(8px) rotate(45deg)";
+      b2!.style.opacity = "0";
+      b3!.style.transform = "translateY(-8px) rotate(-45deg)";
+      const navLinks = document.getElementById("nav-links");
+      if (navLinks) {
+        navLinks.classList.remove("collapsed");
+        navLinks.classList.add("open");
+        navLinks.removeAttribute("inert");
+      }
+    }
+
+    btn.addEventListener("click", () => {
+      if (isOpen) closeMenu();
+      else openMenu();
+    });
+
+    const onKeydown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) closeMenu();
+    };
+
+    const onClickOutside = (e: MouseEvent) => {
+      if (!isOpen) return;
+      const navLinks = document.getElementById("nav-links");
+      const target = e.target as Node | null;
+      if (!target) return;
+      if (
+        navLinks &&
+        !navLinks.contains(target) &&
+        !(target as Element).closest?.(".hamburger")
+      ) {
+        closeMenu();
+      }
+    };
+
+    document.addEventListener("keydown", onKeydown);
+    document.addEventListener("click", onClickOutside);
+
+    cleanupDocListeners = () => {
+      document.removeEventListener("keydown", onKeydown);
+      document.removeEventListener("click", onClickOutside);
+    };
+  });
+</script>

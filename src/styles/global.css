@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-sm: 800px;
+  --breakpoint-md: 1200px;
+  --breakpoint-lg: 1900px;
+  --breakpoint-xl: 2500px;
+  --font-overpass-mono: var(--font-overpass-mono), "Overpass Mono", monospace;
+  --font-inconsolata: var(--font-inconsolata), "Inconsolata", monospace;
+}
+
+/* Typography plugin: suppress smart-quotes on blockquotes.
+   Replaces the old JS-based typography.no-quotes config extension. */
+@utility prose-no-quotes {
+  & blockquote p:first-of-type::before {
+    content: none !important;
+  }
+  & blockquote p:last-of-type::after {
+    content: none !important;
+  }
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+html {
+  background-color: #f2f2f2;
+  font-family: sans-serif;
+  height: 100%;
+}
+
+html.dark {
+  background-color: rgb(34, 33, 37);
+  color: #fff;
+}
+
+.dark .nav-links a {
+  color: #fff;
+}
+
+h1 {
+  margin: 1rem 0;
+  font-size: 2.5rem;
+}

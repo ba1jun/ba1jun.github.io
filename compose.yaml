@@ -1,0 +1,35 @@
+services:
+  revista:
+    image: erfianugrah/revista-4:latest
+    hostname: revista
+    container_name: revista
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 64M
+    environment:
+      - TZ=Asia/Singapore
+    expose:
+      - 80
+    networks:
+      revista:
+        ipv4_address: 172.19.23.2
+      lan:
+        ipv4_address: 10.0.71.58
+        mac_address: "02:42:0a:00:47:3a"
+        gw_priority: 100
+
+networks:
+  revista:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.23.0/24
+          gateway: 172.19.23.1
+  # Shared macvlan from the servarr stack (servarr-compose
+  # runbooks/lan-macvlan.md): first-class LAN IP for the edge caddy on MS-01.
+  lan:
+    external: true
+    name: servarr_lan

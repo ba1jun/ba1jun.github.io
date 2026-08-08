@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+export interface Props {
+  title: string;
+  images: string;
+}
+
+const { title, images } = Astro.props;
+---
+
+<BaseLayout title={title} is404Page={false}>
+  <div
+    id="homepage"
+    class="flex justify-center items-center"
+    data-images={images}
+  >
+    <a href="#">
+      <img
+        id="randomHomePageImage"
+        class="hidden h-[440px] sm:h-[600px] lg:h-[700px] xl:h-[1000px] object-contain w-full object-center"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        sizes="100vw"
+        alt="Loading image"
+      />
+    </a>
+    <noscript>
+      <p class="text-center font-overpass-mono">JavaScript is required to display the homepage image.</p>
+    </noscript>
+    <slot />
+  </div>
+</BaseLayout>
+<script src="../scripts/homePage.ts"></script>

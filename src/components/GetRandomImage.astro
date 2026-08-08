@@ -1,0 +1,43 @@
+---
+export interface Props {
+  images: string;
+  tag: string;
+  url: string;
+}
+
+const { images, tag, url } = Astro.props;
+---
+
+<div
+  class="randomimage relative group border-0"
+  data-images={images}
+>
+  <a href={url}>
+    <img
+      class="hidden w-full sm:h-[540px] xl:h-[1080px] lg:h-[720px] object-cover object-center"
+      src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+      sizes="(min-width: 800px) 25vw, 100vw"
+      alt={tag || "Loading image"}
+    />
+    <noscript>
+      <p class="text-center font-overpass-mono">{tag}</p>
+    </noscript>
+    <p
+      class="absolute inset-0 flex items-center justify-center text-[rgb(245,245,245)] text-2xl xl:text-4xl"
+    >
+      {tag}
+    </p>
+  </a>
+  <slot />
+</div>
+<style>
+  .randomimage p {
+    transition: opacity 0.3s ease-in-out;
+    opacity: 1;
+  }
+
+  .randomimage p:hover {
+    opacity: 0.5;
+  }
+</style>
+<script src="../scripts/getRandomImage.ts"></script>

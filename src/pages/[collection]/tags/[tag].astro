@@ -1,0 +1,71 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import BlogPost from "../../../components/BlogPost.astro";
+import { sortByDate } from "../../../components/sortByDate";
+import { buildTagPaths } from "../../../scripts/collections";
+import { formatReadingTime } from "../../../scripts/utils";
+import {
+  ROUTE_COLLECTIONS,
+  getRouteCollection,
+} from "../../../config/collections";
+
+export async function getStaticPaths() {
+  const paths: {
+    params: { collection: string; tag: string };
+    props: { posts: any; collectionSlug: string };
+  }[] = [];
+  for (const config of ROUTE_COLLECTIONS) {
+    const entries = await getCollection(config.name);
+    for (const tp of buildTagPaths(entries, config.name)) {
+      paths.push({
+        params: { collection: config.name, ...tp.params },
+        props: tp.props,
+      });
+    }
+  }
+  return paths;
+}
+
+const { tag, collection: collName } = Astro.params;
+const { posts, collectionSlug } = Astro.props;
+const config = getRouteCollection(collName!);
+
+// Pre-sort by date, then resolve reading times if this collection shows them.
+const sorted = [...posts].sort(sortByDate);
+
+const resolved = config.readingTime
+  ? await Promise.all(
+      sorted.map(async (post) => {
+        const { remarkPluginFrontmatter } = await render(post);
+        return {
+          post,
+          readingTimeMs: remarkPluginFrontmatter.readingTimeMs as number,
+        };
+      }),
+    )
+  : sorted.map((post) => ({
+      post,
+      readingTimeMs: undefined as number | undefined,
+    }));
+---
+
+<BaseLayout title={`${tag} -- ${collectionSlug}`} is404Page={false}>
+  {
+    resolved.map(({ post, readingTimeMs }) => (
+      <BlogPost
+        url={`/${collectionSlug}/${post.id}/`}
+        image={post.data?.image?.src || ""}
+        alt={post.data?.image?.alt || ""}
+        title={post.data?.title || ""}
+        description={post.data?.description || ""}
+        pubDate={post.data?.pubDate || ""}
+        positionx={post.data?.image?.positionx || ""}
+        positiony={post.data?.image?.positiony || ""}
+        minutesRead={
+          readingTimeMs != null ? formatReadingTime(readingTimeMs) : undefined
+        }
+      />
+    ))
+  }
+</BaseLayout>

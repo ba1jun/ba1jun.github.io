@@ -1,0 +1,54 @@
+---
+const today = new Date();
+import { Icon } from "astro-icon/components";
+import { SITE_AUTHOR, SOCIAL_LINKS } from "../consts";
+
+const SOCIAL_ICONS: Record<keyof typeof SOCIAL_LINKS, string> = {
+  github: "mdi:github",
+  scholar: "mdi:school",
+  email: "mdi:email",
+};
+
+const SOCIAL_LABELS: Record<keyof typeof SOCIAL_LINKS, string> = {
+  github: "Go to Jun Bai's GitHub profile",
+  scholar: "Go to Jun Bai's Google Scholar profile",
+  email: "Send Jun Bai an email",
+};
+---
+
+<footer
+  class="md:flex md:justify-between md:items-center md:align-center font-overpass-mono w-full md:h-full mt-12"
+>
+  <div class="text-[12px] text-center items-center flex justify-center">
+    &copy; {today.getFullYear()} {SITE_AUTHOR}. All rights reserved.
+  </div>
+  <div class="flex justify-center gap-3 m-2 sm:m-0">
+    {
+      Object.entries(SOCIAL_LINKS).map(([key, href]) => (
+        <a
+          href={href}
+          target={href.startsWith("http") ? "_blank" : undefined}
+          rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+        >
+          <span class="sr-only">{SOCIAL_LABELS[key as keyof typeof SOCIAL_LINKS]}</span>
+          <Icon
+            name={SOCIAL_ICONS[key as keyof typeof SOCIAL_LINKS]}
+            class="h-[20px] w-[20px]"
+          />
+        </a>
+      ))
+    }
+    <a
+      id="rss-link"
+      href="#"
+      target="_blank"
+      rel="noopener noreferrer"
+      style="visibility: hidden; width: 0; height: 0;"
+    >
+      <span class="sr-only">Subscribe to RSS Feed</span>
+      <Icon name="mdi:rss" class="h-[20px] w-[20px]" />
+    </a>
+  </div>
+  <slot />
+</footer>
+<script src="../scripts/rss.ts"></script>

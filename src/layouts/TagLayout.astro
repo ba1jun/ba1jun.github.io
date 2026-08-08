@@ -1,0 +1,83 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GetRandomImage from "../components/GetRandomImage.astro";
+import { getCollection } from "astro:content";
+import { getImage } from "astro:assets";
+import type { CollectionName } from "../scripts/collections";
+
+export interface Props {
+  directory: CollectionName;
+  title: string;
+}
+
+const { directory, title } = Astro.props;
+const allContent = await getCollection(directory);
+const tags = [...new Set(allContent.map((post) => post.data.tags).flat())];
+
+// De-duplicate image optimization: process each unique src only once
+const imageCache = new Map<string, { src: string; srcset: string }>();
+
+async function getOptimizedImage(src: string, alt: string) {
+  if (imageCache.has(src)) return imageCache.get(src)!;
+  const result = await getImage({
+    src,
+    alt,
+    widths: [854, 1280, 1920],
+    width: 1920,
+    height: 1080,
+    fit: "inside",
+    format: "avif",
+    quality: 85,
+    decoding: "async",
+  });
+  const optimized = { src: result.src, srcset: result.srcSet.attribute };
+  imageCache.set(src, optimized);
+  return optimized;
+}
+
+const imagesByTag: Record<string, { src: string; srcset: string; alt: string }[]> = {};
+for (const post of allContent) {
+  for (const tag of post.data.tags) {
+    if (!imagesByTag[tag]) {
+      imagesByTag[tag] = [];
+    }
+    if (post.data.image?.src) {
+      const optimized = await getOptimizedImage(post.data.image.src, post.data.image.alt);
+      imagesByTag[tag].push({
+        ...optimized,
+        alt: post.data.image.alt,
+      });
+    }
+  }
+}
+---
+
+<BaseLayout title={title} is404Page={false}>
+  <div>
+    {
+      tags.length === 1 ? (
+        <div class="object-contain w-full h-full relative flex items-center justify-center font-overpass-mono">
+          <GetRandomImage
+            images={JSON.stringify(imagesByTag[tags[0]])}
+            tag={tags[0]}
+            url={`/${directory}/tags/${tags[0]}`}
+          />
+          <slot />
+        </div>
+      ) : (
+        <div class="sm:grid sm:grid-cols-4 gap-4 space-y-4 sm:space-y-0 justify-center items-center font-overpass-mono">
+          {tags.map((tag) => (
+            <div class="col-span-1">
+              <GetRandomImage
+                images={JSON.stringify(imagesByTag[tag])}
+                tag={tag}
+                url={`/${directory}/tags/${tag}`}
+              />
+            </div>
+          ))}
+          <slot />
+        </div>
+      )
+    }
+  </div>
+</BaseLayout>
