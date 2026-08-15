@@ -88,14 +88,6 @@
     "themes": ["birds", "colour", "street"]
   },
   {
-    "src": "/photos/journeys/greece/12-rhodes.avif",
-    "thumb": "/photos/journeys/greece/12-rhodes-thumb.avif",
-    "alt": "A wooden tour boat entering Mandraki Harbour beside the deer column",
-    "caption": "A tour boat passes the deer column at the entrance to Mandraki Harbour.",
-    "location": "Rhodes, Greece",
-    "themes": ["harbour", "boat", "landmark"]
-  },
-  {
     "src": "/photos/journeys/greece/13-rhodes.avif",
     "thumb": "/photos/journeys/greece/13-rhodes-thumb.avif",
     "alt": "The Mandraki Harbour waterfront with a deer column, yacht, and stone fort",

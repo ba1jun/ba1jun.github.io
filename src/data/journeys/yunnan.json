@@ -8,14 +8,6 @@
     "themes": ["mountains", "architecture", "reflection"]
   },
   {
-    "src": "/photos/journeys/yunnan/2-dali.avif",
-    "thumbnail": "/photos/journeys/yunnan/2-dali-thumb.avif",
-    "alt": "Clouds gathering above Cangshan and a reflecting pool in Dali",
-    "caption": "Clouds gather over Cangshan beyond a quiet reflecting pool.",
-    "location": "Dali, Yunnan, China",
-    "themes": ["mountains", "weather", "reflection"]
-  },
-  {
     "src": "/photos/journeys/yunnan/3-dali.avif",
     "thumbnail": "/photos/journeys/yunnan/3-dali-thumb.avif",
     "alt": "Visitors standing by Erhai Lake under low clouds",
@@ -46,29 +38,5 @@
     "caption": "A pause beside the railing, looking out across Erhai Lake.",
     "location": "Dali, Yunnan, China",
     "themes": ["lake", "people", "travel"]
-  },
-  {
-    "src": "/photos/journeys/yunnan/7-dali.avif",
-    "thumbnail": "/photos/journeys/yunnan/7-dali-thumb.avif",
-    "alt": "Black-and-white mythical figure painted on a wall in Dali",
-    "caption": "A guardian-like figure watches from a white wall.",
-    "location": "Dali, Yunnan, China",
-    "themes": ["street art", "culture", "details"]
-  },
-  {
-    "src": "/photos/journeys/yunnan/8-kunming.avif",
-    "thumbnail": "/photos/journeys/yunnan/8-kunming-thumb.avif",
-    "alt": "A bridge and waterway framed by steep mountains near Kunming",
-    "caption": "A narrow bridge opens toward the mountains beyond.",
-    "location": "Kunming, Yunnan, China",
-    "themes": ["bridge", "mountains", "landscape"]
-  },
-  {
-    "src": "/photos/journeys/yunnan/9-kunming.avif",
-    "thumbnail": "/photos/journeys/yunnan/9-kunming-thumb.avif",
-    "alt": "An orange cat resting inside a shop in Kunming",
-    "caption": "A shop cat settles comfortably among the day's clutter.",
-    "location": "Kunming, Yunnan, China",
-    "themes": ["cats", "street", "daily life"]
   }
 ]

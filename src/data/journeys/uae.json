@@ -64,14 +64,6 @@
     "themes": ["night", "architecture", "landmark"]
   },
   {
-    "src": "/photos/journeys/uae/9-dubai.avif",
-    "thumb": "/photos/journeys/uae/9-dubai-thumb.avif",
-    "alt": "A car framed by blue-lit reflective architecture on a Dubai street",
-    "caption": "A parked car sits inside a frame of blue light and reflections.",
-    "location": "Dubai, United Arab Emirates",
-    "themes": ["night", "street", "reflection"]
-  },
-  {
     "src": "/photos/journeys/uae/10-dubai.avif",
     "thumb": "/photos/journeys/uae/10-dubai-thumb.avif",
     "alt": "A hot-air balloon burner firing inside the envelope as the crew prepares for launch",
@@ -118,14 +110,6 @@
     "caption": "A distant balloon follows the roadways through the morning haze.",
     "location": "Dubai, United Arab Emirates",
     "themes": ["balloon", "aerial", "haze"]
-  },
-  {
-    "src": "/photos/journeys/uae/16-dubai.avif",
-    "thumb": "/photos/journeys/uae/16-dubai-thumb.avif",
-    "alt": "A traveller riding a brown horse beneath a clear blue sky near Dubai",
-    "caption": "A horseback pause beneath the wide blue desert sky.",
-    "location": "Dubai, United Arab Emirates",
-    "themes": ["portrait", "horse", "desert"]
   },
   {
     "src": "/photos/journeys/uae/17-abd.avif",

@@ -200,14 +200,6 @@
     "themes": ["landscape", "geology", "viewpoint"]
   },
   {
-    "src": "/photos/journeys/turkey/28-cappadocia-zelve-open-air-museum-1.avif",
-    "thumbnail": "/photos/journeys/turkey/28-cappadocia-zelve-open-air-museum-1-thumb.avif",
-    "alt": "Rock-cut dwellings and paths at Zelve Open-Air Museum",
-    "caption": "Paths wind between rock-cut dwellings at Zelve.",
-    "location": "Zelve, Cappadocia, Türkiye",
-    "themes": ["history", "landscape", "architecture"]
-  },
-  {
     "src": "/photos/journeys/turkey/29-cappadocia-zelve-open-air-museum-2.avif",
     "thumbnail": "/photos/journeys/turkey/29-cappadocia-zelve-open-air-museum-2-thumb.avif",
     "alt": "Weathered cave openings in the formations at Zelve",
@@ -246,14 +238,6 @@
     "caption": "Two riders follow a pale trail through the valley.",
     "location": "Cappadocia, Türkiye",
     "themes": ["horses", "people", "landscape"]
-  },
-  {
-    "src": "/photos/journeys/turkey/34-cappadocia-zenith.avif",
-    "thumbnail": "/photos/journeys/turkey/34-cappadocia-zenith-thumb.avif",
-    "alt": "A traveller overlooking the carved valleys of Cappadocia",
-    "caption": "A final look across the carved landscape from above.",
-    "location": "Cappadocia, Türkiye",
-    "themes": ["viewpoint", "people", "landscape"]
   },
   {
     "src": "/photos/journeys/turkey/35-cappadocia-goreme-night.avif",

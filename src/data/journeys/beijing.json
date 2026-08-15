@@ -104,14 +104,6 @@
     "themes": ["street", "sign", "music"]
   },
   {
-    "src": "/photos/journeys/beijing/14-beijing.avif",
-    "thumb": "/photos/journeys/beijing/14-beijing-thumb.avif",
-    "alt": "A brightly illuminated Super Swirly attraction at night in Beijing",
-    "caption": "Neon lettering and looping steel animate the amusement park after dark.",
-    "location": "Beijing, China",
-    "themes": ["night", "amusement-park", "neon"]
-  },
-  {
     "src": "/photos/journeys/beijing/15-beijing.avif",
     "thumb": "/photos/journeys/beijing/15-beijing-thumb.avif",
     "alt": "Green, yellow, and orange illuminated forms reflected in water at night",
