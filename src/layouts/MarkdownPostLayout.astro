@@ -6,7 +6,7 @@ import Prose from "../components/Prose.astro";
 import { getImage } from "astro:assets";
 import HeroImage from "../components/HeroImage.astro";
 import NextPost from "../components/NextPost.astro";
-import { formatDate } from "../scripts/utils.ts";
+import { formatDate, formatMonthYear } from "../scripts/utils.ts";
 import type { CollectionName } from "../scripts/collections";
 
 export interface Props {
@@ -15,17 +15,28 @@ export interface Props {
     description: string;
     author: string;
     tags: string[];
-    image?: { src: string; alt: string; positionx?: string; positiony?: string };
+    image?: {
+      src: string;
+      alt: string;
+      positionx?: string;
+      positiony?: string;
+    };
     pubDate: Date;
     updatedDate?: Date;
+    ongoing?: boolean;
   };
   currentId: string;
   collection: CollectionName;
 }
 
 const { frontmatter, currentId, collection } = Astro.props;
-const updatedDate = formatDate(frontmatter?.updatedDate);
-const publishedDate = formatDate(frontmatter?.pubDate);
+const isJourney = collection === "journeys";
+const updatedDate = isJourney
+  ? formatMonthYear(frontmatter?.updatedDate)
+  : formatDate(frontmatter?.updatedDate);
+const publishedDate = isJourney
+  ? formatMonthYear(frontmatter?.pubDate)
+  : formatDate(frontmatter?.pubDate);
 const title = frontmatter?.title;
 const description = frontmatter?.description;
 const authorFullName = frontmatter?.author;
@@ -35,49 +46,55 @@ const alt = frontmatter.image?.alt;
 const positionx = frontmatter?.image?.positionx;
 const positiony = frontmatter?.image?.positiony;
 const baseUrl = new URL(Astro.request.url).origin;
+const isPublicImage = image?.startsWith("/") ?? false;
 
 const backgroundImage = image
-  ? await getImage({
-      src: image,
-      alt: alt,
-      width: 3840,
-      height: 2160,
-      fit: "inside",
-      format: "avif",
-      quality: 85,
-      loading: "eager",
-      decoding: "sync",
-      fetchpriority: "high",
-    })
+  ? isPublicImage
+    ? { src: image }
+    : await getImage({
+        src: image,
+        alt: alt,
+        width: 3840,
+        height: 2160,
+        fit: "inside",
+        format: "avif",
+        quality: 85,
+        loading: "eager",
+        decoding: "sync",
+        fetchpriority: "high",
+      })
   : null;
 
 const mobileBackgroundImage = image
-  ? await getImage({
-      src: image,
-      alt: alt,
-      width: 1920,
-      height: 1080,
-      fit: "inside",
-      format: "avif",
-      quality: 85,
-      loading: "eager",
-      decoding: "sync",
-      fetchpriority: "high",
-    })
+  ? isPublicImage
+    ? { src: image }
+    : await getImage({
+        src: image,
+        alt: alt,
+        width: 1920,
+        height: 1080,
+        fit: "inside",
+        format: "avif",
+        quality: 85,
+        loading: "eager",
+        decoding: "sync",
+        fetchpriority: "high",
+      })
   : null;
 
 const metaImage = image
-  ? await getImage({
-      src: image,
-      alt: alt,
-      width: 1280,
-      height: 720,
-      decoding: "async",
-      format: "webp",
-      loading: "lazy",
-    })
+  ? isPublicImage
+    ? { src: image }
+    : await getImage({
+        src: image,
+        alt: alt,
+        width: 1280,
+        height: 720,
+        decoding: "async",
+        format: "webp",
+        loading: "lazy",
+      })
   : null;
-
 ---
 
 <BaseLayout
@@ -125,9 +142,12 @@ const metaImage = image
     )
   }
   <div data-pagefind-body>
-    <span data-pagefind-filter={`collection:${collection}`} class="hidden"></span>
+    <span data-pagefind-filter={`collection:${collection}`} class="hidden"
+    ></span>
     <span data-pagefind-meta={`date:${publishedDate}`} class="hidden"></span>
-    <span data-pagefind-sort={`date:${frontmatter.pubDate.toISOString()}`} class="hidden"></span>
+    <span
+      data-pagefind-sort={`date:${frontmatter.pubDate.toISOString()}`}
+      class="hidden"></span>
     <Prose>
       <slot />
       <div class="flex flex-col sm:flex-row items-center">
@@ -144,12 +164,26 @@ const metaImage = image
         <div
           class="w-full flex-col sm:w-1/2 text-left sm:text-right mt-[10px] dark:text-white text-black font-inconsolata"
         >
-          <div>
-            Published: {publishedDate}
-          </div>
-          <div>
-            Updated: {updatedDate}
-          </div>
+          {
+            isJourney ? (
+              frontmatter.ongoing ? (
+                <>
+                  <div>Ongoing journey</div>
+                  <div>Updated: {publishedDate}</div>
+                </>
+              ) : (
+                <>
+                  <div>{publishedDate}</div>
+                  {updatedDate && <div>Updated: {updatedDate}</div>}
+                </>
+              )
+            ) : (
+              <>
+                <div>Published: {publishedDate}</div>
+                <div>Updated: {updatedDate}</div>
+              </>
+            )
+          }
         </div>
       </div>
     </Prose>

@@ -14,6 +14,9 @@
 interface LightboxImage {
   src: string;
   alt: string;
+  caption: string;
+  location: string;
+  themes: string;
 }
 
 let images: LightboxImage[] = [];
@@ -160,20 +163,28 @@ function createOverlay(): HTMLDivElement {
   el.setAttribute("aria-modal", "true");
   el.setAttribute("aria-label", "Image lightbox");
   el.innerHTML = `
-    <button class="lightbox-close" aria-label="Close lightbox">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-    <button class="lightbox-zoom" aria-label="Zoom in">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-    </button>
-    <button class="lightbox-prev" aria-label="Previous image">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-    <button class="lightbox-next" aria-label="Next image">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
-    </button>
-    <img class="lightbox-img" alt="" />
-    <div class="lightbox-counter"></div>
+    <div class="lightbox-stage">
+      <div class="lightbox-media">
+        <button class="lightbox-zoom" aria-label="Zoom in">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </button>
+        <button class="lightbox-prev" aria-label="Previous image">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="lightbox-next" aria-label="Next image">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+        </button>
+        <img class="lightbox-img" alt="" />
+      </div>
+      <aside class="lightbox-details" aria-live="polite">
+        <button class="lightbox-close" aria-label="Close lightbox">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <p class="lightbox-caption"></p>
+        <p class="lightbox-meta"></p>
+        <div class="lightbox-counter"></div>
+      </aside>
+    </div>
   `;
   document.body.appendChild(el);
   return el;
@@ -231,6 +242,14 @@ function showImage(index: number, animate = true): void {
   const counter = overlay.querySelector<HTMLDivElement>(".lightbox-counter");
   if (counter) {
     counter.textContent = `${currentIndex + 1}\u2009/\u2009${images.length}`;
+  }
+
+  const caption =
+    overlay.querySelector<HTMLParagraphElement>(".lightbox-caption");
+  const meta = overlay.querySelector<HTMLParagraphElement>(".lightbox-meta");
+  if (caption) caption.textContent = img.caption;
+  if (meta) {
+    meta.textContent = [img.location, img.themes].filter(Boolean).join(" · ");
   }
 
   preload((currentIndex + 1) % images.length);
@@ -546,6 +565,9 @@ function initialize(): void {
   images = Array.from(links).map((link) => ({
     src: link.href,
     alt: link.querySelector("img")?.alt ?? "",
+    caption: link.dataset.caption ?? "",
+    location: link.dataset.location ?? "",
+    themes: link.dataset.themes ?? "",
   }));
 
   if (images.length === 0) return;

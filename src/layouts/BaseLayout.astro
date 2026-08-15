@@ -74,7 +74,7 @@ const personSchema = {
   name: SITE_AUTHOR,
   url: baseUrl,
   image: `${baseUrl}${favicon_webp.src}`,
-  sameAs: Object.values(SOCIAL_LINKS),
+  sameAs: Object.values(SOCIAL_LINKS).filter((url) => url.length > 0),
 };
 
 const websiteSchema = {
@@ -91,17 +91,16 @@ const websiteSchema = {
 };
 
 // Build breadcrumb from URL path segments
-const pathSegments = Astro.url.pathname
-  .split("/")
-  .filter((s) => s.length > 0);
+const pathSegments = Astro.url.pathname.split("/").filter((s) => s.length > 0);
 const breadcrumbItems = [
   { "@type": "ListItem", position: 1, name: "Home", item: baseUrl },
   ...pathSegments.map((segment, i) => ({
     "@type": "ListItem",
     position: i + 2,
-    name: i === pathSegments.length - 1 && title
-      ? title
-      : segment.replace(/[-_]/g, " "),
+    name:
+      i === pathSegments.length - 1 && title
+        ? title
+        : segment.replace(/[-_]/g, " "),
     item: `${baseUrl}/${pathSegments.slice(0, i + 1).join("/")}`,
   })),
 ];
@@ -113,10 +112,14 @@ const breadcrumbSchema = {
 
 // Format dates for structured data — accept Date objects or ISO strings
 const formattedPubDate = pubDate
-  ? (pubDate instanceof Date ? pubDate.toISOString() : new Date(pubDate).toISOString())
+  ? pubDate instanceof Date
+    ? pubDate.toISOString()
+    : new Date(pubDate).toISOString()
   : null;
 const formattedUpdatedDate = updatedDate
-  ? (updatedDate instanceof Date ? updatedDate.toISOString() : new Date(updatedDate).toISOString())
+  ? updatedDate instanceof Date
+    ? updatedDate.toISOString()
+    : new Date(updatedDate).toISOString()
   : null;
 ---
 
@@ -159,7 +162,10 @@ const formattedUpdatedDate = updatedDate
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title || SITE_TITLE} />
-    <meta name="twitter:description" content={description || SITE_DESCRIPTION} />
+    <meta
+      name="twitter:description"
+      content={description || SITE_DESCRIPTION}
+    />
     <meta
       name="twitter:image"
       content={image || `${baseUrl}${metaImage?.src}`}
@@ -185,14 +191,8 @@ const formattedUpdatedDate = updatedDate
     }
 
     <!-- Structured Data -->
-    <script
-      type="application/ld+json"
-      set:html={safeJsonLd(personSchema)}
-    />
-    <script
-      type="application/ld+json"
-      set:html={safeJsonLd(websiteSchema)}
-    />
+    <script type="application/ld+json" set:html={safeJsonLd(personSchema)} />
+    <script type="application/ld+json" set:html={safeJsonLd(websiteSchema)} />
     <script
       type="application/ld+json"
       set:html={safeJsonLd(breadcrumbSchema)}

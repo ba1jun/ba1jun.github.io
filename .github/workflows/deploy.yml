@@ -1,25 +1,30 @@
-name: CI/CD Pipeline for Revista-4
+name: Build, Test, and Deploy Site
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-  release:
-    types: [published]
+  workflow_dispatch:
 
 env:
   REGISTRY_IMAGE: erfianugrah/revista-4
+  # Keep the template author's external deployment targets disabled. GitHub
+  # Pages is the only production target for this repository.
+  ENABLE_UPSTREAM_DEPLOYS: "false"
+
+permissions:
+  contents: read
 
 jobs:
   build-revista:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@v6
         with:
           node-version: "24"
 
@@ -35,7 +40,7 @@ jobs:
           avifenc --version
 
       - name: Cache Bun packages
-        uses: actions/cache@v6
+        uses: actions/cache@v4
         with:
           path: ~/.bun/install/cache
           key: ${{ runner.os }}-bun-cache-${{ hashFiles('**/bun.lock') }}
@@ -43,7 +48,7 @@ jobs:
             ${{ runner.os }}-bun-cache-
 
       - name: Cache Astro image assets
-        uses: actions/cache@v6
+        uses: actions/cache@v4
         with:
           path: node_modules/.astro
           key: ${{ runner.os }}-astro-assets-${{ hashFiles('bun.lock') }}-${{ hashFiles('src/content/**/*.mdx', 'src/content/**/*.md') }}
@@ -72,7 +77,7 @@ jobs:
           exit 1
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist
@@ -85,10 +90,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@v6
         with:
           node-version: "24"
 
@@ -98,7 +103,7 @@ jobs:
           bun-version: latest
 
       - name: Cache Bun packages
-        uses: actions/cache@v6
+        uses: actions/cache@v4
         with:
           path: ~/.bun/install/cache
           key: ${{ runner.os }}-bun-cache-${{ hashFiles('**/bun.lock') }}
@@ -109,7 +114,7 @@ jobs:
         run: bun install
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@v5
         with:
           name: dist
           path: dist
@@ -122,15 +127,48 @@ jobs:
 
       - name: Upload Playwright failure screenshots
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: playwright-screenshots
           path: test-results
           retention-days: 7
 
+  deploy-to-github-pages:
+    needs: [build-revista, test]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download built site
+        uses: actions/download-artifact@v5
+        with:
+          name: dist
+          path: dist
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
   deploy-to-cloudflare-workers:
     needs: [build-revista, test]
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && env.ENABLE_UPSTREAM_DEPLOYS == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -166,7 +204,7 @@ jobs:
 
   build-and-push-docker:
     needs: [build-revista, test]
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && env.ENABLE_UPSTREAM_DEPLOYS == 'true'
     runs-on: ubuntu-latest
     outputs:
       digest: ${{ steps.build.outputs.digest }}

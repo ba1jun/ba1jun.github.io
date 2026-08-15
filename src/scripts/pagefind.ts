@@ -93,7 +93,9 @@ function setup() {
   async function performSearch(query: string) {
     try {
       const pf = await getPagefind();
-      const search = await pf.search(query);
+      const search = await pf.search(query, {
+        filters: { collection: "journeys" },
+      });
 
       sum.textContent = `${search.results.length} result${search.results.length !== 1 ? "s" : ""} for "${query}"`;
 

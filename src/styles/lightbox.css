@@ -22,15 +22,39 @@
 .lightbox-overlay.lightbox-visible {
   opacity: 1;
   visibility: visible;
-  background: rgba(0, 0, 0, 0.94);
+  background: rgba(0, 0, 0, 0.97);
+}
+
+.lightbox-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(352px, 28.6vw, 418px);
+  width: calc(100vw - 32px);
+  height: calc(100vh - 32px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  background: #090909;
+  box-shadow: 0 24px 72px rgba(0, 0, 0, 0.42);
+}
+
+.lightbox-media {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #090909;
 }
 
 /* Image – scale up on open, crossfade on navigate.
    IMPORTANT: no transition on transform here — it would make drag/pan laggy.
    The open/close animation uses a one-shot class instead. */
 .lightbox-img {
-  max-width: 92vw;
-  max-height: 92vh;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
   user-select: none;
   -webkit-user-drag: none;
@@ -119,16 +143,23 @@
 
 /* Close button */
 .lightbox-close {
-  top: 20px;
-  right: 20px;
-  width: 40px;
-  height: 40px;
+  top: 18px;
+  right: 18px;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.lightbox-details .lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.13);
+  color: #fff;
 }
 
 /* Zoom button – next to close */
 .lightbox-zoom {
   top: 20px;
-  right: 68px;
+  right: 20px;
   width: 40px;
   height: 40px;
 }
@@ -163,26 +194,100 @@
 /* Counter – minimal, elegant */
 .lightbox-counter {
   position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 13px;
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
-  letter-spacing: 0.05em;
+  right: 24px;
+  bottom: 22px;
+  padding: 0;
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 12px;
+  font-family: var(--font-inconsolata), "Inconsolata", monospace;
+  letter-spacing: 0.08em;
   pointer-events: none;
   font-variant-numeric: tabular-nums;
   transition: opacity 0.2s ease;
 }
 
+.lightbox-details {
+  position: relative;
+  width: auto;
+  padding: 78px 24px 58px;
+  overflow-y: auto;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  background: #151515;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: left;
+  font-family: var(--font-inconsolata), "Inconsolata", monospace;
+  pointer-events: auto;
+  transition: opacity 0.2s ease;
+}
+
+.lightbox-caption,
+.lightbox-meta {
+  margin: 0;
+}
+
+.lightbox-caption {
+  font-size: clamp(17px, 1.25vw, 20px);
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.lightbox-meta {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 12px;
+  line-height: 1.7;
+  letter-spacing: 0.03em;
+}
+
+.lightbox-caption:empty,
+.lightbox-meta:empty {
+  display: none;
+}
+
+/* Keep the photograph large on medium screens by floating the note over it. */
+@media (min-width: 769px) and (max-width: 1100px) {
+  .lightbox-stage {
+    display: block;
+  }
+
+  .lightbox-media {
+    width: 100%;
+    height: 100%;
+  }
+
+  .lightbox-details {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(374px, 44vw);
+    background: rgba(21, 21, 21, 0.9);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .lightbox-zoom,
+  .lightbox-next {
+    right: calc(min(374px, 44vw) + 20px);
+  }
+}
+
 /* Mobile tweaks */
 @media (max-width: 768px) {
+  .lightbox-stage {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr) auto;
+    width: 100vw;
+    height: 100dvh;
+    border: 0;
+    border-radius: 0;
+  }
+
   .lightbox-img {
-    max-width: 98vw;
-    max-height: 88vh;
+    max-width: 100%;
+    max-height: 100%;
   }
 
   .lightbox-prev,
@@ -200,20 +305,42 @@
   }
 
   .lightbox-close {
-    top: 12px;
-    right: 12px;
+    top: 14px;
+    right: 14px;
     width: 36px;
     height: 36px;
   }
 
   .lightbox-zoom {
     top: 12px;
-    right: 54px;
+    right: 12px;
     width: 36px;
     height: 36px;
   }
 
   .lightbox-counter {
-    bottom: 12px;
+    top: auto;
+    right: 18px;
+    bottom: 18px;
+    left: auto;
+  }
+
+  .lightbox-details {
+    width: auto;
+    max-height: 34dvh;
+    padding: 22px 58px 42px 22px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 0;
+    background: #151515;
+  }
+
+  .lightbox-caption {
+    font-size: 17px;
+  }
+
+  .lightbox-meta {
+    margin-top: 12px;
+    padding-top: 10px;
+    font-size: 12px;
   }
 }

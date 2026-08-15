@@ -18,7 +18,7 @@ const isDev =
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://www.erfianugrah.com",
+  site: "https://ba1jun.github.io",
 
   image: {
     domains: ["erfianugrah.com", "image.erfi.io"],
@@ -113,6 +113,14 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      // Local camera originals are build inputs for the manual optimization
+      // script, not site source files. Watching hundreds of large files here
+      // can leave the Windows dev server with stale handles after a refresh.
+      watch: {
+        ignored: ["**/photos-originals/**"],
+      },
+    },
     build: {
       // Astro's plugin-scripts inlines small hoisted script chunks into the
       // HTML, but the inlined copy keeps Vite's raw __VITE_PRELOAD__ marker

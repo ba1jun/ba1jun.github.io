@@ -15,6 +15,7 @@ The `src/content/` directory contains multiple collections, each focused on a sp
 - **muses/**: Photography-focused content
 - **short_form/**: Brief blog posts and updates
 - **long_form/**: In-depth articles and essays
+- **journeys/**: Travel photography stories organized as complete journeys
 - **zeitweilig/**: Temporary or ephemeral content
 - **authors/**: Author information and profiles
 - **cv/**: Resume and professional information

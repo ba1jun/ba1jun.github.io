@@ -1,0 +1,146 @@
+[
+  {
+    "src": "/photos/journeys/beijing/1-beijing.avif",
+    "thumb": "/photos/journeys/beijing/1-beijing-thumb.avif",
+    "alt": "Beijing skyline and China Zun beneath a pink evening sky",
+    "caption": "China Zun rises above the layered city as the evening sky turns pink.",
+    "location": "Beijing, China",
+    "themes": ["skyline", "sunset", "city"]
+  },
+  {
+    "src": "/photos/journeys/beijing/2-beijing.avif",
+    "thumb": "/photos/journeys/beijing/2-beijing-thumb.avif",
+    "alt": "China Zun framed at the end of a busy Beijing street",
+    "caption": "The city's tallest silhouette appears at the end of an everyday street.",
+    "location": "Beijing, China",
+    "themes": ["street", "architecture", "people"]
+  },
+  {
+    "src": "/photos/journeys/beijing/3-beijing.avif",
+    "thumb": "/photos/journeys/beijing/3-beijing-thumb.avif",
+    "alt": "Traffic approaching the CCTV Headquarters beneath a vivid sunset",
+    "caption": "Evening traffic flows toward the unmistakable frame of the CCTV Headquarters.",
+    "location": "Beijing, China",
+    "themes": ["architecture", "traffic", "sunset"]
+  },
+  {
+    "src": "/photos/journeys/beijing/4-beijing.avif",
+    "thumb": "/photos/journeys/beijing/4-beijing-thumb.avif",
+    "alt": "Beijing fading into blue haze beyond wooded hills",
+    "caption": "The city recedes into blue layers beyond the autumn hills.",
+    "location": "Beijing, China",
+    "themes": ["cityscape", "haze", "landscape"]
+  },
+  {
+    "src": "/photos/journeys/beijing/5-beijing.avif",
+    "thumb": "/photos/journeys/beijing/5-beijing-thumb.avif",
+    "alt": "A wide view of Beijing with China Zun on the distant skyline",
+    "caption": "Beijing spreads toward a distant cluster of towers under winter light.",
+    "location": "Beijing, China",
+    "themes": ["cityscape", "skyline", "aerial"]
+  },
+  {
+    "src": "/photos/journeys/beijing/6-beijing.avif",
+    "thumb": "/photos/journeys/beijing/6-beijing-thumb.avif",
+    "alt": "A panoramic view across Beijing toward the Central Radio and TV Tower",
+    "caption": "Dense neighbourhoods stretch toward the western television tower.",
+    "location": "Beijing, China",
+    "themes": ["cityscape", "architecture", "aerial"]
+  },
+  {
+    "src": "/photos/journeys/beijing/7-beijing.avif",
+    "thumb": "/photos/journeys/beijing/7-beijing-thumb.avif",
+    "alt": "A pagoda on Yuquan Hill beyond the frozen water of the Summer Palace",
+    "caption": "Yuquan Hill and its pagoda rise beyond a frozen winter landscape.",
+    "location": "Beijing, China",
+    "themes": ["winter", "pagoda", "landscape"]
+  },
+  {
+    "src": "/photos/journeys/beijing/8-beijing.avif",
+    "thumb": "/photos/journeys/beijing/8-beijing-thumb.avif",
+    "alt": "A distant pagoda reflected in the frozen lake at night",
+    "caption": "A solitary pagoda and a row of warm lights cross the frozen night.",
+    "location": "Beijing, China",
+    "themes": ["night", "winter", "reflection"]
+  },
+  {
+    "src": "/photos/journeys/beijing/9-beijing.avif",
+    "thumb": "/photos/journeys/beijing/9-beijing-thumb.avif",
+    "alt": "The red-brick Grand Auditorium at Tsinghua University",
+    "caption": "The Grand Auditorium stands quietly beyond the green lawn at Tsinghua.",
+    "location": "Beijing, China",
+    "themes": ["architecture", "campus", "history"]
+  },
+  {
+    "src": "/photos/journeys/beijing/10-beijing.avif",
+    "thumb": "/photos/journeys/beijing/10-beijing-thumb.avif",
+    "alt": "The illuminated crown of a modern Beijing tower at night",
+    "caption": "Vertical lines of light sharpen the crown of a tower against the night.",
+    "location": "Beijing, China",
+    "themes": ["architecture", "night", "light"]
+  },
+  {
+    "src": "/photos/journeys/beijing/11-beijing.avif",
+    "thumb": "/photos/journeys/beijing/11-beijing-thumb.avif",
+    "alt": "A curved modern building glowing gold against a blue evening sky",
+    "caption": "A golden curve gathers the last blue of evening around its edge.",
+    "location": "Beijing, China",
+    "themes": ["architecture", "blue-hour", "detail"]
+  },
+  {
+    "src": "/photos/journeys/beijing/12-beijing.avif",
+    "thumb": "/photos/journeys/beijing/12-beijing-thumb.avif",
+    "alt": "The illuminated bell tower and cross of a historic Beijing church",
+    "caption": "Warm light reveals the carved details of a church tower after dark.",
+    "location": "Beijing, China",
+    "themes": ["church", "architecture", "night"]
+  },
+  {
+    "src": "/photos/journeys/beijing/13-beijing.avif",
+    "thumb": "/photos/journeys/beijing/13-beijing-thumb.avif",
+    "alt": "A large violin sign mounted on the facade of a Beijing building",
+    "caption": "A giant violin turns an ordinary facade into a musical landmark.",
+    "location": "Beijing, China",
+    "themes": ["street", "sign", "music"]
+  },
+  {
+    "src": "/photos/journeys/beijing/14-beijing.avif",
+    "thumb": "/photos/journeys/beijing/14-beijing-thumb.avif",
+    "alt": "A brightly illuminated Super Swirly attraction at night in Beijing",
+    "caption": "Neon lettering and looping steel animate the amusement park after dark.",
+    "location": "Beijing, China",
+    "themes": ["night", "amusement-park", "neon"]
+  },
+  {
+    "src": "/photos/journeys/beijing/15-beijing.avif",
+    "thumb": "/photos/journeys/beijing/15-beijing-thumb.avif",
+    "alt": "Green, yellow, and orange illuminated forms reflected in water at night",
+    "caption": "Oversized fields of colour glow above the bridge and ripple across the water.",
+    "location": "Beijing, China",
+    "themes": ["installation", "colour", "reflection"]
+  },
+  {
+    "src": "/photos/journeys/beijing/16-beijing.avif",
+    "thumb": "/photos/journeys/beijing/16-beijing-thumb.avif",
+    "alt": "People walking through a snow-covered university campus at night",
+    "caption": "Footsteps and streetlights give shape to a snowy campus night.",
+    "location": "Beijing, China",
+    "themes": ["snow", "night", "people"]
+  },
+  {
+    "src": "/photos/journeys/beijing/17-beijing.avif",
+    "thumb": "/photos/journeys/beijing/17-beijing-thumb.avif",
+    "alt": "Pale pink blossoms opening on a branch in Beijing",
+    "caption": "Soft blossom marks the city's turn from winter toward spring.",
+    "location": "Beijing, China",
+    "themes": ["blossom", "spring", "nature"]
+  },
+  {
+    "src": "/photos/journeys/beijing/18-beijing.avif",
+    "thumb": "/photos/journeys/beijing/18-beijing-thumb.avif",
+    "alt": "A red rose mural casting a shadow on a pale courtyard wall",
+    "caption": "A painted rose and its shadow bring a small wall vividly to life.",
+    "location": "Beijing, China",
+    "themes": ["mural", "colour", "shadow"]
+  }
+]

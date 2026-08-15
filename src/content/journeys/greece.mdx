@@ -1,0 +1,20 @@
+---
+title: Greece
+slug: greece
+pubDate: 2023-06
+description: Ancient stone in Athens, bright harbours and open water in Rhodes, and the colourful hillside homes of Symi.
+author: "Jun Bai"
+tags: ["greece", "athens", "rhodes", "symi"]
+image:
+  src: /photos/journeys/greece/cover.avif
+  alt: "Swimmers on a stone jetty beside the turquoise sea in Rhodes"
+  positionx: 50%
+  positiony: 50%
+---
+
+import MasonryLayout from "../../components/Masonry.astro";
+import greeceImages from "../../data/journeys/greece.json";
+
+From the monuments of Athens to the harbours and beaches of Rhodes, then across the Aegean to Symi's colourful waterfront.
+
+<MasonryLayout images={greeceImages} />

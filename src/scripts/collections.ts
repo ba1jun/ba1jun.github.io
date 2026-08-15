@@ -10,6 +10,7 @@ export type CollectionName =
   | "muses"
   | "short_form"
   | "long_form"
+  | "journeys"
   | "zeitweilig"
   | "authors"
   | "cv";
@@ -24,6 +25,7 @@ interface CollectionPost {
     tags: string[];
     pubDate: Date;
     updatedDate?: Date;
+    ongoing?: boolean;
     author: string;
     image?: {
       src: string;

@@ -16,10 +16,14 @@ test.describe("Navigation", () => {
     const hamburger = page.getByRole("button", { name: /menu/i });
     await expect(hamburger).toBeVisible();
     await hamburger.click();
-    const musesLink = page.locator('#nav-links a[href="/muses/"]');
-    await expect(musesLink).toBeVisible({ timeout: 3000 });
-    await musesLink.click();
-    await expect(page).toHaveURL(/\/muses/);
+    const journeysLink = page.locator('#nav-links a[href="/journeys/"]');
+    await expect(journeysLink).toBeVisible({ timeout: 3000 });
+    const researchLink = page.locator(
+      '#nav-links a[href="https://ba1jun.github.io/research-page/"]',
+    );
+    await expect(researchLink).toBeVisible();
+    await journeysLink.click();
+    await expect(page).toHaveURL(/\/journeys/);
   });
 
   test("hamburger menu toggles on mobile viewport", async ({ page }) => {
@@ -85,7 +89,7 @@ test.describe("Navigation", () => {
   });
 
   test("W31: footer RSS link href is not empty after JS", async ({ page }) => {
-    await page.goto("/muses/");
+    await page.goto("/journeys/");
     await page.waitForTimeout(1000);
     const rssLink = page.locator("#rss-link");
     if ((await rssLink.count()) > 0) {

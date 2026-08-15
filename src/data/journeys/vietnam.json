@@ -1,0 +1,130 @@
+[
+  {
+    "src": "/photos/journeys/vietnam/1.avif",
+    "thumbnail": "/photos/journeys/vietnam/1-thumb.avif",
+    "alt": "The vaulted interior of Saigon Central Post Office beneath a portrait of Ho Chi Minh",
+    "caption": "Evening light settles beneath the vaulted roof of Saigon Central Post Office.",
+    "location": "Ho Chi Minh City, Vietnam",
+    "themes": ["architecture", "interior", "history"]
+  },
+  {
+    "src": "/photos/journeys/vietnam/2.avif",
+    "thumbnail": "/photos/journeys/vietnam/2-thumb.avif",
+    "alt": "A portrait of Ho Chi Minh and red flags on an illuminated city building at night",
+    "caption": "Portraits, flags, and anniversary banners illuminate a city corner after dark.",
+    "location": "Ho Chi Minh City, Vietnam",
+    "themes": ["night", "city", "history"]
+  },
+  {
+    "src": "/photos/journeys/vietnam/3.avif",
+    "thumbnail": "/photos/journeys/vietnam/3-thumb.avif",
+    "alt": "A passenger silhouetted against a harbour sunset seen through a vehicle window",
+    "caption": "The harbour sunset passes through the frame of a moving window.",
+    "location": "Phu Quoc, Vietnam",
+    "themes": ["sunset", "travel", "harbour"]
+  },
+  {
+    "src": "/photos/journeys/vietnam/4.avif",
+    "thumbnail": "/photos/journeys/vietnam/4-thumb.avif",
+    "alt": "The blue and white welcome arch at Phu Quoc Island beneath a bright tropical sky",
+    "caption": "A bright arch welcomes travellers beneath towering tropical clouds.",
+    "location": "Phu Quoc, Vietnam",
+    "themes": ["travel", "architecture", "sky"]
+  },
+  {
+    "src": "/photos/journeys/vietnam/5.avif",
+    "thumbnail": "/photos/journeys/vietnam/5-thumb.avif",
+    "alt": "Fishing boats on calm water beneath enormous white clouds in Phu Quoc",
+    "caption": "Fishing boats rest below clouds rising like mountains over the harbour.",
+    "location": "Phu Quoc, Vietnam",
+    "themes": ["boats", "clouds", "harbour"]
+  },
+  {
+    "src": "/photos/journeys/vietnam/6.avif",
+    "thumbnail": "/photos/journeys/vietnam/6-thumb.avif",
+    "alt": "Phu Quoc fishing harbour and town glowing in warm evening light",
+    "caption": "The last light reaches the fishing harbour and the town beyond.",
+    "location": "Phu Quoc, Vietnam",
+    "themes": ["harbour", "town", "sunset"]
+  },
+  {
+    "src": "/photos/journeys/vietnam/7.avif",
+    "thumbnail": "/photos/journeys/vietnam/7-thumb.avif",
+    "alt": "A long pier extending across the sea beneath a pink and blue sunset",
+    "caption": "A quiet pier cuts across the sea as daylight fades to pink.",
+    "location": "Phu Quoc, Vietnam",
+    "themes": ["sunset", "sea", "pier"]
+  },
+  {
+    "src": "/photos/journeys/vietnam/8.avif",
+    "thumbnail": "/photos/journeys/vietnam/8-thumb.avif",
+    "alt": "Palm trees beneath a golden sunset over the sea in Phu Quoc",
+    "caption": "Palms hold their silhouette beneath a sky washed in gold.",
+    "location": "Phu Quoc, Vietnam",
+    "themes": ["sunset", "palms", "sea"]
+  },
+  {
+    "src": "/photos/journeys/vietnam/9.avif",
+    "thumbnail": "/photos/journeys/vietnam/9-thumb.avif",
+    "alt": "Visitors silhouetted on Kiss Bridge beneath glowing sunset clouds",
+    "caption": "Two halves of Kiss Bridge meet beneath a monumental sunset.",
+    "location": "Kiss Bridge, Phu Quoc, Vietnam",
+    "themes": ["people", "architecture", "sunset"]
+  },
+  {
+    "src": "/photos/journeys/vietnam/10.avif",
+    "thumbnail": "/photos/journeys/vietnam/10-thumb.avif",
+    "alt": "Two visitors standing on a small concrete jetty as waves break over dark rocks",
+    "caption": "Visitors pause at the end of a jetty while the sea breaks around them.",
+    "location": "Phu Quoc, Vietnam",
+    "themes": ["people", "waves", "coast"]
+  },
+  {
+    "src": "/photos/journeys/vietnam/11.avif",
+    "thumbnail": "/photos/journeys/vietnam/11-thumb.avif",
+    "alt": "Pastel buildings and a winding green staircase in Sunset Town",
+    "caption": "A tiled staircase winds between pastel façades and clipped greenery.",
+    "location": "Sunset Town, Phu Quoc, Vietnam",
+    "themes": ["architecture", "colour", "stairs"]
+  },
+  {
+    "src": "/photos/journeys/vietnam/12.avif",
+    "thumbnail": "/photos/journeys/vietnam/12-thumb.avif",
+    "alt": "A yellow vintage-style electric car parked on a colourful street in Sunset Town",
+    "caption": "A bright yellow car waits on a rain-darkened street.",
+    "location": "Sunset Town, Phu Quoc, Vietnam",
+    "themes": ["street", "colour", "transport"]
+  },
+  {
+    "src": "/photos/journeys/vietnam/13.avif",
+    "thumbnail": "/photos/journeys/vietnam/13-thumb.avif",
+    "alt": "Vietnamese flags hanging from pastel balconies along a shaded street",
+    "caption": "Red flags punctuate a shaded street of pastel balconies.",
+    "location": "Sunset Town, Phu Quoc, Vietnam",
+    "themes": ["street", "architecture", "flags"]
+  },
+  {
+    "src": "/photos/journeys/vietnam/14.avif",
+    "thumbnail": "/photos/journeys/vietnam/14-thumb.avif",
+    "alt": "Red flowers and blue shutters on a balcony against a vivid yellow wall",
+    "caption": "Red flowers and blue shutters brighten a sunlit yellow wall.",
+    "location": "Sunset Town, Phu Quoc, Vietnam",
+    "themes": ["architecture", "colour", "details"]
+  },
+  {
+    "src": "/photos/journeys/vietnam/15.avif",
+    "thumbnail": "/photos/journeys/vietnam/15-thumb.avif",
+    "alt": "A densely forested headland meeting the rocky coast of Phu Quoc",
+    "caption": "Forest follows the rocky edge of the island into the sea.",
+    "location": "Phu Quoc, Vietnam",
+    "themes": ["coast", "forest", "landscape"]
+  },
+  {
+    "src": "/photos/journeys/vietnam/16.avif",
+    "thumbnail": "/photos/journeys/vietnam/16-thumb.avif",
+    "alt": "A red Hon Thom cable car travelling above the turquoise coast of Phu Quoc",
+    "caption": "A cable car crosses high above the coast toward Hon Thom.",
+    "location": "Hon Thom, Phu Quoc, Vietnam",
+    "themes": ["cable car", "coast", "travel"]
+  }
+]

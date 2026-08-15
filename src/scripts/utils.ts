@@ -46,3 +46,15 @@ export function formatDate(
   const seconds = String(date.getSeconds()).padStart(2, "0");
   return `${datePart} ${hours}:${minutes}:${seconds}`;
 }
+
+/** Format a date as a journey month, for example "June 2026". */
+export function formatMonthYear(
+  date: Date | undefined | null,
+): string | undefined {
+  if (!date) return undefined;
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    timeZone: "UTC",
+  }).format(date);
+}

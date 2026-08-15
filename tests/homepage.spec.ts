@@ -43,7 +43,7 @@ test.describe("Homepage", () => {
     const anchor = page.locator("#homepage a").first();
     const href = await anchor.getAttribute("href");
     expect(href).not.toBe("#");
-    expect(href).toMatch(/^\/(long_form|short_form|muses|zeitweilig)\//);
+    expect(href).toMatch(/^\/journeys\//);
   });
 
   test("homepage anchor gets aria-label after JS", async ({ page }) => {

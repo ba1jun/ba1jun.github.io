@@ -18,7 +18,7 @@ Primary runtime and package manager: Bun. Some helper scripts still run through 
 src/
   components/       Astro components; `ui/` is empty (shadcn removed post-refactor)
   config/           Route and collection configuration (collections.ts)
-  content/          MDX content collections: muses, short_form, long_form, zeitweilig, authors, cv
+  content/          MDX content collections: muses, short_form, long_form, journeys, zeitweilig, authors, cv
   content.config.ts Zod-backed collection schemas and glob loaders
   consts.ts         Site constants, metadata, CDN URLs, social links
   index.ts          Cloudflare Workers asset entry point
@@ -27,6 +27,7 @@ src/
   scripts/          Client/build helpers such as collections, theme, lightbox, utils
   styles/           Global and shared CSS
 public/             Static assets served as-is
+photos-originals/   Local photo masters; ignored except for its README
 scripts/            Node CLI/content maintenance scripts
 dist/               Generated output; do not edit by hand
 ```
@@ -43,6 +44,7 @@ bun run build                  # production build; also runs prebuild + postbuil
 bun run preview                # preview built site from dist/
 bun run prebuild               # sync README/doc version badges
 bun run postbuild              # run Pagefind over dist/ only
+bun run images -- 202605-turkey --clean --cover "image-name" # journey AVIFs
 bun run lint:html              # validate generated HTML in dist/
 bun run lint:links             # check internal links from dist/index.html
 bun run lint:site              # full quality gate: build + html + links
@@ -196,12 +198,21 @@ bun x hyperlink dist/path/to/page.html --skip-external
 ## Generated and Deployment-Sensitive Files
 
 - Do not commit `dist/`, generated Pagefind output, or `.env` files.
+- Keep full-resolution photo masters under `photos-originals/journeys/`; they are
+  ignored by Git and must be backed up separately. Commit the generated AVIF
+  variants under `public/photos/journeys/` so CI can deploy them without the
+  masters.
+- Vite ignores `photos-originals/` in development because those large local
+  masters are not site source files and can exhaust Windows file watchers.
 - Cloudflare Worker entrypoint is `src/index.ts`; keep it minimal and edge-safe.
 - Wrangler config lives in `wrangler.jsonc`.
 
 ## Deployment Notes
 
-- Deployment target is Cloudflare Workers (static assets); a Docker image is built for container hosting. Deploys are atomic and asset URLs are content-hashed, so no cache purge step exists.
+- Primary deployment target is GitHub Pages at `https://ba1jun.github.io`; `astro.config.mjs` uses that root URL and must not set a repository `base` because the repository is named `ba1jun.github.io`.
+- `.github/workflows/deploy.yml` builds and tests pushes and pull requests for `main`, but the Pages deployment job runs only for a push to `main`. Feature branches such as `redesign/revista` never publish the site.
+- The template's Cloudflare Workers and Docker deployment jobs are retained for reference but disabled through `ENABLE_UPSTREAM_DEPLOYS: "false"`; do not enable them without an explicit deployment decision and the required secrets.
+- GitHub repository Settings > Pages must use **GitHub Actions** as the publishing source before the first Pages deployment.
 - `dist/` is generated output and Pagefind indexes it after a successful build.
 
 ## Agent Workflow Recommendations

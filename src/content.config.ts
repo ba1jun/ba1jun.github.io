@@ -26,6 +26,7 @@ const baseSchema = z.object({
     .optional(),
   pubDate: z.coerce.date(),
   updatedDate: z.coerce.date().optional(),
+  ongoing: z.boolean().optional(),
   slug: z.string().optional(),
   readingTimeMs: z.number().optional(),
 });
@@ -42,6 +43,11 @@ const short_form = defineCollection({
 
 const long_form = defineCollection({
   loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/long_form" }),
+  schema: baseSchema,
+});
+
+const journeys = defineCollection({
+  loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/journeys" }),
   schema: baseSchema,
 });
 
@@ -141,6 +147,7 @@ export const collections = {
   muses,
   short_form,
   long_form,
+  journeys,
   zeitweilig,
   authors,
   cv,

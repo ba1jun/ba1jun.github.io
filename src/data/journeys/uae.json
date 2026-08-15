@@ -1,0 +1,154 @@
+[
+  {
+    "src": "/photos/journeys/uae/1-dubai.avif",
+    "thumb": "/photos/journeys/uae/1-dubai-thumb.avif",
+    "alt": "A traditional abra carrying passengers across Dubai Creek",
+    "caption": "An abra crosses the creek between the old waterfronts of Dubai.",
+    "location": "Dubai, United Arab Emirates",
+    "themes": ["creek", "transport", "people"]
+  },
+  {
+    "src": "/photos/journeys/uae/2-dubai.avif",
+    "thumb": "/photos/journeys/uae/2-dubai-thumb.avif",
+    "alt": "Arabic lettering and flowers on the sunlit facade of Al Seef Heritage Hotel",
+    "caption": "Weathered plaster, wooden doors, and bright bougainvillea in Al Seef.",
+    "location": "Dubai, United Arab Emirates",
+    "themes": ["architecture", "heritage", "detail"]
+  },
+  {
+    "src": "/photos/journeys/uae/3-dubai.avif",
+    "thumb": "/photos/journeys/uae/3-dubai-thumb.avif",
+    "alt": "A pedestrian passing sand-coloured walls and a blue window in old Dubai",
+    "caption": "A lone passerby moves through the quiet geometry of sand-coloured walls.",
+    "location": "Dubai, United Arab Emirates",
+    "themes": ["street", "architecture", "minimal"]
+  },
+  {
+    "src": "/photos/journeys/uae/4-dubai.avif",
+    "thumb": "/photos/journeys/uae/4-dubai-thumb.avif",
+    "alt": "Burj Al Arab in front of Dubai's hazy skyline and Burj Khalifa",
+    "caption": "Burj Al Arab and Burj Khalifa rise through layers of desert haze.",
+    "location": "Dubai, United Arab Emirates",
+    "themes": ["skyline", "architecture", "haze"]
+  },
+  {
+    "src": "/photos/journeys/uae/5-dubai.avif",
+    "thumb": "/photos/journeys/uae/5-dubai-thumb.avif",
+    "alt": "Atlantis The Royal beyond Palm Jumeirah villas and the sea",
+    "caption": "Atlantis The Royal catches the late light beyond Palm Jumeirah's villas.",
+    "location": "Dubai, United Arab Emirates",
+    "themes": ["architecture", "coast", "sunset"]
+  },
+  {
+    "src": "/photos/journeys/uae/6-dubai.avif",
+    "thumb": "/photos/journeys/uae/6-dubai-thumb.avif",
+    "alt": "Dubai Frame above the old and new city in warm haze",
+    "caption": "The Dubai Frame bridges a city layered in warm evening haze.",
+    "location": "Dubai, United Arab Emirates",
+    "themes": ["cityscape", "architecture", "sunset"]
+  },
+  {
+    "src": "/photos/journeys/uae/7-dubai.avif",
+    "thumb": "/photos/journeys/uae/7-dubai-thumb.avif",
+    "alt": "Downtown Dubai roads and towers illuminated at night from above",
+    "caption": "Roads and towers become a dense constellation beneath the city at night.",
+    "location": "Dubai, United Arab Emirates",
+    "themes": ["night", "cityscape", "aerial"]
+  },
+  {
+    "src": "/photos/journeys/uae/8-dubai.avif",
+    "thumb": "/photos/journeys/uae/8-dubai-thumb.avif",
+    "alt": "Burj Khalifa illuminated against the night sky",
+    "caption": "Burj Khalifa disappears upward into the dark.",
+    "location": "Dubai, United Arab Emirates",
+    "themes": ["night", "architecture", "landmark"]
+  },
+  {
+    "src": "/photos/journeys/uae/9-dubai.avif",
+    "thumb": "/photos/journeys/uae/9-dubai-thumb.avif",
+    "alt": "A car framed by blue-lit reflective architecture on a Dubai street",
+    "caption": "A parked car sits inside a frame of blue light and reflections.",
+    "location": "Dubai, United Arab Emirates",
+    "themes": ["night", "street", "reflection"]
+  },
+  {
+    "src": "/photos/journeys/uae/10-dubai.avif",
+    "thumb": "/photos/journeys/uae/10-dubai-thumb.avif",
+    "alt": "A hot-air balloon burner firing inside the envelope as the crew prepares for launch",
+    "caption": "Flame fills the balloon as the crew prepares for a pre-dawn launch.",
+    "location": "Dubai, United Arab Emirates",
+    "themes": ["balloon", "people", "dawn"]
+  },
+  {
+    "src": "/photos/journeys/uae/11-dubai.avif",
+    "thumb": "/photos/journeys/uae/11-dubai-thumb.avif",
+    "alt": "A hot-air balloon silhouetted beside the rising sun over the desert",
+    "caption": "A balloon drifts between the morning sun and distant desert ridges.",
+    "location": "Dubai, United Arab Emirates",
+    "themes": ["balloon", "sunrise", "desert"]
+  },
+  {
+    "src": "/photos/journeys/uae/12-dubai.avif",
+    "thumb": "/photos/journeys/uae/12-dubai-thumb.avif",
+    "alt": "The rounded red canopy of a hot-air balloon against a pale sky",
+    "caption": "A red curve floats into an almost empty morning sky.",
+    "location": "Dubai, United Arab Emirates",
+    "themes": ["balloon", "minimal", "colour"]
+  },
+  {
+    "src": "/photos/journeys/uae/13-dubai.avif",
+    "thumb": "/photos/journeys/uae/13-dubai-thumb.avif",
+    "alt": "A red hot-air balloon floating above desert dunes in morning light",
+    "caption": "The balloon glides over quiet dunes in the soft light of morning.",
+    "location": "Dubai, United Arab Emirates",
+    "themes": ["balloon", "desert", "sunrise"]
+  },
+  {
+    "src": "/photos/journeys/uae/14-dubai.avif",
+    "thumb": "/photos/journeys/uae/14-dubai-thumb.avif",
+    "alt": "A hot-air balloon basket silhouetted above desert dunes at sunrise",
+    "caption": "Passengers cross the desert in a basket suspended beneath a field of red.",
+    "location": "Dubai, United Arab Emirates",
+    "themes": ["balloon", "people", "desert"]
+  },
+  {
+    "src": "/photos/journeys/uae/15-dubai.avif",
+    "thumb": "/photos/journeys/uae/15-dubai-thumb.avif",
+    "alt": "A striped hot-air balloon floating above roads in the desert haze",
+    "caption": "A distant balloon follows the roadways through the morning haze.",
+    "location": "Dubai, United Arab Emirates",
+    "themes": ["balloon", "aerial", "haze"]
+  },
+  {
+    "src": "/photos/journeys/uae/16-dubai.avif",
+    "thumb": "/photos/journeys/uae/16-dubai-thumb.avif",
+    "alt": "A traveller riding a brown horse beneath a clear blue sky near Dubai",
+    "caption": "A horseback pause beneath the wide blue desert sky.",
+    "location": "Dubai, United Arab Emirates",
+    "themes": ["portrait", "horse", "desert"]
+  },
+  {
+    "src": "/photos/journeys/uae/17-abd.avif",
+    "thumb": "/photos/journeys/uae/17-abd-thumb.avif",
+    "alt": "Modern Abu Dhabi towers glowing red at blue hour",
+    "caption": "Glass towers take on the last red light of evening in Abu Dhabi.",
+    "location": "Abu Dhabi, United Arab Emirates",
+    "themes": ["architecture", "blue-hour", "city"]
+  },
+  {
+    "src": "/photos/journeys/uae/18-abd.avif",
+    "thumb": "/photos/journeys/uae/18-abd-thumb.avif",
+    "alt": "Jayson Tatum holding the ball during a basketball game in Abu Dhabi",
+    "caption": "A courtside moment as Boston and Madrid meet beneath the arena lights.",
+    "location": "Abu Dhabi, United Arab Emirates",
+    "themes": ["basketball", "sport", "people"]
+  },
+  {
+    "src": "/photos/journeys/uae/19-abd.avif",
+    "thumb": "/photos/journeys/uae/19-abd-thumb.avif",
+    "alt": "The Rocky mascot waving to spectators beside a basketball court in Abu Dhabi",
+    "caption": "The arena mascot works the sideline between cameras, flags, and fans.",
+    "location": "Abu Dhabi, United Arab Emirates",
+    "themes": ["basketball", "arena", "people"]
+  }
+]

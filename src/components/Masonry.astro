@@ -14,7 +14,11 @@ import { getImage } from "astro:assets";
 
 export interface MasonryImage {
   src: string;
+  thumbnail?: string;
   alt: string;
+  caption?: string;
+  location?: string;
+  themes?: string[];
   positionx?: string;
   positiony?: string;
 }
@@ -27,8 +31,21 @@ const { images } = Astro.props;
 const imageAssets = await Promise.all(
   images.map(async (image) => {
     if (image) {
+      const displaySrc = image.thumbnail ?? image.src;
+      if (displaySrc.startsWith("/")) {
+        return {
+          src: displaySrc,
+          attributes: {
+            alt: image.alt,
+            loading: "lazy" as const,
+            decoding: "async" as const,
+            width: undefined,
+            height: undefined,
+          },
+        };
+      }
       return await getImage({
-        src: image.src,
+        src: displaySrc,
         alt: image.alt,
         width: 1920,
         height: 1080,
@@ -54,7 +71,13 @@ const imageAssets = await Promise.all(
         : undefined;
       return (
         <div class="image-container gallery">
-          <a href={image.src} class="image-link lightbox-link">
+          <a
+            href={image.src}
+            class="image-link lightbox-link"
+            data-caption={image.caption}
+            data-location={image.location}
+            data-themes={image.themes?.join(", ")}
+          >
             <img
               src={imageAsset.src}
               alt={imageAsset.attributes.alt}

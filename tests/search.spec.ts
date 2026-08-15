@@ -24,7 +24,7 @@ test.describe("Pagefind search", () => {
     await expect(dialog).toBeVisible({ timeout: 3000 });
 
     const input = page.locator("#searchInput");
-    await input.fill("erfi");
+    await input.fill("Beijing");
     // Wait for debounce (150ms) + search execution
     const summary = page.locator("#searchSummary");
     await expect(summary).not.toHaveText("", { timeout: 5000 });
@@ -44,7 +44,7 @@ test.describe("Pagefind search", () => {
 
     // Navigate multiple times (full page loads in static preview)
     await page.goto("/");
-    await page.goto("/muses/");
+    await page.goto("/journeys/");
     await page.goto("/");
 
     // Ctrl+K should still open dialog cleanly

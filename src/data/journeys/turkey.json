@@ -1,0 +1,282 @@
+[
+  {
+    "src": "/photos/journeys/turkey/1-istanbul-yeni-camii-1.avif",
+    "thumbnail": "/photos/journeys/turkey/1-istanbul-yeni-camii-1-thumb.avif",
+    "alt": "Yeni Mosque illuminated beside the Bosphorus at blue hour",
+    "caption": "Yeni Mosque glows beside the water at blue hour.",
+    "location": "Yeni Mosque, Istanbul, Türkiye",
+    "themes": ["mosque", "blue hour", "waterfront"]
+  },
+  {
+    "src": "/photos/journeys/turkey/3-istanbul-galata-3.avif",
+    "thumbnail": "/photos/journeys/turkey/3-istanbul-galata-3-thumb.avif",
+    "alt": "Istanbul mosques and the Golden Horn framed by a narrow arched window",
+    "caption": "The old city appears through a narrow window high above Galata.",
+    "location": "Galata, Istanbul, Türkiye",
+    "themes": ["city", "architecture", "view"]
+  },
+  {
+    "src": "/photos/journeys/turkey/4-istanbul-galata-4.avif",
+    "thumbnail": "/photos/journeys/turkey/4-istanbul-galata-4-thumb.avif",
+    "alt": "Galata Tower rising above dense buildings along the waterfront",
+    "caption": "Galata Tower rises above the layered waterfront city.",
+    "location": "Galata, Istanbul, Türkiye",
+    "themes": ["skyline", "architecture", "waterfront"]
+  },
+  {
+    "src": "/photos/journeys/turkey/5-istanbul-galata-2.avif",
+    "thumbnail": "/photos/journeys/turkey/5-istanbul-galata-2-thumb.avif",
+    "alt": "The waterfront framed by a narrow arched window in Galata Tower",
+    "caption": "An arched opening frames the water and distant city.",
+    "location": "Galata, Istanbul, Türkiye",
+    "themes": ["city", "waterfront", "architecture"]
+  },
+  {
+    "src": "/photos/journeys/turkey/6-istanbul-galata-1.avif",
+    "thumbnail": "/photos/journeys/turkey/6-istanbul-galata-1-thumb.avif",
+    "alt": "An Istanbul street seen through an arched window near Galata",
+    "caption": "The city drops away through an arched window near Galata.",
+    "location": "Galata, Istanbul, Türkiye",
+    "themes": ["city", "architecture", "view"]
+  },
+  {
+    "src": "/photos/journeys/turkey/7-istanbul-kemal.avif",
+    "thumbnail": "/photos/journeys/turkey/7-istanbul-kemal-thumb.avif",
+    "alt": "A large portrait of Mustafa Kemal Atatürk on an Istanbul building",
+    "caption": "Atatürk's portrait overlooks the street.",
+    "location": "Istanbul, Türkiye",
+    "themes": ["portrait", "history", "city"]
+  },
+  {
+    "src": "/photos/journeys/turkey/8-istanbul-john.avif",
+    "thumbnail": "/photos/journeys/turkey/8-istanbul-john-thumb.avif",
+    "alt": "A John Wick mural painted on a closed shop shutter",
+    "caption": "John Wick waits behind a closed shutter.",
+    "location": "Istanbul, Türkiye",
+    "themes": ["street art", "cinema", "city"]
+  },
+  {
+    "src": "/photos/journeys/turkey/10-istanbul-dolmabahce-1.avif",
+    "thumbnail": "/photos/journeys/turkey/10-istanbul-dolmabahce-1-thumb.avif",
+    "alt": "An ornate chandelier and ceremonial hall in Dolmabahçe Palace",
+    "caption": "Chandeliers illuminate a ceremonial room at Dolmabahçe Palace.",
+    "location": "Dolmabahçe Palace, Istanbul, Türkiye",
+    "themes": ["interior", "architecture", "history"]
+  },
+  {
+    "src": "/photos/journeys/turkey/11-istanbul-dolmabahce-2.avif",
+    "thumbnail": "/photos/journeys/turkey/11-istanbul-dolmabahce-2-thumb.avif",
+    "alt": "Marble columns and gilded details inside Dolmabahçe Palace",
+    "caption": "Marble columns frame the gilded interior of the palace.",
+    "location": "Dolmabahçe Palace, Istanbul, Türkiye",
+    "themes": ["interior", "architecture", "details"]
+  },
+  {
+    "src": "/photos/journeys/turkey/12-istanbul-dolmabahce-3.avif",
+    "thumbnail": "/photos/journeys/turkey/12-istanbul-dolmabahce-3-thumb.avif",
+    "alt": "A richly painted ceiling inside Dolmabahçe Palace",
+    "caption": "Paint and gold spiral across the palace ceiling.",
+    "location": "Dolmabahçe Palace, Istanbul, Türkiye",
+    "themes": ["interior", "art", "details"]
+  },
+  {
+    "src": "/photos/journeys/turkey/13-istanbul-kariye-camii-1.avif",
+    "thumbnail": "/photos/journeys/turkey/13-istanbul-kariye-camii-1-thumb.avif",
+    "alt": "A circular painted dome inside Kariye Mosque",
+    "caption": "Figures radiate across a painted dome inside Kariye.",
+    "location": "Kariye Mosque, Istanbul, Türkiye",
+    "themes": ["interior", "art", "history"]
+  },
+  {
+    "src": "/photos/journeys/turkey/14-istanbul-kariye-camii-2.avif",
+    "thumbnail": "/photos/journeys/turkey/14-istanbul-kariye-camii-2-thumb.avif",
+    "alt": "A historic religious fresco inside Kariye Mosque",
+    "caption": "A weathered sacred image remains on the wall at Kariye.",
+    "location": "Kariye Mosque, Istanbul, Türkiye",
+    "themes": ["art", "history", "interior"]
+  },
+  {
+    "src": "/photos/journeys/turkey/15-istanbul-sultanahmet.avif",
+    "thumbnail": "/photos/journeys/turkey/15-istanbul-sultanahmet-thumb.avif",
+    "alt": "The interior of Sultan Ahmed Mosque lit by hanging lamps",
+    "caption": "Hanging lights arc beneath the domes of Sultanahmet.",
+    "location": "Sultan Ahmed Mosque, Istanbul, Türkiye",
+    "themes": ["mosque", "interior", "architecture"]
+  },
+  {
+    "src": "/photos/journeys/turkey/16-istanbul-suleymaniye.avif",
+    "thumbnail": "/photos/journeys/turkey/16-istanbul-suleymaniye-thumb.avif",
+    "alt": "Süleymaniye Mosque above ferries on the Golden Horn",
+    "caption": "Süleymaniye Mosque crowns the skyline above the ferries.",
+    "location": "Süleymaniye, Istanbul, Türkiye",
+    "themes": ["mosque", "skyline", "waterfront"]
+  },
+  {
+    "src": "/photos/journeys/turkey/17-istanbul-grand-camlica-2.avif",
+    "thumbnail": "/photos/journeys/turkey/17-istanbul-grand-camlica-2-thumb.avif",
+    "alt": "A steep Istanbul street descending toward the water",
+    "caption": "A steep street opens toward the water and distant minarets.",
+    "location": "Istanbul, Türkiye",
+    "themes": ["street", "city", "waterfront"]
+  },
+  {
+    "src": "/photos/journeys/turkey/18-istanbul-seagull.avif",
+    "thumbnail": "/photos/journeys/turkey/18-istanbul-seagull-thumb.avif",
+    "alt": "A seagull perched on a small tower above Istanbul",
+    "caption": "A seagull claims a high perch above the city.",
+    "location": "Istanbul, Türkiye",
+    "themes": ["birds", "city", "waterfront"]
+  },
+  {
+    "src": "/photos/journeys/turkey/19-istanbul-cat-5.avif",
+    "thumbnail": "/photos/journeys/turkey/19-istanbul-cat-5-thumb.avif",
+    "alt": "Two tabby cats resting near a wall in Istanbul",
+    "caption": "Two neighbourhood cats share a sheltered corner.",
+    "location": "Istanbul, Türkiye",
+    "themes": ["cats", "street"]
+  },
+  {
+    "src": "/photos/journeys/turkey/20-istanbul-cat-4.avif",
+    "thumbnail": "/photos/journeys/turkey/20-istanbul-cat-4-thumb.avif",
+    "alt": "A white-and-tabby cat walking across paving stones",
+    "caption": "A determined cat crosses the paving stones.",
+    "location": "Istanbul, Türkiye",
+    "themes": ["cats", "street"]
+  },
+  {
+    "src": "/photos/journeys/turkey/21-istanbul-cat-1.avif",
+    "thumbnail": "/photos/journeys/turkey/21-istanbul-cat-1-thumb.avif",
+    "alt": "A black-and-white cat peering over a weathered wall in Istanbul",
+    "caption": "A watchful cat pauses above a weathered wall.",
+    "location": "Istanbul, Türkiye",
+    "themes": ["cats", "street", "portrait"]
+  },
+  {
+    "src": "/photos/journeys/turkey/22-cappadocia-erciyes-1.avif",
+    "thumbnail": "/photos/journeys/turkey/22-cappadocia-erciyes-1-thumb.avif",
+    "alt": "Snow-covered Mount Erciyes beyond apartment buildings and fields",
+    "caption": "Mount Erciyes rises beyond the city.",
+    "location": "Central Anatolia, Türkiye",
+    "themes": ["mountains", "city"]
+  },
+  {
+    "src": "/photos/journeys/turkey/23-cappadocia-erciyes-2.avif",
+    "thumbnail": "/photos/journeys/turkey/23-cappadocia-erciyes-2-thumb.avif",
+    "alt": "Mount Erciyes framed behind people on an elevated terrace",
+    "caption": "An afternoon terrace faces the distant summit of Erciyes.",
+    "location": "Central Anatolia, Türkiye",
+    "themes": ["mountains", "people", "distance"]
+  },
+  {
+    "src": "/photos/journeys/turkey/24-cappadocia-divin.avif",
+    "thumbnail": "/photos/journeys/turkey/24-cappadocia-divin-thumb.avif",
+    "alt": "A warmly lit carpet and craft shop in Cappadocia",
+    "caption": "Carpets, lamps and small treasures fill a shop after dark.",
+    "location": "Cappadocia, Türkiye",
+    "themes": ["night", "craft", "street"]
+  },
+  {
+    "src": "/photos/journeys/turkey/25-cappadocia-mosaic-lamp.avif",
+    "thumbnail": "/photos/journeys/turkey/25-cappadocia-mosaic-lamp-thumb.avif",
+    "alt": "A dense display of colourful Turkish mosaic lamps",
+    "caption": "Mosaic lamps turn a shop wall into a field of colour.",
+    "location": "Cappadocia, Türkiye",
+    "themes": ["craft", "colour", "details"]
+  },
+  {
+    "src": "/photos/journeys/turkey/26-cappadocia-uchisar-1.avif",
+    "thumbnail": "/photos/journeys/turkey/26-cappadocia-uchisar-1-thumb.avif",
+    "alt": "The rock-cut citadel of Uçhisar rising above Cappadocia",
+    "caption": "Uçhisar Castle catches the late light above the valley.",
+    "location": "Uçhisar, Cappadocia, Türkiye",
+    "themes": ["architecture", "history", "landscape"]
+  },
+  {
+    "src": "/photos/journeys/turkey/27-cappadocia-uchisar-2.avif",
+    "thumbnail": "/photos/journeys/turkey/27-cappadocia-uchisar-2-thumb.avif",
+    "alt": "A wide view across the valleys below Uçhisar",
+    "caption": "The valleys unfold below the heights of Uçhisar.",
+    "location": "Uçhisar, Cappadocia, Türkiye",
+    "themes": ["landscape", "geology", "viewpoint"]
+  },
+  {
+    "src": "/photos/journeys/turkey/28-cappadocia-zelve-open-air-museum-1.avif",
+    "thumbnail": "/photos/journeys/turkey/28-cappadocia-zelve-open-air-museum-1-thumb.avif",
+    "alt": "Rock-cut dwellings and paths at Zelve Open-Air Museum",
+    "caption": "Paths wind between rock-cut dwellings at Zelve.",
+    "location": "Zelve, Cappadocia, Türkiye",
+    "themes": ["history", "landscape", "architecture"]
+  },
+  {
+    "src": "/photos/journeys/turkey/29-cappadocia-zelve-open-air-museum-2.avif",
+    "thumbnail": "/photos/journeys/turkey/29-cappadocia-zelve-open-air-museum-2-thumb.avif",
+    "alt": "Weathered cave openings in the formations at Zelve",
+    "caption": "Weathered chambers remain open in the stone at Zelve.",
+    "location": "Zelve, Cappadocia, Türkiye",
+    "themes": ["history", "geology", "details"]
+  },
+  {
+    "src": "/photos/journeys/turkey/30-cappadocia-aircraft.avif",
+    "thumbnail": "/photos/journeys/turkey/30-cappadocia-aircraft-thumb.avif",
+    "alt": "A microlight aircraft flying above a dark ridge in Cappadocia",
+    "caption": "A microlight crosses the overcast sky above Cappadocia.",
+    "location": "Cappadocia, Türkiye",
+    "themes": ["flight", "landscape"]
+  },
+  {
+    "src": "/photos/journeys/turkey/31-cappadocia-cute-car.avif",
+    "thumbnail": "/photos/journeys/turkey/31-cappadocia-cute-car-thumb.avif",
+    "alt": "Travellers riding colourful compact vehicles through Cappadocia",
+    "caption": "A colourful little convoy rolls through the valley.",
+    "location": "Cappadocia, Türkiye",
+    "themes": ["road", "people", "travel"]
+  },
+  {
+    "src": "/photos/journeys/turkey/32-cappadocia-field-1.avif",
+    "thumbnail": "/photos/journeys/turkey/32-cappadocia-field-1-thumb.avif",
+    "alt": "Fields and a town spread beneath distant mountains in Cappadocia",
+    "caption": "Fields lead toward the town and the mountains beyond.",
+    "location": "Cappadocia, Türkiye",
+    "themes": ["fields", "town", "landscape"]
+  },
+  {
+    "src": "/photos/journeys/turkey/33-cappadocia-horse.avif",
+    "thumbnail": "/photos/journeys/turkey/33-cappadocia-horse-thumb.avif",
+    "alt": "Riders on horseback following a pale trail in Cappadocia",
+    "caption": "Two riders follow a pale trail through the valley.",
+    "location": "Cappadocia, Türkiye",
+    "themes": ["horses", "people", "landscape"]
+  },
+  {
+    "src": "/photos/journeys/turkey/34-cappadocia-zenith.avif",
+    "thumbnail": "/photos/journeys/turkey/34-cappadocia-zenith-thumb.avif",
+    "alt": "A traveller overlooking the carved valleys of Cappadocia",
+    "caption": "A final look across the carved landscape from above.",
+    "location": "Cappadocia, Türkiye",
+    "themes": ["viewpoint", "people", "landscape"]
+  },
+  {
+    "src": "/photos/journeys/turkey/35-cappadocia-goreme-night.avif",
+    "thumbnail": "/photos/journeys/turkey/35-cappadocia-goreme-night-thumb.avif",
+    "alt": "Warm lights glowing across Göreme at night",
+    "caption": "Göreme glows amber as evening settles over the valley.",
+    "location": "Göreme, Cappadocia, Türkiye",
+    "themes": ["night", "town", "lights"]
+  },
+  {
+    "src": "/photos/journeys/turkey/36-cappadocia-field-2.avif",
+    "thumbnail": "/photos/journeys/turkey/36-cappadocia-field-2-thumb.avif",
+    "alt": "Road traffic passing fields and a distant town in Cappadocia",
+    "caption": "The road traces the edge of the fields below the plateau.",
+    "location": "Cappadocia, Türkiye",
+    "themes": ["road", "fields", "landscape"]
+  },
+  {
+    "src": "/photos/journeys/turkey/38-cappadocia-aktepe-1.avif",
+    "thumbnail": "/photos/journeys/turkey/38-cappadocia-aktepe-1-thumb.avif",
+    "alt": "Layered pale rock formations and plateaus near Aktepe",
+    "caption": "Layered rock formations spread beneath the Aktepe plateau.",
+    "location": "Aktepe, Cappadocia, Türkiye",
+    "themes": ["landscape", "geology"]
+  }
+]

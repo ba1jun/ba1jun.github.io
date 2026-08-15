@@ -1,0 +1,210 @@
+[
+  {
+    "src": "/photos/journeys/hongkong-macao/1-macao.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/1-macao-thumb.avif",
+    "alt": "The illuminated Eiffel Tower replica and resort buildings in Macao at night",
+    "caption": "The Eiffel Tower replica glows above Cotai after dark.",
+    "location": "Macao",
+    "themes": ["night", "architecture", "city"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/2-macao.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/2-macao-thumb.avif",
+    "alt": "The Eiffel Tower replica rising behind a red double-decker bus in Macao",
+    "caption": "A red double-decker passes beneath the blue-lit tower.",
+    "location": "Macao",
+    "themes": ["night", "transport", "architecture"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/3-macao.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/3-macao-thumb.avif",
+    "alt": "An illuminated clock tower and ornate buildings at the Londoner Macao",
+    "caption": "A theatrical London skyline lights up the Cotai night.",
+    "location": "Macao",
+    "themes": ["night", "architecture", "city"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/4-macao.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/4-macao-thumb.avif",
+    "alt": "Grand Lisboa rising above a bridge and the Macao skyline",
+    "caption": "Grand Lisboa rises like a beacon above the city and bridge.",
+    "location": "Macao",
+    "themes": ["skyline", "architecture", "city"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/5-macao.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/5-macao-thumb.avif",
+    "alt": "Grand Lisboa framed by an older residential street in Macao",
+    "caption": "An old neighbourhood opens onto one of Macao's boldest landmarks.",
+    "location": "Macao",
+    "themes": ["street", "architecture", "contrast"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/6-macao.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/6-macao-thumb.avif",
+    "alt": "The stone facade and steps of the Ruins of Saint Paul's in Macao",
+    "caption": "The surviving facade of Saint Paul's stands above the old city.",
+    "location": "Macao",
+    "themes": ["history", "architecture", "landmark"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/7-macao.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/7-macao-thumb.avif",
+    "alt": "Hanging lamps beneath an arched arcade in Macao",
+    "caption": "Warm lamps repeat beneath a quiet colonnade.",
+    "location": "Macao",
+    "themes": ["architecture", "light", "detail"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/8-macao.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/8-macao-thumb.avif",
+    "alt": "A colourful character mural painted on a street wall in Macao",
+    "caption": "A playful mural adds a burst of colour to the street.",
+    "location": "Macao",
+    "themes": ["street-art", "colour", "detail"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/9-hongkong.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/9-hongkong-thumb.avif",
+    "alt": "A wave-patterned building facade illuminated at night in Hong Kong",
+    "caption": "Light traces the curves of a rippling facade after dark.",
+    "location": "Hong Kong",
+    "themes": ["night", "architecture", "abstract"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/10-hongkong.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/10-hongkong-thumb.avif",
+    "alt": "The illuminated K11 MUSEA sign in Hong Kong at night",
+    "caption": "K11 MUSEA glows against the night skyline.",
+    "location": "Hong Kong",
+    "themes": ["night", "architecture", "city"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/11-hongkong.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/11-hongkong-thumb.avif",
+    "alt": "Night traffic moving between illuminated towers in Hong Kong",
+    "caption": "Traffic streams through a canyon of illuminated towers.",
+    "location": "Hong Kong",
+    "themes": ["night", "street", "transport"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/12-hongkong.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/12-hongkong-thumb.avif",
+    "alt": "Tram tracks descending toward Hong Kong harbour and distant port structures",
+    "caption": "Tracks lead downhill toward the harbour and its working shoreline.",
+    "location": "Hong Kong",
+    "themes": ["street", "harbour", "transport"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/13-hongkong.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/13-hongkong-thumb.avif",
+    "alt": "A steep Hong Kong street descending between residential towers toward the harbour",
+    "caption": "A steep street funnels the eye between pastel towers and the sea.",
+    "location": "Hong Kong",
+    "themes": ["street", "architecture", "harbour"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/14-hongkong.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/14-hongkong-thumb.avif",
+    "alt": "A narrow stairway with graffiti leading to a neighbourhood shop in Hong Kong",
+    "caption": "Painted walls and worn steps lead to a small neighbourhood shop.",
+    "location": "Hong Kong",
+    "themes": ["street", "neighbourhood", "detail"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/15-hongkong.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/15-hongkong-thumb.avif",
+    "alt": "Buses, pedestrians, and dense signs along a busy Hong Kong boulevard",
+    "caption": "Buses, signs, and pedestrians compress into the rhythm of the city.",
+    "location": "Hong Kong",
+    "themes": ["street", "people", "transport"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/16-hongkong.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/16-hongkong-thumb.avif",
+    "alt": "A pale green double-decker tram passing an old apartment facade in Hong Kong",
+    "caption": "A green tram rolls past a weathered wall of windows and air conditioners.",
+    "location": "Hong Kong",
+    "themes": ["tram", "architecture", "street"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/17-hongkong.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/17-hongkong-thumb.avif",
+    "alt": "The tightly packed residential towers of the Monster Building courtyard in Hong Kong",
+    "caption": "Residential blocks stack into the monumental walls of the Monster Building.",
+    "location": "Hong Kong",
+    "themes": ["architecture", "density", "urban"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/18-hongkong.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/18-hongkong-thumb.avif",
+    "alt": "A long sunlit facade of an older Hong Kong apartment building",
+    "caption": "Late light moves across a seemingly endless grid of homes.",
+    "location": "Hong Kong",
+    "themes": ["architecture", "light", "urban"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/19-hongkong.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/19-hongkong-thumb.avif",
+    "alt": "A person reading on a park bench beneath old and new Hong Kong buildings",
+    "caption": "A quiet reader sits between trees and layers of changing architecture.",
+    "location": "Hong Kong",
+    "themes": ["people", "park", "architecture"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/20-hongkong.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/20-hongkong-thumb.avif",
+    "alt": "A solitary person climbing a broad shaded stairway beneath trees in Hong Kong",
+    "caption": "One figure crosses the cool geometry of a vast shaded stairway.",
+    "location": "Hong Kong",
+    "themes": ["people", "geometry", "street"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/21-hongkong.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/21-hongkong-thumb.avif",
+    "alt": "Blue-striped and faded apartment buildings beneath a clear Hong Kong sky",
+    "caption": "Fresh blue stripes rise behind the faded colours of an older block.",
+    "location": "Hong Kong",
+    "themes": ["architecture", "colour", "urban"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/22-hongkong.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/22-hongkong-thumb.avif",
+    "alt": "People walking along the harbourfront with the Bank of China Tower beyond",
+    "caption": "An afternoon walk unfolds beneath the towers of Central.",
+    "location": "Hong Kong",
+    "themes": ["harbour", "skyline", "people"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/23-hongkong.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/23-hongkong-thumb.avif",
+    "alt": "A golden Dior installation beside Victoria Harbour and the Hong Kong skyline",
+    "caption": "A gilded installation catches the sun against the harbour skyline.",
+    "location": "Hong Kong",
+    "themes": ["harbour", "city", "contrast"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/24-hongkong.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/24-hongkong-thumb.avif",
+    "alt": "A red delivery truck parked beside Victoria Harbour with the city behind",
+    "caption": "A red delivery truck becomes a bright block against the layered skyline.",
+    "location": "Hong Kong",
+    "themes": ["harbour", "transport", "colour"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/25-hongkong.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/25-hongkong-thumb.avif",
+    "alt": "Look Right and Chinese road markings with an arrow on a Hong Kong pavement",
+    "caption": "A familiar instruction is worn into the texture of the pavement.",
+    "location": "Hong Kong",
+    "themes": ["street", "typography", "detail"]
+  },
+  {
+    "src": "/photos/journeys/hongkong-macao/26-hongkong.avif",
+    "thumbnail": "/photos/journeys/hongkong-macao/26-hongkong-thumb.avif",
+    "alt": "The illuminated Castle of Magical Dreams at Hong Kong Disneyland at dusk",
+    "caption": "The castle shifts from sunset gold to evening colour.",
+    "location": "Hong Kong",
+    "themes": ["architecture", "dusk", "landmark"]
+  }
+]

@@ -101,4 +101,16 @@ test.describe("Lightbox", () => {
     const src2 = await img.getAttribute("src");
     expect(src2).not.toBe(src1);
   });
+
+  test("journey photos show their caption and location", async ({ page }) => {
+    await page.goto("/journeys/turkey/");
+    await page.locator("a.lightbox-link").first().click();
+
+    await expect(page.locator(".lightbox-caption")).toHaveText(
+      "Yeni Mosque glows beside the water at blue hour.",
+    );
+    await expect(page.locator(".lightbox-meta")).toContainText(
+      "Yeni Mosque, Istanbul",
+    );
+  });
 });

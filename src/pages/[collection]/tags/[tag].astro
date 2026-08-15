@@ -62,6 +62,8 @@ const resolved = config.readingTime
         pubDate={post.data?.pubDate || ""}
         positionx={post.data?.image?.positionx || ""}
         positiony={post.data?.image?.positiony || ""}
+        isJourney={collectionSlug === "journeys"}
+        ongoing={post.data?.ongoing ?? false}
         minutesRead={
           readingTimeMs != null ? formatReadingTime(readingTimeMs) : undefined
         }

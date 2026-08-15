@@ -10,6 +10,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "postbuild": "pagefind --site dist",
+    "images": "node scripts/optimize-journey-images.js",
     "create": "node scripts/create-content.js",
     "update-post": "node scripts/update-post.js",
     "update": "node scripts/update-post.js",
@@ -53,6 +54,7 @@
     "pagefind": "^1.5.0",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
+    "sharp": "^0.34.3",
     "yaml": "^2.8.3"
   }
 }

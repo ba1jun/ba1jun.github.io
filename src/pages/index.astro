@@ -2,8 +2,12 @@
 import Homepage from "../components/Homepage.astro";
 import { getCollection } from "astro:content";
 import { getImage } from "astro:assets";
+import { SITE_TITLE } from "../consts";
 
-const collections = ["long_form", "short_form", "muses", "zeitweilig"] as const;
+// The homepage is the entry point to Jun's photography. Keep its random
+// image pool limited to the curated journey covers instead of upstream
+// template imagery from the writing collections.
+const collections = ["journeys"] as const;
 const imageCache = new Map<string, { src: string; srcset: string }>();
 
 async function getOptimizedImage(src: string, alt: string) {
@@ -24,7 +28,8 @@ async function getOptimizedImage(src: string, alt: string) {
   return optimized;
 }
 
-const allImages: { src: string; srcset: string; alt: string; url: string }[] = [];
+const allImages: { src: string; srcset: string; alt: string; url: string }[] =
+  [];
 
 for (const collection of collections) {
   const allContent = await getCollection(collection);
@@ -50,7 +55,7 @@ for (const collection of collections) {
 
 {
   allImages.length > 0 ? (
-    <Homepage title="Home" images={JSON.stringify(allImages)} />
+    <Homepage title={SITE_TITLE} images={JSON.stringify(allImages)} />
   ) : (
     <p>No images found</p>
   )

@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test.describe("Meta tags and SEO", () => {
   test("homepage has correct title and meta", async ({ page }) => {
     await page.goto("/");
-    await expect(page).toHaveTitle(/Home/);
+    await expect(page).toHaveTitle(/Juniverse/);
     const ogTitle = page.locator('meta[property="og:title"]');
     await expect(ogTitle).toHaveAttribute("content", /.+/);
     const ogDesc = page.locator('meta[property="og:description"]');

@@ -2,6 +2,24 @@
 
 This directory contains CLI tools for creating, updating, and managing content in the Revista project. These tools ensure consistent frontmatter formatting and simplify content workflows.
 
+## Journey image optimization
+
+`optimize-journey-images.js` turns local photography masters into two AVIF
+variants: a 1200px thumbnail for gallery pages and a 2560px image for the
+lightbox. Originals live under `photos-originals/journeys/` and are ignored by
+Git; generated files are written to `public/photos/journeys/` and should be
+committed.
+
+```sh
+bun run images -- 202605-turkey --clean --cover "istanbul-Yeni Camii-1"
+bun run images # every journey, without cleaning or cover generation
+```
+
+Date prefixes such as `202605-` are removed from public folder names. Output
+filenames are normalized to lowercase ASCII with hyphens, which keeps image
+URLs portable. `--clean` removes only that journey's generated public folder
+before rebuilding it.
+
 ## Content Creation CLI (`create-content.js`)
 
 ### Overview
@@ -42,7 +60,7 @@ node scripts/create-content.js
 
 The interactive mode will guide you through the process of creating a new content file with a series of prompts:
 
-1. Select content type (muses, short_form, long_form, zeitweilig, authors, cv)
+1. Select content type (muses, short_form, long_form, journeys, zeitweilig, authors, cv)
 2. Enter title (required)
 3. Enter slug (optional — auto-generated from title if left blank)
 4. Enter tags (comma-separated, defaults to the collection type)
@@ -369,8 +387,8 @@ node scripts/parser.js
 Output when in sync:
 
 ```
-content.config.ts defines 6 collection(s): muses, short_form, long_form, zeitweilig, authors, cv
-CLI scripts know about 6: muses, short_form, long_form, zeitweilig, authors, cv
+content.config.ts defines 7 collection(s): muses, short_form, long_form, journeys, zeitweilig, authors, cv
+CLI scripts know about 7: muses, short_form, long_form, journeys, zeitweilig, authors, cv
 
 ✅ CLI scripts and content.config.ts are in sync.
 ```

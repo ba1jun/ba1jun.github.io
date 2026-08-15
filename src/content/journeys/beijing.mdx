@@ -1,0 +1,21 @@
+---
+title: Beijing
+slug: beijing
+pubDate: 2025-12
+ongoing: true
+description: An ongoing portrait of Beijing across seasons, from layered skylines and frozen lakes to illuminated architecture, snow, and spring blossom.
+author: "Jun Bai"
+tags: ["beijing", "china", "cityscape"]
+image:
+  src: /photos/journeys/beijing/cover.avif
+  alt: "Beijing skyline and China Zun beneath a pink evening sky"
+  positionx: 50%
+  positiony: 50%
+---
+
+import MasonryLayout from "../../components/Masonry.astro";
+import beijingImages from "../../data/journeys/beijing.json";
+
+An ongoing city portrait gathered across seasons: distant skylines, familiar landmarks, winter nights, and the quiet arrival of blossom.
+
+<MasonryLayout images={beijingImages} />

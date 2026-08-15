@@ -25,6 +25,7 @@ export const ROUTE_COLLECTIONS: readonly RouteCollection[] = [
     readingTime: true,
   },
   { name: "long_form", title: "Long Form", layout: "post", readingTime: true },
+  { name: "journeys", title: "Journeys", layout: "post", readingTime: false },
   {
     name: "zeitweilig",
     title: "Zeitweilig",
