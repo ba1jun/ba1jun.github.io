@@ -211,7 +211,7 @@ bun x hyperlink dist/path/to/page.html --skip-external
 
 - Primary deployment target is GitHub Pages at `https://ba1jun.github.io`; `astro.config.mjs` uses that root URL and must not set a repository `base` because the repository is named `ba1jun.github.io`.
 - `.github/workflows/deploy.yml` builds and tests pushes and pull requests for `main`, but the Pages deployment job runs only for a push to `main`. Feature branches such as `redesign/revista` never publish the site.
-- The template's Cloudflare Workers and Docker deployment jobs are retained for reference but disabled through `ENABLE_UPSTREAM_DEPLOYS: "false"`; do not enable them without an explicit deployment decision and the required secrets.
+- The template's Cloudflare Workers and Docker deployment jobs are retained for reference but disabled with hard-coded false job conditions; do not enable them without an explicit deployment decision and the required secrets.
 - GitHub repository Settings > Pages must use **GitHub Actions** as the publishing source before the first Pages deployment.
 - `dist/` is generated output and Pagefind indexes it after a successful build.
 

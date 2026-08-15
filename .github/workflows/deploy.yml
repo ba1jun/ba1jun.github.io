@@ -9,9 +9,6 @@ on:
 
 env:
   REGISTRY_IMAGE: erfianugrah/revista-4
-  # Keep the template author's external deployment targets disabled. GitHub
-  # Pages is the only production target for this repository.
-  ENABLE_UPSTREAM_DEPLOYS: "false"
 
 permissions:
   contents: read
@@ -168,7 +165,8 @@ jobs:
 
   deploy-to-cloudflare-workers:
     needs: [build-revista, test]
-    if: github.event_name == 'push' && env.ENABLE_UPSTREAM_DEPLOYS == 'true'
+    # Retained only as upstream reference; GitHub Pages is the sole target.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -204,7 +202,8 @@ jobs:
 
   build-and-push-docker:
     needs: [build-revista, test]
-    if: github.event_name != 'pull_request' && env.ENABLE_UPSTREAM_DEPLOYS == 'true'
+    # Retained only as upstream reference; GitHub Pages is the sole target.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     outputs:
       digest: ${{ steps.build.outputs.digest }}
