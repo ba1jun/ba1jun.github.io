@@ -103,7 +103,7 @@ test.describe("Lightbox", () => {
   });
 
   test("journey photos show their caption and location", async ({ page }) => {
-    await page.goto("/journeys/turkey/");
+    await page.goto("/journeys/istanbul-cappadocia/");
     await page.locator("a.lightbox-link").first().click();
 
     await expect(page.locator(".lightbox-caption")).toHaveText(
