@@ -211,7 +211,7 @@ bun x hyperlink dist/path/to/page.html --skip-external
 ## Deployment Notes
 
 - Primary deployment target is GitHub Pages at `https://ba1jun.github.io`; `astro.config.mjs` uses that root URL and must not set a repository `base` because the repository is named `ba1jun.github.io`.
-- All browser tab titles use `SITE_TITLE` (`Jun Bai's Homepage`). Keep per-page titles for OpenGraph, Twitter, breadcrumbs, and Pagefind metadata. The shared menu contains Home, Photography, and Research; Home is active only on the root path.
+- All browser tab titles use `SITE_TITLE` (`Jun Bai's Homepage`). Keep per-page titles for OpenGraph, Twitter, breadcrumbs, and Pagefind metadata. The shared menu order is Home, Research, Photography; Home is active only on the root path.
 - `/research/` and `/research-page/` render the same local `ResearchPage.astro` component; `/research/` is canonical. Both `/research/publications/` and `/research-page/publications/` render `PublicationsPage.astro`; the legacy `/research-page/publications.html` redirects to the primary publication list. Do not restore the external research redirect.
 - Research profile, publications, and news are maintained in `src/data/research/`; the bio is Markdown. Academic pages share `BaseLayout`, navigation, and theme, with reading styles in `src/styles/research.css`. Migration provenance and outstanding publishing work are tracked in `docs/research-migration-plan.md`.
 - The academic overview shows only the first five entries from the newest-first news data. Retain older entries in `news.json` when limiting the displayed list.
