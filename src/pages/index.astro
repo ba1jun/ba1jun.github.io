@@ -1,62 +1,173 @@
 ---
-import Homepage from "../components/Homepage.astro";
-import { getCollection } from "astro:content";
 import { getImage } from "astro:assets";
-import { SITE_TITLE } from "../consts";
+import { Icon } from "astro-icon/components";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
+import Copyright from "../components/Copyright.astro";
+import { CDN_FAVICON_URL, SITE_TITLE } from "../consts";
+import { profile } from "../data/research";
+import "../styles/chinese-name.css";
 
-// The homepage is the entry point to Jun's photography. Keep its random
-// image pool limited to the curated journey covers instead of upstream
-// template imagery from the writing collections.
-const collections = ["journeys"] as const;
-const imageCache = new Map<string, { src: string; srcset: string }>();
+const contactIcons: Record<string, string> = {
+  "Google Scholar": "mdi:school",
+  GitHub: "mdi:github",
+  Twitter: "x",
+  LinkedIn: "mdi:linkedin",
+};
+const contactLinks = [
+  ...profile.links.map((link) => ({
+    ...link,
+    label: link.label === "Twitter" ? "X" : link.label,
+    icon: contactIcons[link.label] ?? "mdi:link-variant",
+  })),
+  { label: "Email", url: `mailto:${profile.email}`, icon: "mdi:email-outline" },
+];
 
-async function getOptimizedImage(src: string, alt: string) {
-  if (imageCache.has(src)) return imageCache.get(src)!;
-  const result = await getImage({
-    src,
-    alt,
-    widths: [854, 1280, 1920],
-    width: 1920,
-    height: 1080,
-    fit: "inside",
-    format: "avif",
-    quality: 85,
-    decoding: "async",
-  });
-  const optimized = { src: result.src, srcset: result.srcSet.attribute };
-  imageCache.set(src, optimized);
-  return optimized;
-}
-
-const allImages: { src: string; srcset: string; alt: string; url: string }[] =
-  [];
-
-for (const collection of collections) {
-  const allContent = await getCollection(collection);
-  const postsWithImages = allContent.filter(
-    (post) => post.data.image?.src && post.data.image?.alt,
-  );
-
-  const results = await Promise.all(
-    postsWithImages.map(async (post) => {
-      const image = post.data.image!;
-      const optimized = await getOptimizedImage(image.src, image.alt);
-      return {
-        ...optimized,
-        alt: image.alt,
-        url: `/${collection}/${post.id}`,
-      };
-    }),
-  );
-
-  allImages.push(...results);
-}
+const portrait = "/photos/profile/jun-bai.webp";
+const logo = await getImage({
+  src: CDN_FAVICON_URL,
+  width: 76,
+  height: 76,
+  format: "webp",
+});
 ---
 
-{
-  allImages.length > 0 ? (
-    <Homepage title={SITE_TITLE} images={JSON.stringify(allImages)} />
-  ) : (
-    <p>No images found</p>
-  )
-}
+<BaseLayout title={SITE_TITLE} hideHeaderFooter>
+  <header
+    slot="header"
+    class="flex items-center justify-between h-[38px] mb-5 -mt-2.5"
+  >
+    <a href="/" aria-label="Home" class="inline-flex">
+      <img
+        src={logo.src}
+        alt="Juniverse logo"
+        width="38"
+        height="38"
+        class="dark:invert"
+      />
+    </a>
+    <div class="flex items-center justify-center h-[30px] w-[30px]">
+      <ThemeToggle />
+    </div>
+  </header>
+  <div class="personal-page mx-auto w-full max-w-[800px] py-10 sm:py-16">
+    <section
+      class="grid items-center gap-9 sm:grid-cols-[240px_1fr] sm:gap-16"
+      aria-labelledby="personal-name"
+      data-pagefind-body
+    >
+      <img
+        src={portrait}
+        alt="Jun Bai outdoors on a grassy hillside"
+        width="800"
+        height="800"
+        fetchpriority="high"
+        class="portrait aspect-[4/5] w-36 sm:w-full object-cover"
+      />
+
+      <div>
+        <h1 id="personal-name" class="personal-name font-overpass-mono">
+          Jun Bai <span lang="zh" class="chinese-name">白骏</span>
+        </h1>
+
+        <div
+          class="bio font-inconsolata text-lg sm:text-xl leading-relaxed mt-6 space-y-4"
+        >
+          <p class="welcome-line">
+            Welcome to <span aria-hidden="true">🌌</span> Juniverse!
+          </p>
+          <p>
+            By day, I try to make language models and agents a little more
+            trustworthy. Off the clock, I wander around with a camera, looking
+            for the extraordinary in the ordinary.
+          </p>
+          <p>
+            Curious about how machines think, how light falls, and everything in
+            between.
+          </p>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-black/15 dark:border-white/15">
+          <nav
+            aria-label="Explore"
+            class="profile-links flex flex-wrap items-center gap-x-7 gap-y-4 font-overpass-mono text-sm"
+          >
+            <a href="/research/">
+              <Icon
+                name="mdi:school-outline"
+                size="1.25em"
+                aria-hidden="true"
+              />
+              Research
+            </a>
+            <a href="/photography/">
+              <Icon
+                name="mdi:camera-outline"
+                size="1.25em"
+                aria-hidden="true"
+              />
+              Photography
+            </a>
+          </nav>
+          <nav
+            aria-label="Personal links"
+            class="profile-links flex flex-wrap items-center gap-x-5 gap-y-3 mt-5 font-overpass-mono text-xs text-black/65 dark:text-white/65"
+          >
+            {
+              contactLinks.map((link) => (
+                <a href={link.url}>
+                  <Icon name={link.icon} size="1.25em" aria-hidden="true" />
+                  {link.label}
+                </a>
+              ))
+            }
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <footer class="mt-12 sm:mt-16">
+      <Copyright />
+    </footer>
+  </div>
+</BaseLayout>
+
+<style>
+  .personal-name {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    line-height: 1.2;
+    letter-spacing: -0.055em;
+  }
+
+  .portrait {
+    border-radius: 2px;
+  }
+
+  .bio {
+    color: color-mix(in srgb, currentColor 78%, transparent);
+    text-wrap: pretty;
+  }
+
+  .profile-links a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 5px;
+  }
+
+  .profile-links :global(svg) {
+    flex-shrink: 0;
+    transform: translateY(0.25em);
+  }
+
+  .profile-links a:hover {
+    text-decoration-line: underline;
+  }
+
+  .profile-links a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 6px;
+  }
+</style>

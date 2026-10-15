@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { publications, publicationYears } from "../../data/research";
+import PublicationList from "./PublicationList.astro";
+import "../../styles/research.css";
+
+const isAlias = Astro.url.pathname.startsWith("/research-page");
+---
+
+<BaseLayout
+  title="Publications · Juniverse"
+  description="Publications by Jun Bai, organized by year, with paper, code, and project links."
+  canonicalPath="/research/publications/"
+>
+  <article
+    class="research-page mx-auto w-full max-w-[960px] py-10 sm:py-16"
+    data-pagefind-body={isAlias ? undefined : true}
+  >
+    <a href="/research/" class="font-overpass-mono text-xs">← Research</a>
+    <h1 class="font-overpass-mono mt-6 mb-4 text-3xl">Publications</h1>
+    <nav
+      aria-label="Publication years"
+      class="flex flex-wrap gap-5 font-overpass-mono text-sm mb-10"
+    >
+      {publicationYears.map((year) => <a href={`#year-${year}`}>{year}</a>)}
+    </nav>
+    {
+      publicationYears.map((year) => (
+        <section
+          id={`year-${year}`}
+          aria-labelledby={`heading-${year}`}
+          class="mt-10 scroll-mt-8"
+        >
+          <h2 id={`heading-${year}`}>{year}</h2>
+          <PublicationList
+            papers={publications.filter((paper) => paper.year === year)}
+          />
+        </section>
+      ))
+    }
+  </article>
+</BaseLayout>

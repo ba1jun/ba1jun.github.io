@@ -1,0 +1,47 @@
+.research-page {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Microsoft YaHei", sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.research-page h2 {
+  font-family: var(--font-overpass-mono), monospace;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  font-weight: 400;
+  margin: 0 0 1.25rem;
+}
+
+.research-page a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.research-page a:hover {
+  text-decoration-line: underline;
+}
+.research-page a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+.research-page .research-section {
+  margin-top: 3rem;
+}
+.research-bio p + p,
+.research-bio ul + p {
+  margin-top: 1.25rem;
+}
+.research-bio ul {
+  margin: 1rem 0;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+.research-bio li + li {
+  margin-top: 0.5rem;
+}
+.research-bio a {
+  text-decoration-line: underline;
+}

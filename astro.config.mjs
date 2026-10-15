@@ -20,6 +20,8 @@ const isDev =
 export default defineConfig({
   site: "https://ba1jun.github.io",
 
+  devToolbar: { enabled: false },
+
   image: {
     domains: ["erfianugrah.com", "image.erfi.io"],
     service: isDev

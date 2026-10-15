@@ -58,7 +58,7 @@ node scripts/parser.js         # verify CLI/content schema drift
 
 ## Single-Test / Targeted Verification
 
-The repository has a Playwright end-to-end test suite (88 tests across 15 spec files).
+The repository has a Playwright end-to-end test suite (99 tests across 16 spec files).
 
 ```sh
 bunx playwright test                                    # run full test suite
@@ -204,12 +204,25 @@ bun x hyperlink dist/path/to/page.html --skip-external
   masters.
 - Vite ignores `photos-originals/` in development because those large local
   masters are not site source files and can exhaust Windows file watchers.
+- Astro's dev toolbar is disabled in `astro.config.mjs` for unobstructed local previews.
 - Cloudflare Worker entrypoint is `src/index.ts`; keep it minimal and edge-safe.
 - Wrangler config lives in `wrangler.jsonc`.
 
 ## Deployment Notes
 
 - Primary deployment target is GitHub Pages at `https://ba1jun.github.io`; `astro.config.mjs` uses that root URL and must not set a repository `base` because the repository is named `ba1jun.github.io`.
+- All browser tab titles use `SITE_TITLE` (`Jun Bai's Homepage`). Keep per-page titles for OpenGraph, Twitter, breadcrumbs, and Pagefind metadata. The shared menu contains Home, Photography, and Research; Home is active only on the root path.
+- `/research/` and `/research-page/` render the same local `ResearchPage.astro` component; `/research/` is canonical. Both `/research/publications/` and `/research-page/publications/` render `PublicationsPage.astro`; the legacy `/research-page/publications.html` redirects to the primary publication list. Do not restore the external research redirect.
+- Research profile, publications, and news are maintained in `src/data/research/`; the bio is Markdown. Academic pages share `BaseLayout`, navigation, and theme, with reading styles in `src/styles/research.css`. Migration provenance and outstanding publishing work are tracked in `docs/research-migration-plan.md`.
+- The academic overview shows only the first five entries from the newest-first news data. Retain older entries in `news.json` when limiting the displayed list.
+- Research publication entries may also represent open-source projects without a public paper: use the project name, leave unverified authors empty, and link the title to Code when no Paper link exists. Optional `description` and `github` (`repository`, verified `stars`, `checkedAt`) fields support these entries. `GitHubStars.astro` renders the verified count without JavaScript, refreshes through the public GitHub API with a one-hour cache, and preserves that count on request failure. Keep star counts out of Pagefind content.
+- Selected research entries carry `acceptedDate` in `YYYY-MM-DD` format, based on the conference notification date. `selectedPublications` sorts these dates newest first, preserving the source order for ties and placing undated entries last. Keep the original `date` and complete publication list ordering separate from this selection order.
+- The academic overview shows the bio beside education and employment from the 800px breakpoint; mobile stacks the bio, education, and employment before News and publications. News and publications retain the full content width. Academic pages do not display a personal portrait.
+- `/` is Jun Bai's personal entry page for research and photography. `/photography/` is the Juniverse album index, backed by the `journeys` content collection through `CollectionIndex.astro`. Keep `/journeys/` and `/journeys/<id>/` working for existing links; the content collection and album URLs remain `journeys`.
+- The root homepage uses a compact portrait, bio, and direct links with `hideHeaderFooter`; its custom header places the logo at the left and theme toggle at the right. The shared menu and search live on collection and content pages. The portrait asset is `public/photos/profile/jun-bai.webp`; its full-resolution original is kept under the ignored `photos-originals/profile/` directory.
+- The homepage Chinese name uses `src/styles/chinese-name.css` and a local weight-500 subset derived from Source Han Serif. Research pages display only the English name. The renamed font and its OFL license/provenance live in `public/fonts/`. The subset covers only 白骏; regenerate it and update `unicode-range` when changing the displayed name.
+- Copyright text is owned by `Copyright.astro` and reused by the homepage and shared footer: © {year} Jun Bai. All rights reserved. The CV page supplies the shared footer through BaseLayout's named `footer` slot.
+- The homepage separates Research/Photography entry links from a smaller personal-link row (Google Scholar, GitHub, X, LinkedIn, Email), sourced from `src/data/research/profile.json`. The academic page keeps only Scholar and Email as profile shortcuts; per-publication links stay with each paper. Custom SVG icons live in `src/icons/` for `astro-icon`.
 - `.github/workflows/deploy.yml` builds and tests pushes and pull requests for `main`, but the Pages deployment job runs only for a push to `main`. Feature branches such as `redesign/revista` never publish the site.
 - The template's Cloudflare Workers and Docker deployment jobs are retained for reference but disabled with hard-coded false job conditions; do not enable them without an explicit deployment decision and the required secrets.
 - GitHub repository Settings > Pages must use **GitHub Actions** as the publishing source before the first Pages deployment.

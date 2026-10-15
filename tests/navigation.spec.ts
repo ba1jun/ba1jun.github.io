@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Navigation", () => {
   test("header nav links are present", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/photography/");
     const nav = page.locator("nav, header");
     await expect(nav.first()).toBeVisible();
     const homeLink = page.locator('a[href="/"]').first();
@@ -12,23 +12,30 @@ test.describe("Navigation", () => {
   test("nav links navigate to correct pages", async ({ page }) => {
     // Open hamburger menu on mobile to expose nav links
     await page.setViewportSize({ width: 375, height: 812 });
-    await page.goto("/");
+    await page.goto("/photography/");
     const hamburger = page.getByRole("button", { name: /menu/i });
     await expect(hamburger).toBeVisible();
     await hamburger.click();
-    const journeysLink = page.locator('#nav-links a[href="/journeys/"]');
-    await expect(journeysLink).toBeVisible({ timeout: 3000 });
-    const researchLink = page.locator(
-      '#nav-links a[href="https://ba1jun.github.io/research-page/"]',
-    );
+    const photographyLink = page.locator('#nav-links a[href="/photography/"]');
+    await expect(photographyLink).toBeVisible({ timeout: 3000 });
+    const researchLink = page.locator('#nav-links a[href="/research/"]');
     await expect(researchLink).toBeVisible();
-    await journeysLink.click();
-    await expect(page).toHaveURL(/\/journeys/);
+    const homeLink = page.locator('#nav-links a[href="/"]');
+    await expect(homeLink).toHaveText("Home");
+    await expect(homeLink).not.toHaveAttribute("aria-current", "page");
+    await photographyLink.click();
+    await expect(page).toHaveURL(/\/photography\//);
+    await hamburger.click();
+    await page.locator('#nav-links a[href="/"]').click();
+    await expect(page).toHaveURL(/\/$/);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      "Jun Bai",
+    );
   });
 
   test("hamburger menu toggles on mobile viewport", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
-    await page.goto("/");
+    await page.goto("/photography/");
     const hamburger = page.getByRole("button", { name: /menu/i });
     await expect(hamburger).toBeVisible();
 
@@ -57,7 +64,7 @@ test.describe("Navigation", () => {
   });
 
   test("W22: menu role without keyboard nav (ARIA audit)", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/photography/");
     const menuElement = page.locator('[role="menu"]');
     const count = await menuElement.count();
     if (count > 0) {
@@ -68,7 +75,7 @@ test.describe("Navigation", () => {
   });
 
   test("footer renders with social links", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/photography/");
     const footer = page.locator("footer");
     await expect(footer).toBeVisible();
     const externalLinks = footer.locator('a[target="_blank"]');

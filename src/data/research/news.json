@@ -1,0 +1,88 @@
+[
+  {
+    "date": "2026-09-29",
+    "body": [
+      {
+        "text": "Belief Context Graph (BCG)",
+        "url": "https://github.com/bigai-nlco/belief-context-graph"
+      },
+      {
+        "text": " has been accepted by the NeurIPS 2026 Workshop on Resource-Aware Agentic AI. Code is open source; the paper is forthcoming."
+      }
+    ]
+  },
+  {
+    "date": "2026-09-24",
+    "body": [
+      {
+        "text": "OneMillion-Bench",
+        "url": "https://arxiv.org/abs/2603.07980"
+      },
+      {
+        "text": " has been accepted by NeurIPS 2026 (Evaluations and Datasets Track)."
+      }
+    ]
+  },
+  {
+    "date": "2026-08-20",
+    "body": [
+      {
+        "text": "CircuitLens",
+        "url": "https://arxiv.org/abs/2609.07183"
+      },
+      {
+        "text": " has been accepted by EMNLP 2026 Findings."
+      }
+    ]
+  },
+  {
+    "date": "2026-05-01",
+    "body": [
+      {
+        "text": "Native Parallel Reasoner",
+        "url": "https://arxiv.org/abs/2512.07461"
+      },
+      {
+        "text": " has been accepted by ICML 2026."
+      }
+    ]
+  },
+  {
+    "date": "2025-08-20",
+    "body": [
+      {
+        "text": "RouterLens",
+        "url": "https://aclanthology.org/2025.emnlp-main.1114/"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "TongSearch-QR",
+        "url": "https://aclanthology.org/2025.emnlp-main.1078/"
+      },
+      {
+        "text": ", and "
+      },
+      {
+        "text": "CogAtom",
+        "url": "https://aclanthology.org/2025.findings-emnlp.1309/"
+      },
+      {
+        "text": " are accepted by EMNLP 2025."
+      }
+    ]
+  },
+  {
+    "date": "2025-05-15",
+    "body": [
+      {
+        "text": "CLG",
+        "url": "https://aclanthology.org/2025.findings-acl.608/"
+      },
+      {
+        "text": " has been accepted by ACL 2025."
+      }
+    ]
+  }
+]

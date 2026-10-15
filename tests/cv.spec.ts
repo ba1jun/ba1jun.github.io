@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test.describe("CV page", () => {
   test("CV page renders", async ({ page }) => {
     await page.goto("/cv/");
-    await expect(page).toHaveTitle(/CV|Resume|stoicopa/i);
+    await expect(page).toHaveTitle("Jun Bai's Homepage");
   });
 
   test("CV has structured data", async ({ page }) => {

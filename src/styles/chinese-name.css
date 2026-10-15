@@ -1,0 +1,21 @@
+@font-face {
+  font-family: "Juniverse Name Serif";
+  src: url("/fonts/juniverse-name-serif-medium.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  unicode-range: U+767D, U+9A8F;
+}
+
+.chinese-name {
+  display: inline-block;
+  margin-left: 0.5rem;
+  font-family: "Juniverse Name Serif", "Noto Serif CJK SC", "Songti SC", serif;
+  font-size: clamp(1.125rem, 2vw, 1.25rem);
+  font-weight: 500;
+  font-synthesis: none;
+  letter-spacing: 0.06em;
+  opacity: 0.85;
+  /* Account for the serif glyphs extending slightly below the Latin baseline. */
+  vertical-align: 0.05em;
+}

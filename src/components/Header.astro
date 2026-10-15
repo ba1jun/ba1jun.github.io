@@ -29,11 +29,11 @@ const favicon_avif = await getImage({
     {
       !is404Page && (
         <div class="flex items-center h-[38px]">
-          <a href="/" class="block">
+          <a href="/" class="flex items-center" aria-label="Home">
             <img
               class="favicon dark:invert w-[38px] h-[38px]"
               src={favicon_avif.src}
-              alt="Home"
+              alt=""
               width="38"
               height="38"
             />

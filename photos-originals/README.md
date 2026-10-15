@@ -1,6 +1,6 @@
 # Local photo masters
 
-Keep full-resolution journey originals here. This directory is excluded from
+Keep full-resolution photo originals here. This directory is excluded from
 Git except for this guide, so back up the originals somewhere outside this
 repository as well.
 
@@ -8,12 +8,22 @@ Folder structure:
 
 ```text
 photos-originals/
+  profile/
+    jun-bai.jpg
+  research/
+    circuitlens.png
   journeys/
     202605-turkey/
       cappadocia-erciyes.jpg
 ```
 
-Generate the web versions with:
+The homepage portrait is published as an 800px WebP at
+`public/photos/profile/jun-bai.webp`.
+
+Research figure originals also live here. The CircuitLens figure is published
+as an 800px WebP at `public/research/images/circuitlens.webp`.
+
+Generate journey web versions with:
 
 ```sh
 bun run images -- 202605-turkey --clean --cover "istanbul-Yeni Camii-1"

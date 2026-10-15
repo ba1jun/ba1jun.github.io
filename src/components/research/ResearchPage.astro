@@ -1,0 +1,149 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Bio from "../../data/research/bio.md";
+import { profile, news, selectedPublications } from "../../data/research";
+import PublicationList from "./PublicationList.astro";
+import "../../styles/research.css";
+
+const isAlias = Astro.url.pathname.startsWith("/research-page");
+const academicLinks = [
+  ...profile.links.filter((link) => link.label === "Google Scholar"),
+  { label: "Email", url: `mailto:${profile.email}` },
+];
+const formatDate = (date: string): string =>
+  new Date(`${date}T00:00:00Z`).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+---
+
+<BaseLayout
+  title="Research · Juniverse"
+  description="Jun Bai's research on trustworthy AI, language models, and agents. Publications, news, and academic experience."
+  canonicalPath="/research/"
+>
+  <article
+    class="research-page mx-auto w-full max-w-[960px] py-10 sm:py-16"
+    data-pagefind-body={isAlias ? undefined : true}
+  >
+    <header class="flex flex-wrap items-center gap-7 sm:gap-9">
+      <div class="min-w-0 flex-1">
+        <h1 class="research-name font-overpass-mono">
+          {profile.name}
+        </h1>
+        <p class="mt-3 opacity-80">{profile.role} · {profile.affiliation}</p>
+      </div>
+    </header>
+
+    <nav
+      aria-label="Academic profiles"
+      class="flex flex-wrap gap-x-6 gap-y-3 mt-7 font-overpass-mono text-xs"
+    >
+      {academicLinks.map((link) => <a href={link.url}>{link.label}</a>)}
+    </nav>
+
+    <div
+      class="grid gap-10 sm:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] sm:gap-12 mt-12"
+    >
+      <section class="min-w-0" aria-labelledby="about-heading">
+        <h2 id="about-heading">About me</h2>
+        <div class="research-bio"><Bio /></div>
+      </section>
+
+      <aside class="min-w-0 space-y-8" aria-label="Academic background">
+        {
+          [
+            { id: "education", title: "Education", items: profile.education },
+            {
+              id: "employment",
+              title: "Employment",
+              items: profile.employment,
+            },
+          ].map((group) => (
+            <section aria-labelledby={`${group.id}-heading`}>
+              <h2 id={`${group.id}-heading`}>{group.title}</h2>
+              <ul class="list-none p-0 m-0 space-y-4">
+                {group.items.map((item) => (
+                  <li class="flex items-start gap-3">
+                    <img
+                      src={item.logo}
+                      alt=""
+                      width="24"
+                      height="24"
+                      loading="lazy"
+                      class="w-6 h-6 shrink-0 object-contain mt-1"
+                    />
+                    <div class="min-w-0 leading-snug">
+                      <h3 class="text-sm font-semibold">{item.institution}</h3>
+                      <p class="text-xs opacity-80 mt-1">{item.role}</p>
+                      <p class="text-xs opacity-65 mt-1">{item.period}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        }
+      </aside>
+    </div>
+
+    <section class="research-section" aria-labelledby="news-heading">
+      <h2 id="news-heading">News</h2>
+      <ul class="list-none p-0 m-0 space-y-3">
+        {
+          news.slice(0, 5).map((item) => (
+            <li class="news-item">
+              <time
+                datetime={item.date}
+                class="text-xs font-overpass-mono opacity-65"
+              >
+                {formatDate(item.date)}
+              </time>
+              <p>
+                {item.body.map((segment) =>
+                  segment.url ? (
+                    <a href={segment.url}>{segment.text}</a>
+                  ) : (
+                    segment.text
+                  ),
+                )}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="research-section" aria-labelledby="publications-heading">
+      <div class="flex flex-wrap items-baseline justify-between gap-4">
+        <h2 id="publications-heading">Selected publications</h2>
+        <a href="/research/publications/" class="font-overpass-mono text-xs"
+          >All publications ↗</a
+        >
+      </div>
+      <PublicationList papers={selectedPublications} />
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .research-name {
+    margin: 0;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.055em;
+  }
+  .news-item {
+    display: grid;
+    gap: 0.35rem;
+  }
+  @media (min-width: 800px) {
+    .news-item {
+      grid-template-columns: 9rem minmax(0, 1fr);
+      gap: 1rem;
+      align-items: baseline;
+    }
+  }
+</style>

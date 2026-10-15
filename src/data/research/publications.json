@@ -1,0 +1,701 @@
+[
+  {
+    "id": "2026-bcg",
+    "title": "Belief Context Graph (BCG)",
+    "date": "2026-09-29",
+    "acceptedDate": "2026-09-29",
+    "year": 2026,
+    "selected": true,
+    "venue": "NeurIPS Workshop on Resource-Aware Agentic AI",
+    "distinction": "",
+    "authors": [],
+    "description": "Open-source belief-aware context infrastructure for long-horizon agents. Paper forthcoming.",
+    "cover": "/research/images/bcg.webp",
+    "github": {
+      "repository": "bigai-nlco/belief-context-graph",
+      "stars": 222,
+      "checkedAt": "2026-10-15"
+    },
+    "links": [
+      {
+        "label": "Code",
+        "url": "https://github.com/bigai-nlco/belief-context-graph"
+      },
+      {
+        "label": "Website",
+        "url": "https://bigai-nlco.github.io/belief-context-graph/"
+      },
+      {
+        "label": "Docs",
+        "url": "https://belief-context-graph.docs.buildwithfern.com/"
+      }
+    ]
+  },
+  {
+    "id": "2026-circuitlens",
+    "title": "CircuitLens: Reasoning Circuits as Data Selection Signals for Reinforcement Learning with Verifiable Rewards",
+    "date": "2026-09-07",
+    "acceptedDate": "2026-08-20",
+    "year": 2026,
+    "selected": true,
+    "venue": "EMNLP Findings",
+    "distinction": "",
+    "authors": [
+      "Zhuofan Chen",
+      "Ziqian Jiao",
+      "Yikai Cui",
+      "Zhixin Cai",
+      "Jun Bai",
+      "Wenge Rong"
+    ],
+    "cover": "/research/images/circuitlens.webp",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://arxiv.org/abs/2609.07183"
+      }
+    ]
+  },
+  {
+    "id": "2026-xetrieval",
+    "title": "Xetrieval: Mechanistically Explaining Dense Retrieval",
+    "date": "2026-05-28",
+    "year": 2026,
+    "selected": false,
+    "venue": "Preprint",
+    "distinction": "",
+    "authors": [
+      "Zhixin Cai*",
+      "Jun Bai*",
+      "Yang Liu*",
+      "Jiaqi Li",
+      "Yichi Zhang",
+      "Taichuan Li",
+      "Zhuofan Chen",
+      "Zixia Jia",
+      "Zilong Zheng",
+      "Wenge Rong"
+    ],
+    "cover": "/research/images/xetrieval.webp",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://arxiv.org/abs/2605.29507"
+      },
+      {
+        "label": "Code",
+        "url": "https://github.com/Hihiczx/Xetrieval"
+      },
+      {
+        "label": "Website",
+        "url": "https://hihiczx.github.io/Xetrieval"
+      }
+    ]
+  },
+  {
+    "id": "2025-npr",
+    "title": "Native Parallel Reasoner: Reasoning in Parallelism via Self-Distilled Reinforcement Learning",
+    "date": "2026-05-01",
+    "acceptedDate": "2026-04-30",
+    "year": 2026,
+    "selected": true,
+    "venue": "ICML",
+    "distinction": "",
+    "authors": [
+      "Tong Wu*",
+      "Yang Liu*",
+      "Jun Bai*",
+      "Zixia Jia",
+      "Shuyi Zhang",
+      "Ziyong Lin",
+      "Yanting Wang",
+      "Song-Chun Zhu",
+      "Zilong Zheng"
+    ],
+    "cover": "/research/images/npr.webp",
+    "github": {
+      "repository": "bigai-nlco/Native-Parallel-Reasoner",
+      "stars": 112,
+      "checkedAt": "2026-10-15"
+    },
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://arxiv.org/abs/2512.07461"
+      },
+      {
+        "label": "Website",
+        "url": "https://bigai-nlco.github.io/Native-Parallel-Reasoner/"
+      },
+      {
+        "label": "Code",
+        "url": "https://github.com/bigai-nlco/Native-Parallel-Reasoner"
+      },
+      {
+        "label": "Model",
+        "url": "https://huggingface.co/bigai-NPR/models"
+      }
+    ]
+  },
+  {
+    "id": "2026-onemillionbench",
+    "title": "OneMillion-Bench: How Far are Language Agents from Human Experts?",
+    "date": "2026-03-09",
+    "acceptedDate": "2026-09-24",
+    "year": 2026,
+    "selected": true,
+    "venue": "NeurIPS",
+    "distinction": "Evaluations and Datasets Track",
+    "authors": [
+      "Qianyu Yang*",
+      "Yang Liu*",
+      "Jiaqi Li*",
+      "Jun Bai*",
+      "Hao Chen",
+      "Kaiyuan Chen",
+      "Tiliang Duan",
+      "Jiayun Dong",
+      "Xiaobo Hu",
+      "Zixia Jia",
+      "Yang Liu",
+      "Tao Peng",
+      "Yixin Ren",
+      "Ran Tian",
+      "Zaiyuan Wang",
+      "Yanglihong Xiao",
+      "Gang Yao",
+      "Lingyue Yin",
+      "Ge Zhang",
+      "Chun Zhang",
+      "Jianpeng Jiao",
+      "Zilong Zheng",
+      "Yuan Gong"
+    ],
+    "cover": "/research/images/omb.webp",
+    "github": {
+      "repository": "humanlaya/OneMillion-Bench",
+      "stars": 54,
+      "checkedAt": "2026-10-15"
+    },
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://arxiv.org/abs/2603.07980"
+      },
+      {
+        "label": "Data",
+        "url": "https://huggingface.co/datasets/humanlaya-data-lab/OneMillion-Bench"
+      },
+      {
+        "label": "Code",
+        "url": "https://github.com/humanlaya/OneMillion-Bench"
+      }
+    ]
+  },
+  {
+    "id": "2025-routerlens",
+    "title": "Understanding and Leveraging the Expert Specialization of Context Faithfulness in Mixture-of-Experts LLMs",
+    "date": "2025-11-08",
+    "acceptedDate": "2025-08-20",
+    "year": 2025,
+    "selected": true,
+    "venue": "EMNLP",
+    "distinction": "Top 2%",
+    "authors": [
+      "Jun Bai",
+      "Minghao Tong",
+      "Yang Liu",
+      "Zixia Jia",
+      "Zilong Zheng"
+    ],
+    "cover": "/research/images/routerlens.webp",
+    "github": {
+      "repository": "bigai-nlco/RouterLens",
+      "stars": 29,
+      "checkedAt": "2026-10-15"
+    },
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://aclanthology.org/2025.emnlp-main.1114/"
+      },
+      {
+        "label": "Code",
+        "url": "https://github.com/bigai-nlco/RouterLens"
+      },
+      {
+        "label": "Jiqizhixin",
+        "url": "https://mp.weixin.qq.com/s/UNPQeyibGZ9jZJkgfyCkVQ"
+      }
+    ]
+  },
+  {
+    "id": "2025-tongsearch",
+    "title": "Reinforced Query Reasoners for Reasoning-intensive Retrieval Tasks",
+    "date": "2025-11-07",
+    "acceptedDate": "2025-08-20",
+    "year": 2025,
+    "selected": true,
+    "venue": "EMNLP",
+    "distinction": "",
+    "authors": ["Xubo Qin", "Jun Bai", "Jiaqi Li", "Zixia Jia", "Zilong Zheng"],
+    "cover": "/research/images/tongsearch.webp",
+    "github": {
+      "repository": "bigai-nlco/TongSearch-QR",
+      "stars": 44,
+      "checkedAt": "2026-10-15"
+    },
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://aclanthology.org/2025.emnlp-main.1078/"
+      },
+      {
+        "label": "Code",
+        "url": "https://github.com/bigai-nlco/TongSearch-QR"
+      }
+    ]
+  },
+  {
+    "id": "2025-cogatom",
+    "title": "CogAtom: From Cognitive Atoms to Olympiad-level Mathematical Reasoning in Large Language Models",
+    "date": "2025-11-06",
+    "year": 2025,
+    "selected": false,
+    "venue": "EMNLP Findings",
+    "distinction": "",
+    "authors": [
+      "Zhuofan Chen",
+      "Jiyuan He",
+      "Yichi Zhang",
+      "Xing Hu",
+      "Haoxing Wen",
+      "Jun Bai",
+      "Wenge Rong"
+    ],
+    "cover": "/research/images/cogatom.webp",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://aclanthology.org/2025.findings-emnlp.1309/"
+      },
+      {
+        "label": "Code",
+        "url": "https://github.com/Icarus-1111/CogAtom"
+      }
+    ]
+  },
+  {
+    "id": "2025-logipe",
+    "title": "Selecting Text Classification Model through Maximizing Posterior Evidence over Informative Sub-space",
+    "date": "2025-06-26",
+    "year": 2025,
+    "selected": false,
+    "venue": "Frontiers of Computer Science",
+    "distinction": "",
+    "authors": [
+      "Zhiwei Sun",
+      "Jun Bai#",
+      "Zhuofan Chen",
+      "Chen Li",
+      "Wenge Rong",
+      "Zhang Xiong"
+    ],
+    "cover": "/research/images/logipe.webp",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://link.springer.com/article/10.1007/s11704-025-41380-7"
+      }
+    ]
+  },
+  {
+    "id": "2025-clg",
+    "title": "Selecting Demonstrations for Many-Shot In-Context Learning via Gradient Matching",
+    "date": "2025-06-05",
+    "year": 2025,
+    "selected": false,
+    "venue": "ACL Findings",
+    "distinction": "",
+    "authors": [
+      "Jianfei Zhang",
+      "Bei Li",
+      "Jun Bai",
+      "Rumei Li",
+      "Yanmeng Wang",
+      "Chenghua Lin",
+      "Wenge Rong"
+    ],
+    "cover": "/research/images/clg.webp",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://aclanthology.org/2025.findings-acl.608/"
+      },
+      {
+        "label": "Code",
+        "url": "https://github.com/zhangjf-nlp/ManyShotICL-CLG"
+      }
+    ]
+  },
+  {
+    "id": "2025-right",
+    "title": "Rectifying and Discriminating Hard Negatives for Biomedical Retrieval Question Answering",
+    "date": "2025-03-13",
+    "year": 2025,
+    "selected": false,
+    "venue": "IEEE Transactions on Computational Biology and Bioinformatics",
+    "distinction": "",
+    "authors": [
+      "Jun Bai",
+      "Zhenzi Li",
+      "Bo Zhao",
+      "Chen Li",
+      "Chenghua Lin",
+      "Wenge Rong"
+    ],
+    "cover": "/research/images/right.webp",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://ieeexplore.ieee.org/abstract/document/10925593"
+      },
+      {
+        "label": "Code",
+        "url": "https://github.com/sbs384/RigHt"
+      }
+    ]
+  },
+  {
+    "id": "2025-latentdpo",
+    "title": "Disentangling Preference Representation and Text Generation for Efficient Individual Preference Alignment",
+    "date": "2025-01-05",
+    "year": 2025,
+    "selected": false,
+    "venue": "COLING",
+    "distinction": "",
+    "authors": [
+      "Jianfei Zhang",
+      "Jun Bai",
+      "Bei Li",
+      "Yanmeng Wang",
+      "Rumei Li",
+      "Chenghua Lin",
+      "Wenge Rong"
+    ],
+    "cover": "/research/images/latentdpo.webp",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://aclanthology.org/2025.coling-main.323/"
+      },
+      {
+        "label": "Code",
+        "url": "https://github.com/zhangjf-nlp/LatentDPO"
+      }
+    ]
+  },
+  {
+    "id": "2024-airtran",
+    "title": "Leveraging Estimated Transferability over Human Intuition for Model Selection in Text Ranking",
+    "date": "2024-11-12",
+    "acceptedDate": "2024-09-20",
+    "year": 2024,
+    "selected": true,
+    "venue": "EMNLP",
+    "distinction": "",
+    "authors": [
+      "Jun Bai",
+      "Zhuofan Chen",
+      "Zhenzi Li",
+      "Hanhua Hong",
+      "Jianfei Zhang",
+      "Chen Li",
+      "Chenghua Lin",
+      "Wenge Rong"
+    ],
+    "cover": "/research/images/airtran.webp",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://aclanthology.org/2024.emnlp-main.688/"
+      },
+      {
+        "label": "Code",
+        "url": "https://github.com/Ba1Jun/model-selection-AiRTran"
+      }
+    ]
+  },
+  {
+    "id": "2023-survey",
+    "title": "How to Determine the Most Powerful Pre-trained Language Model without Brute Force Fine-tuning? An Empirical Survey",
+    "date": "2023-11-06",
+    "acceptedDate": "2023-10-06",
+    "year": 2023,
+    "selected": true,
+    "venue": "EMNLP Findings",
+    "distinction": "",
+    "authors": [
+      "Jun Bai",
+      "Xiaofeng Zhang",
+      "Chen Li",
+      "Hanhua Hong",
+      "Xi Xu",
+      "Chenghua Lin",
+      "Wenge Rong"
+    ],
+    "cover": "/research/images/survey.webp",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://aclanthology.org/2023.findings-emnlp.357/"
+      },
+      {
+        "label": "Code",
+        "url": "https://github.com/ba1jun/model-selection-nlp"
+      }
+    ]
+  },
+  {
+    "id": "2023-tlt",
+    "title": "Multisource Soft Labeling and Hard Negative Sampling for Retrieval Distractor Ranking",
+    "date": "2023-10-19",
+    "year": 2023,
+    "selected": false,
+    "venue": "IEEE Transactions on Learning Technologies",
+    "distinction": "",
+    "authors": [
+      "Jiayun Wang",
+      "Wenge Rong",
+      "Jun Bai",
+      "Zhiwei Sun",
+      "Yuanxin Ouyang",
+      "Zhang Xiong"
+    ],
+    "cover": "/research/images/tlt.webp",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://ieeexplore.ieee.org/abstract/document/10288270"
+      }
+    ]
+  },
+  {
+    "id": "2023-pit",
+    "title": "Permutation Invariant Training for Paraphrase Identification",
+    "date": "2023-06-04",
+    "year": 2023,
+    "selected": false,
+    "venue": "ICASSP",
+    "distinction": "Oral",
+    "authors": [
+      "Jun Bai",
+      "Chuantao Yin",
+      "Hanhua Hong",
+      "Jianfei Zhang",
+      "Chen Li",
+      "Yanmeng Wang",
+      "Wenge Rong"
+    ],
+    "cover": "/research/images/pit.webp",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://ieeexplore.ieee.org/abstract/document/10094896"
+      },
+      {
+        "label": "Code",
+        "url": "https://github.com/ba1jun/PIT"
+      }
+    ]
+  },
+  {
+    "id": "2023-bioreqa_v2",
+    "title": "Enhancing Biomedical Reqa with Adversarial Hard In-batch Negative Samples",
+    "date": "2023-03-27",
+    "year": 2023,
+    "selected": false,
+    "venue": "IEEE/ACM Transactions on Computational Biology and Bioinformatics",
+    "distinction": "",
+    "authors": [
+      "Bo Zhao",
+      "Jun Bai",
+      "Chen Li",
+      "Jianfei Zhang",
+      "Wenge Rong",
+      "Yuanxin Ouyang",
+      "Zhang Xiong"
+    ],
+    "cover": "/research/images/hardbatch.webp",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://ieeexplore.ieee.org/abstract/document/10082873"
+      }
+    ]
+  },
+  {
+    "id": "2022-dgvae",
+    "title": "Improving Variational Autoencoders with Density Gap-based Regularization",
+    "date": "2022-12-06",
+    "year": 2022,
+    "selected": false,
+    "venue": "NeurIPS",
+    "distinction": "",
+    "authors": [
+      "Jianfei Zhang",
+      "Jun Bai",
+      "Chenghua Lin",
+      "Yanmeng Wang",
+      "Wenge Rong"
+    ],
+    "cover": "/research/images/dgvae.webp",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/7b2e844c52349134268e819a9b56b9e8-Abstract-Conference.html"
+      },
+      {
+        "label": "Code",
+        "url": "https://github.com/zhangjf-nlp/DG-VAEs"
+      }
+    ]
+  },
+  {
+    "id": "2022-gocvae",
+    "title": "Goal-oriented Conditional Variational Autoencoders for Proactive and Knowledge-aware Conversational Recommender System",
+    "date": "2022-11-28",
+    "year": 2022,
+    "selected": false,
+    "venue": "Computer Speech & Language",
+    "distinction": "",
+    "authors": [
+      "Cen Yan",
+      "Jun Bai",
+      "Yanmeng Wang",
+      "Wenge Rong",
+      "Yuanxin Ouyang",
+      "Zhang Xiong"
+    ],
+    "cover": "/research/images/gocvae.webp",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://www.sciencedirect.com/science/article/abs/pii/S0885230822000912"
+      }
+    ]
+  },
+  {
+    "id": "2022-bioreqa_v1",
+    "title": "Improving Biomedical ReQA with Consistent NLI-transfer and Post-whitening",
+    "date": "2022-11-04",
+    "year": 2022,
+    "selected": false,
+    "venue": "IEEE/ACM Transactions on Computational Biology and Bioinformatics",
+    "distinction": "",
+    "authors": [
+      "Jun Bai",
+      "Chuantao Yin",
+      "Zimeng Wu",
+      "Jianfei Zhang",
+      "Yanmeng Wang",
+      "Guanyi Jia",
+      "Wenge Rong",
+      "Zhang Xiong"
+    ],
+    "cover": "/research/images/bioreqa.webp",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://ieeexplore.ieee.org/abstract/document/9939071"
+      },
+      {
+        "label": "Code",
+        "url": "https://github.com/ba1jun/BioReQA"
+      }
+    ]
+  },
+  {
+    "id": "2022-kdqa",
+    "title": "Adversarial Knowledge Distillation based Biomedical Factoid Question Answering",
+    "date": "2022-03-22",
+    "year": 2022,
+    "selected": false,
+    "venue": "IEEE/ACM Transactions on Computational Biology and Bioinformatics",
+    "distinction": "",
+    "authors": [
+      "Jun Bai",
+      "Chuantao Yin",
+      "Jianfei Zhang",
+      "Yanmeng Wang",
+      "Yi Dong",
+      "Wenge Rong",
+      "Zhang Xiong"
+    ],
+    "cover": "/research/images/kdqa.webp",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://ieeexplore.ieee.org/abstract/document/9739904"
+      },
+      {
+        "label": "Code",
+        "url": "https://github.com/ba1jun/KDQA"
+      }
+    ]
+  },
+  {
+    "id": "2021-endx",
+    "title": "Enhancing Dual-encoders with Question and Answer Cross-embeddings for Answer Retrieval",
+    "date": "2021-11-07",
+    "year": 2021,
+    "selected": false,
+    "venue": "EMNLP Findings",
+    "distinction": "",
+    "authors": [
+      "Yanmeng Wang",
+      "Jun Bai",
+      "Ye Wang",
+      "Jianfei Zhang",
+      "Wenge Rong",
+      "Zongcheng Ji",
+      "Shaojun Wang",
+      "Jing Xiao"
+    ],
+    "cover": "/research/images/endx.webp",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://aclanthology.org/2021.findings-emnlp.198/"
+      }
+    ]
+  },
+  {
+    "id": "2021-mpce",
+    "title": "Paragraph Level Multi-perspective Context Modeling for Question Generation",
+    "date": "2021-06-06",
+    "year": 2021,
+    "selected": false,
+    "venue": "ICASSP",
+    "distinction": "",
+    "authors": [
+      "Jun Bai",
+      "Wenge Rong",
+      "Feiyu Xia",
+      "Yanmeng Wang",
+      "Yuanxin Ouyang",
+      "Zhang Xiong"
+    ],
+    "cover": "/research/images/mpce.webp",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://ieeexplore.ieee.org/abstract/document/9414933"
+      },
+      {
+        "label": "Code",
+        "url": "https://github.com/ba1jun/MPCE"
+      }
+    ]
+  }
+]

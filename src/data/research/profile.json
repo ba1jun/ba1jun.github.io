@@ -1,0 +1,66 @@
+{
+  "name": "Jun Bai",
+  "chineseName": "白骏",
+  "role": "Senior Research Engineer",
+  "affiliation": "BIGAI NLCo Lab",
+  "email": "baijun@bigai.ai",
+  "portrait": "/research/images/portrait.jpg",
+  "links": [
+    {
+      "label": "Google Scholar",
+      "url": "https://scholar.google.com/citations?user=D4WEfiEAAAAJ"
+    },
+    {
+      "label": "GitHub",
+      "url": "https://github.com/ba1jun"
+    },
+    {
+      "label": "Twitter",
+      "url": "https://twitter.com/Jun_Ba1"
+    },
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/jun-bai-7bb125281"
+    }
+  ],
+  "education": [
+    {
+      "institution": "Beihang University",
+      "role": "Ph.D. in Computer Science",
+      "period": "Sep. 2020 - Nov. 2024",
+      "logo": "/research/images/beihang.png"
+    }
+  ],
+  "employment": [
+    {
+      "institution": "BIGAI",
+      "role": "Senior Research Engineer",
+      "period": "Dec. 2024 - present",
+      "logo": "/research/images/nlco.png"
+    },
+    {
+      "institution": "Microsoft",
+      "role": "Research Intern",
+      "period": "Oct. 2023 - Jun. 2024",
+      "logo": "/research/images/microsoft.png"
+    },
+    {
+      "institution": "Mila",
+      "role": "Research Intern",
+      "period": "Nov. 2022 - Apr. 2023",
+      "logo": "/research/images/mila.png"
+    },
+    {
+      "institution": "Pingan Technology",
+      "role": "Research Intern",
+      "period": "Oct. 2020 - Oct. 2022",
+      "logo": "/research/images/pingan.png"
+    },
+    {
+      "institution": "NEC Lab",
+      "role": "Research Intern",
+      "period": "Nov. 2018 - Nov. 2019",
+      "logo": "/research/images/nec.jpg"
+    }
+  ]
+}

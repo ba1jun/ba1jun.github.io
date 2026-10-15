@@ -1,9 +1,8 @@
 /** Site-wide constants — single source of truth for values used across components. */
 
-export const SITE_TITLE = "Juniverse";
-export const SITE_DESCRIPTION = "Photography journeys by Jun Bai.";
+export const SITE_TITLE = "Jun Bai's Homepage";
+export const SITE_DESCRIPTION = "Research and photography by Jun Bai.";
 export const SITE_AUTHOR = "Jun Bai";
-export const RESEARCH_URL = "https://ba1jun.github.io/research-page/";
 
 /** CDN base URLs for remote images. */
 export const CDN_FAVICON_URL = "/bj-option-5-signature.png";

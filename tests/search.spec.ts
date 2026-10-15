@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Pagefind search", () => {
   test("search dialog opens on Ctrl+K", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/photography/");
     await page.keyboard.press("Control+k");
     const dialog = page.locator("dialog[open], .search-dialog[open]");
     // Pagefind may use dialog element or custom modal
@@ -10,7 +10,7 @@ test.describe("Pagefind search", () => {
   });
 
   test("search trigger button exists", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/photography/");
     const trigger = page.locator("#search-trigger, [data-search-trigger]");
     if ((await trigger.count()) > 0) {
       await expect(trigger).toBeVisible();
@@ -18,7 +18,7 @@ test.describe("Pagefind search", () => {
   });
 
   test("search returns results for a known query", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/photography/");
     await page.keyboard.press("Control+k");
     const dialog = page.locator("dialog[open]");
     await expect(dialog).toBeVisible({ timeout: 3000 });
@@ -43,9 +43,9 @@ test.describe("Pagefind search", () => {
     page.on("pageerror", (err) => errors.push(err.message));
 
     // Navigate multiple times (full page loads in static preview)
-    await page.goto("/");
+    await page.goto("/photography/");
     await page.goto("/journeys/");
-    await page.goto("/");
+    await page.goto("/photography/");
 
     // Ctrl+K should still open dialog cleanly
     await page.keyboard.press("Control+k");

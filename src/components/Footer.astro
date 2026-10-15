@@ -1,6 +1,6 @@
 ---
-const today = new Date();
 import { Icon } from "astro-icon/components";
+import Copyright from "./Copyright.astro";
 import { SHOW_SOCIAL_LINKS, SITE_AUTHOR, SOCIAL_LINKS } from "../consts";
 
 const socialItems = [
@@ -31,7 +31,7 @@ const socialItems = [
   class="md:flex md:justify-between md:items-center md:align-center font-overpass-mono w-full md:h-full mt-12"
 >
   <div class="text-[12px] text-center items-center flex justify-center">
-    &copy; {today.getFullYear()}{" "}{SITE_AUTHOR}. All rights reserved.
+    <Copyright />
   </div>
   {
     SHOW_SOCIAL_LINKS && (

@@ -1,5 +1,4 @@
 ---
-import { RESEARCH_URL } from "../consts";
 import Pagefind from "./Pagefind.astro";
 
 interface NavItem {
@@ -7,14 +6,23 @@ interface NavItem {
   href: string;
 }
 
-// Home is already the favicon link in the header; omit from the index.
 const NAV: NavItem[] = [
-  { label: "Journeys", href: "/journeys/" },
-  { label: "Research", href: RESEARCH_URL },
+  { label: "Home", href: "/" },
+  { label: "Photography", href: "/photography/" },
+  { label: "Research", href: "/research/" },
 ];
 
-const pathname = Astro.url.pathname;
+const pathname = `${Astro.url.pathname.replace(/\/+$/, "")}/`;
 const isCurrent = (href: string): boolean => {
+  if (href === "/") {
+    return pathname === "/";
+  }
+  if (href === "/photography/" && pathname.startsWith("/journeys/")) {
+    return true;
+  }
+  if (href === "/research/" && pathname.startsWith("/research-page")) {
+    return true;
+  }
   return pathname === href || pathname.startsWith(href);
 };
 ---
